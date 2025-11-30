@@ -34,16 +34,16 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
-    return MaterialApp(
+          return MaterialApp(
             title: 'Akash Madhu N P - Flutter Developer',
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.lightTheme(),
-            darkTheme: AppTheme.darkTheme(),
-            themeMode: ThemeMode.dark, // Force dark mode for luxury black theme
+            theme: AppTheme.lightTheme(), // Yellow & Black theme
+            darkTheme: AppTheme.darkTheme(), // Luxury Black & Gold theme
+            themeMode: themeProvider.themeMode,
             home: const PortfolioScreen(),
           );
         },
-        ),
+      ),
     );
   }
 }

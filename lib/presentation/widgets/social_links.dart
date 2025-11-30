@@ -78,6 +78,16 @@ class _HoverSocialButtonState extends State<_HoverSocialButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final iconColor = _isHovered 
+        ? Colors.black 
+        : (isDark ? AppColors.primary : AppColors.lightTextPrimary);
+    final borderColor = _isHovered
+        ? AppColors.primaryLight
+        : (isDark 
+            ? AppColors.primary.withOpacity(0.2) 
+            : AppColors.lightAccent.withOpacity(0.5));
+    
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _isHovered = true),
@@ -101,18 +111,17 @@ class _HoverSocialButtonState extends State<_HoverSocialButton> {
           height: 48,
           decoration: BoxDecoration(
             color: _isHovered
-                ? AppColors.primary
+                ? (isDark ? AppColors.primary : AppColors.lightAccent)
                 : Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: _isHovered
-                  ? AppColors.primaryLight
-                  : AppColors.primary.withOpacity(0.2),
+              color: borderColor,
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withOpacity(_isHovered ? 0.4 : 0.1),
+                color: (isDark ? AppColors.primary : AppColors.lightAccent)
+                    .withOpacity(_isHovered ? 0.4 : 0.1),
                 blurRadius: _isHovered ? 16 : 8,
                 offset: Offset(0, _isHovered ? 8 : 4),
               ),
@@ -122,7 +131,7 @@ class _HoverSocialButtonState extends State<_HoverSocialButton> {
             child: FaIcon(
               widget.link.icon,
               size: 20,
-              color: _isHovered ? Colors.black : AppColors.primary,
+              color: iconColor,
             ),
           ),
         ),

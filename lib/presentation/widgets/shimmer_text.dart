@@ -6,7 +6,7 @@ class ShimmerText extends StatefulWidget {
   final String text;
   final TextStyle? style;
   final TextAlign? textAlign;
-  final List<Color> shimmerColors;
+  final List<Color>? shimmerColors;
   final Duration duration;
 
   const ShimmerText({
@@ -14,13 +14,7 @@ class ShimmerText extends StatefulWidget {
     required this.text,
     this.style,
     this.textAlign,
-    this.shimmerColors = const [
-      Color(0xFFFFD700), // Bright gold
-      Color(0xFFFFFFFF), // White (glacier shine)
-      Color(0xFFD4AF37), // Classic gold
-      Color(0xFFFFF8DC), // Cornsilk (light shine)
-      Color(0xFFD4AF37), // Classic gold
-    ],
+    this.shimmerColors,
     this.duration = const Duration(seconds: 3),
   });
 
@@ -57,6 +51,23 @@ class _ShimmerTextState extends State<ShimmerText>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = widget.shimmerColors ?? (isDark
+        ? const [
+            Color(0xFFFFD700), // Bright gold (dark mode)
+            Color(0xFFFFFFFF), // White shine
+            Color(0xFFD4AF37), // Classic gold
+            Color(0xFFFFF8DC), // Cornsilk shine
+            Color(0xFFD4AF37), // Classic gold
+          ]
+        : const [
+            Color(0xFF000000), // Black (light mode)
+            Color(0xFFFFD700), // Yellow highlight
+            Color(0xFF1A1A1A), // Near black
+            Color(0xFFFFE066), // Light yellow
+            Color(0xFF000000), // Black
+          ]);
+    
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
@@ -66,7 +77,7 @@ class _ShimmerTextState extends State<ShimmerText>
             return LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: widget.shimmerColors,
+              colors: colors,
               stops: [
                 0.0,
                 math.max(0.0, _animation.value - 0.3),
@@ -136,6 +147,27 @@ class _GlacierTextState extends State<GlacierText>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = isDark
+        ? const [
+            Color(0xFFB8941E), // Dark gold (dark mode)
+            Color(0xFFD4AF37), // Classic gold
+            Color(0xFFFFFFFF), // White shine
+            Color(0xFFFFD700), // Bright gold
+            Color(0xFFFFFFFF), // White shine
+            Color(0xFFD4AF37), // Classic gold
+            Color(0xFFB8941E), // Dark gold
+          ]
+        : const [
+            Color(0xFF000000), // Black (light mode)
+            Color(0xFF2A2A2A), // Dark gray
+            Color(0xFFFFD700), // Yellow shine
+            Color(0xFF000000), // Black
+            Color(0xFFFFE066), // Light yellow shine
+            Color(0xFF2A2A2A), // Dark gray
+            Color(0xFF000000), // Black
+          ];
+    
     return AnimatedBuilder(
       animation: _shimmerAnimation,
       builder: (context, child) {
@@ -146,15 +178,7 @@ class _GlacierTextState extends State<GlacierText>
             return LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: const [
-                Color(0xFFB8941E), // Dark gold
-                Color(0xFFD4AF37), // Classic gold
-                Color(0xFFFFFFFF), // White shine
-                Color(0xFFFFD700), // Bright gold
-                Color(0xFFFFFFFF), // White shine
-                Color(0xFFD4AF37), // Classic gold
-                Color(0xFFB8941E), // Dark gold
-              ],
+              colors: colors,
               stops: [
                 _clamp(position - 0.6, 0.0, 1.0),
                 _clamp(position - 0.4, 0.0, 1.0),

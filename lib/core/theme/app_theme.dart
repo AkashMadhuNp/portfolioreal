@@ -7,13 +7,15 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      primaryColor: AppColors.primary,
+      primaryColor: AppColors.lightTextPrimary,
       scaffoldBackgroundColor: AppColors.lightBackground,
       colorScheme: const ColorScheme.light(
-        primary: AppColors.primary,
-        secondary: AppColors.accent,
+        primary: AppColors.lightTextPrimary, // Black as primary in light mode
+        secondary: AppColors.lightAccent, // Yellow accent
         surface: AppColors.lightSurface,
         error: AppColors.error,
+        onPrimary: AppColors.lightAccent, // Yellow on black
+        onSurface: AppColors.lightTextPrimary, // Black text
       ),
       textTheme: _textTheme(AppColors.lightTextPrimary),
       appBarTheme: AppBarTheme(
@@ -29,17 +31,18 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         color: AppColors.lightCard,
-        elevation: 4,
-        shadowColor: AppColors.lightShadow,
+        elevation: 2,
+        shadowColor: Colors.black.withOpacity(0.05),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: AppColors.lightAccent.withOpacity(0.3), width: 1),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          elevation: 0,
+          backgroundColor: AppColors.lightTextPrimary, // Black button
+          foregroundColor: AppColors.lightAccent, // Yellow text
+          elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -52,8 +55,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          side: const BorderSide(color: AppColors.primary, width: 2),
+          foregroundColor: AppColors.lightTextPrimary, // Black text
+          side: const BorderSide(color: AppColors.lightTextPrimary, width: 2),
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -66,18 +69,18 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.lightSurface,
+        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: AppColors.lightAccent.withOpacity(0.3)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: AppColors.lightAccent.withOpacity(0.3)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+          borderSide: const BorderSide(color: AppColors.lightTextPrimary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -86,6 +89,10 @@ class AppTheme {
         contentPadding: const EdgeInsets.all(20),
         hintStyle: GoogleFonts.poppins(
           color: AppColors.lightTextTertiary,
+          fontSize: 14,
+        ),
+        labelStyle: GoogleFonts.poppins(
+          color: AppColors.lightTextPrimary,
           fontSize: 14,
         ),
       ),

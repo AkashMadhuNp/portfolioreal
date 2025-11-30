@@ -9,7 +9,7 @@ class DownloadHelper {
   static Future<void> downloadCV(BuildContext context) async {
     if (kIsWeb) {
       // For web: Direct download using anchor element
-      const url = 'assets/files/AkashMadhu-RESUME_FLUTTER .pdf';
+      const url = 'assets/assets/files/Akash_Madhu_Flutter_Resume.pdf';
       
       // Create a temporary anchor element and trigger download
       html.AnchorElement(href: url)
@@ -24,7 +24,7 @@ class DownloadHelper {
       );
     } else {
       // For mobile/desktop: Use url_launcher
-      const url = 'assets/files/AkashMadhu-RESUME_FLUTTER .pdf';
+      const url = 'assets/files/Akash_Madhu_Flutter_Resume.pdf';
       final uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -45,7 +45,7 @@ class DownloadHelper {
   static void openCVInNewTab() {
     if (kIsWeb) {
       html.window.open(
-        'assets/files/AkashMadhu-RESUME_FLUTTER .pdf',
+        'assets/assets/files/Akash_Madhu_Flutter_Resume.pdf',
         '_blank',
       );
     }

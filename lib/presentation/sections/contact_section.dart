@@ -7,6 +7,7 @@ import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/responsive_helper.dart';
 import '../../core/utils/url_helper.dart';
+import '../../core/utils/toast_helper.dart';
 import '../providers/contact_provider.dart';
 import '../widgets/section_title.dart';
 
@@ -309,19 +310,26 @@ class _ContactSectionState extends State<ContactSection> {
       );
 
       if (provider.message != null && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(provider.message!),
-            backgroundColor: provider.message!.contains('success')
-                ? AppColors.success
-                : AppColors.error,
-          ),
-        );
-
-        if (provider.message!.contains('success')) {
+        // Show toast message based on success or error
+        if (provider.message!.contains('✅')) {
+          ToastHelper.showToast(
+            context,
+            message: provider.message!,
+            icon: Icons.check_circle_rounded,
+            isError: false,
+          );
+          
+          // Clear form on success
           _nameController.clear();
           _emailController.clear();
           _messageController.clear();
+        } else {
+          ToastHelper.showToast(
+            context,
+            message: provider.message!,
+            icon: Icons.error_rounded,
+            isError: true,
+          );
         }
       }
     }

@@ -143,6 +143,7 @@ class HomeSection extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     final isMobile = ResponsiveHelper.isMobile(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
       crossAxisAlignment:
@@ -156,7 +157,7 @@ class HomeSection extends StatelessWidget {
             style: GoogleFonts.montserrat(
               fontSize: isMobile ? 16 : 18,
               fontWeight: FontWeight.w600,
-              color: AppColors.accentLight,
+              color: isDark ? AppColors.accentLight : AppColors.lightTextPrimary,
               letterSpacing: 3,
             ),
           ),
@@ -168,23 +169,36 @@ class HomeSection extends StatelessWidget {
           child: GlacierText(
             text: AppConstants.name,
             style: GoogleFonts.playfairDisplay(
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black,
               fontSize: isMobile ? 42 : 72,
               fontWeight: FontWeight.w900,
               letterSpacing: -2,
               height: 1.1,
-              shadows: [
-                Shadow(
-                  color: Color(0xFFFFD700).withOpacity(0.5),
-                  blurRadius: 20,
-                  offset: Offset(0, 0),
-                ),
-                Shadow(
-                  color: Color(0xFFFFFFFF).withOpacity(0.3),
-                  blurRadius: 40,
-                  offset: Offset(0, 0),
-                ),
-              ],
+              shadows: isDark
+                  ? [
+                      Shadow(
+                        color: Color(0xFFFFD700).withOpacity(0.5),
+                        blurRadius: 20,
+                        offset: Offset(0, 0),
+                      ),
+                      Shadow(
+                        color: Color(0xFFFFFFFF).withOpacity(0.3),
+                        blurRadius: 40,
+                        offset: Offset(0, 0),
+                      ),
+                    ]
+                  : [
+                      Shadow(
+                        color: Color(0xFFFFE066).withOpacity(0.6),
+                        blurRadius: 15,
+                        offset: Offset(0, 0),
+                      ),
+                      Shadow(
+                        color: Color(0xFFFFD700).withOpacity(0.4),
+                        blurRadius: 30,
+                        offset: Offset(0, 0),
+                      ),
+                    ],
             ),
             textAlign: isMobile ? TextAlign.center : TextAlign.left,
           ),
@@ -201,7 +215,7 @@ class HomeSection extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: isMobile ? 20 : 32,
                   fontWeight: FontWeight.w400,
-                  color: Colors.white70,
+                  color: isDark ? Colors.white70 : AppColors.lightTextSecondary,
                 ),
               ),
               AnimatedTextKit(
@@ -210,16 +224,16 @@ class HomeSection extends StatelessWidget {
                   TypewriterAnimatedText(
                     'Flutter Developer',
                     textStyle: GoogleFonts.montserrat(
-                      color: AppColors.primaryLight,
+                      color: isDark ? AppColors.primaryLight : AppColors.lightTextPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: isMobile ? 20 : 32,
                     ),
                     speed: const Duration(milliseconds: 100),
                   ),
                   TypewriterAnimatedText(
-                    'Mobile Developer',
+                    'Mobile Application Developer',
                     textStyle: GoogleFonts.montserrat(
-                      color: AppColors.accentLight,
+                      color: isDark ? AppColors.accentLight : AppColors.lightTextPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: isMobile ? 20 : 32,
                     ),
@@ -228,7 +242,7 @@ class HomeSection extends StatelessWidget {
                   TypewriterAnimatedText(
                     'UI/UX Enthusiast',
                     textStyle: GoogleFonts.montserrat(
-                      color: AppColors.primary,
+                      color: isDark ? AppColors.primary : AppColors.lightTextPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: isMobile ? 20 : 32,
                     ),
@@ -250,7 +264,7 @@ class HomeSection extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: isMobile ? 14 : 16,
                 fontWeight: FontWeight.w400,
-                color: Colors.white60,
+                color: isDark ? Colors.white60 : AppColors.lightTextSecondary,
                 height: 1.8,
                 letterSpacing: 0.3,
               ),

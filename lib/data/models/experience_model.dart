@@ -10,7 +10,15 @@ class ExperienceModel {
         duration: 'Sep 2025 - Present',
         location: 'India',
         isCurrent: true,
-        responsibilities: [],
+        responsibilities: [
+          'Engineered Spotlight, an AI-powered filmmaking platform automating story generation, storyboard visualization, video editing, and pitch deck creation.',
+          'Built a custom timeline-based video editor with real-time rendering and FFmpeg-powered exports using JavaScript Interop for Spotlight.',
+          'Developed an immersive digital book-reading experience with dynamic pagination and realistic 3D page-turn animations.',
+          'Contributed to a comprehensive Healthcare Management Platform serving Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins across web and mobile apps.',
+          'Developed pharmacy product management, tax calculation modules, and clinic management features including a custom before-after image slider.',
+          'Integrated Agora SDK for secure video consultations and implemented robust clinic/pharmacy onboarding workflows in the Super Admin portal.',
+          'Utilized Flutter, Firebase, Hive, Razorpay, Clean Architecture, and Provider for scalable state management across production applications.',
+        ],
         logoUrl: 'assets/images/dimensionlogo.jpeg',
       ),
       Experience(

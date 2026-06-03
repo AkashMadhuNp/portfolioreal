@@ -145,7 +145,7 @@ class _ProjectCardState extends State<ProjectCard> {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              'Demo',
+                              widget.project.type.contains('Company') ? 'Real-World Project' : 'Demo Project',
                               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                     color: AppColors.accent,
                                     fontWeight: FontWeight.w700,
@@ -177,7 +177,7 @@ class _ProjectCardState extends State<ProjectCard> {
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: widget.project.technologies.take(5).map((tech) {
+                    children: widget.project.technologies.map((tech) {
                       return Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12,

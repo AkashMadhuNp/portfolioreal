@@ -188,7 +188,7 @@ class AboutSection extends StatelessWidget {
           const SizedBox(height: 20),
           _buildStatCard(
             context,
-            '2',
+            '4',
             AppStrings.projectsCompleted,
             AppColors.accent,
             100,
@@ -196,7 +196,7 @@ class AboutSection extends StatelessWidget {
           const SizedBox(height: 20),
           _buildStatCard(
             context,
-            '0',
+            '34',
             AppStrings.happyClients,
             AppColors.success,
             200,

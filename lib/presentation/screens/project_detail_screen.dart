@@ -66,6 +66,37 @@ class ProjectDetailScreen extends StatelessWidget {
           'Profile Management - Full editing capabilities with secure data handling',
         ],
       };
+    } else if (project.title == 'Spotlight') {
+      return {
+        'subtitle': 'AI-Powered Filmmaking & Storytelling Platform',
+        'tagline': 'Transforms story ideas into production-ready scripts, storyboards, videos, and pitch decks through an end-to-end automated workflow.',
+        'fullDescription': 'Spotlight is an AI-powered filmmaking platform that transforms story ideas into production-ready scripts, storyboards, videos, and pitch decks through an end-to-end automated workflow. Built with a modular Flutter application using Clean Architecture, Provider state management, and GetIt dependency injection to ensure scalability and maintainability.\n\nIt features an immersive digital book-reading experience, a custom timeline-based video editor with real-time rendering, and an industry-standard pitch deck generation system.',
+        'features': [
+          'AI-driven story generation engine capable of creating loglines, beat sheets, synopses, character profiles, and complete screenplay drafts',
+          'Immersive digital book-reading experience with dynamic pagination and realistic 3D page-turn animations',
+          'Visual asset management system for AI-generated characters, locations, props, and cinematic scenes with optimized caching',
+          'Custom timeline-based video editor supporting video, audio, image, and text layers with real-time preview rendering at 30 FPS',
+          'Integrated Flutter with web-based media processing through JavaScript Interop for FFmpeg-based video rendering',
+          'Asynchronous export and rendering workflows with background status polling and cross-platform file handling',
+          'Automated storyboard generation, cinematic shot visualization, and AI-assisted prompt engineering',
+          'Industry-standard pitch deck generation system exporting multi-slide investor presentations as PDF',
+          'Firebase Authentication, Google Sign-In, REST APIs, and secure local storage integration',
+        ],
+        'youtubeUrl': 'https://youtu.be/Jn8dahpo3N8?si=JlZS5TkmwvS3RyGW',
+      };
+    } else if (project.title == 'Healthcare Management Platform') {
+      return {
+        'subtitle': 'Multi-role Healthcare Ecosystem',
+        'tagline': 'A comprehensive platform serving Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins.',
+        'fullDescription': 'Contributed to the development of a multi-role Healthcare Management Platform supporting Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins across web and mobile applications.\n\nDeveloped pharmacy product and tax calculation modules, implemented clinic management features including a custom before-after image slider, integrated Agora-powered video consultations and treatment plan functionalities for doctors, and built clinic/pharmacy registration workflows in the Super Admin portal.',
+        'features': [
+          'Pharmacy Web App - Product management workflows, tax calculation, billing, inventory, and order management.',
+          'Clinic Web App - Custom before-and-after image comparison slider and enhanced clinic workflows.',
+          'Doctor Web App - Integrated Agora-based video consultation and treatment plan management modules.',
+          'Super Admin Portal - Service management, clinic registration workflows, and pharmacy onboarding.',
+          'Role-based Access Control - Secure access across mobile and web platforms serving 6 distinct stakeholders.',
+        ],
+      };
     }
     return {};
   }
@@ -224,9 +255,11 @@ class ProjectDetailScreen extends StatelessWidget {
                           ),
                           _buildBadge(
                             context,
-                            'Demo Project',
+                            project.type,
                             AppColors.accent,
-                            Icons.lightbulb_outline_rounded,
+                            project.type.contains('Company') 
+                                ? Icons.business_center_rounded 
+                                : Icons.lightbulb_outline_rounded,
                           ),
                         ],
                       ),
@@ -285,11 +318,11 @@ class ProjectDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
 
-                  // Demo Disclaimer
+                  // Disclaimer
                   FadeInUp(
                     duration: const Duration(milliseconds: 800),
                     delay: const Duration(milliseconds: 800),
-                    child: _buildDemoDisclaimer(context, isMobile),
+                    child: _buildDisclaimer(context, isMobile),
                   ),
                   const SizedBox(height: 60),
                 ],
@@ -499,6 +532,17 @@ class ProjectDetailScreen extends StatelessWidget {
                 project.liveUrl!,
                 FontAwesomeIcons.globe,
                 AppColors.info,
+                isMobile,
+              ),
+            
+            // YouTube Link
+            if (data['youtubeUrl'] != null)
+              _buildLinkButton(
+                context,
+                'Video Explanation',
+                data['youtubeUrl'],
+                FontAwesomeIcons.youtube,
+                Colors.red,
                 isMobile,
               ),
           ],
@@ -875,27 +919,34 @@ class ProjectDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDemoDisclaimer(BuildContext context, bool isMobile) {
+  Widget _buildDisclaimer(BuildContext context, bool isMobile) {
+    final isDemo = !project.type.contains('Company');
+    final title = isDemo ? 'Demo Project' : 'Real-Time Company Project';
+    final description = isDemo
+        ? 'This is a concept demo built to demonstrate design, flow, and technical skill. Not a live production app.'
+        : 'This is a real-world production application built for Dimensionleap, demonstrating enterprise-level architecture and live features.';
+    final color = isDemo ? AppColors.accent : AppColors.success;
+
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.accent.withOpacity(0.15),
-            AppColors.accent.withOpacity(0.05),
+            color.withOpacity(0.15),
+            color.withOpacity(0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.accent.withOpacity(0.3),
+          color: color.withOpacity(0.3),
           width: 1.5,
         ),
       ),
       child: Row(
         children: [
           Icon(
-            Icons.info_outline_rounded,
-            color: AppColors.accent,
+            isDemo ? Icons.info_outline_rounded : Icons.verified_rounded,
+            color: color,
             size: isMobile ? 24 : 32,
           ),
           const SizedBox(width: 16),
@@ -904,16 +955,16 @@ class ProjectDetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Demo Project',
+                  title,
                   style: GoogleFonts.montserrat(
                     fontSize: isMobile ? 16 : 18,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.accent,
+                    color: color,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'This is a concept demo built to demonstrate design, flow, and technical skill. Not a live production app.',
+                  description,
                   style: GoogleFonts.inter(
                     fontSize: isMobile ? 13 : 14,
                     color: Colors.white60,

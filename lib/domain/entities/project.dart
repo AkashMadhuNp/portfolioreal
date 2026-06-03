@@ -8,6 +8,7 @@ class Project {
   final String? githubUrl;
   final String category;
   final bool isFeatured;
+  final String type;
 
   const Project({
     required this.id,
@@ -19,6 +20,7 @@ class Project {
     this.githubUrl,
     required this.category,
     this.isFeatured = false,
+    this.type = 'Demo Project',
   });
 }
 

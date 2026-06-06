@@ -5,6 +5,7 @@ import '../../core/constants/app_strings.dart';
 import '../../core/utils/responsive_helper.dart';
 import '../providers/theme_provider.dart';
 import '../providers/scroll_provider.dart';
+import 'cursor_hover_region.dart';
 
 class CustomAppBar extends StatelessWidget {
   final GlobalKey homeKey;
@@ -68,19 +69,23 @@ class CustomAppBar extends StatelessWidget {
               duration: const Duration(milliseconds: 1000),
               child: Row(
                 children: [
-                  IconButton(
-                    icon: Icon(
-                      themeProvider.isDarkMode
-                          ? Icons.light_mode_rounded
-                          : Icons.dark_mode_rounded,
+                  CursorHoverRegion(
+                    child: IconButton(
+                      icon: Icon(
+                        themeProvider.isDarkMode
+                            ? Icons.light_mode_rounded
+                            : Icons.dark_mode_rounded,
+                      ),
+                      onPressed: () => themeProvider.toggleTheme(),
+                      tooltip: 'Toggle Theme',
                     ),
-                    onPressed: () => themeProvider.toggleTheme(),
-                    tooltip: 'Toggle Theme',
                   ),
                   if (isMobile)
-                    IconButton(
-                      icon: const Icon(Icons.menu_rounded),
-                      onPressed: () => _showMobileMenu(context),
+                    CursorHoverRegion(
+                      child: IconButton(
+                        icon: const Icon(Icons.menu_rounded),
+                        onPressed: () => _showMobileMenu(context),
+                      ),
                     ),
                 ],
               ),
@@ -99,13 +104,15 @@ class CustomAppBar extends StatelessWidget {
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: TextButton(
-        onPressed: () => scrollProvider.scrollToSection(key),
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w500,
-              ),
+      child: CursorHoverRegion(
+        child: TextButton(
+          onPressed: () => scrollProvider.scrollToSection(key),
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
         ),
       ),
     );
@@ -142,15 +149,17 @@ class CustomAppBar extends StatelessWidget {
     GlobalKey key,
     ScrollProvider scrollProvider,
   ) {
-    return ListTile(
-      title: Text(
-        title,
-        style: Theme.of(context).textTheme.titleMedium,
+    return CursorHoverRegion(
+      child: ListTile(
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        onTap: () {
+          Navigator.pop(context);
+          scrollProvider.scrollToSection(key);
+        },
       ),
-      onTap: () {
-        Navigator.pop(context);
-        scrollProvider.scrollToSection(key);
-      },
     );
   }
 }

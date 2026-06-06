@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/utils/url_helper.dart';
 import '../../core/utils/toast_helper.dart';
 import '../../core/constants/app_constants.dart';
+import 'cursor_hover_region.dart';
 
 class SocialLinks extends StatelessWidget {
   final bool vertical;
@@ -88,11 +89,12 @@ class _HoverSocialButtonState extends State<_HoverSocialButton> {
             ? AppColors.primary.withOpacity(0.2) 
             : AppColors.lightAccent.withOpacity(0.5));
     
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: GestureDetector(
+    return CursorHoverRegion(
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        child: GestureDetector(
         onTap: () {
           if (widget.link.url.isEmpty) {
             ToastHelper.showInfoToast(
@@ -136,8 +138,9 @@ class _HoverSocialButtonState extends State<_HoverSocialButton> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 class _SocialLink {

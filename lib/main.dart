@@ -6,7 +6,9 @@ import 'core/services/firebase_service.dart';
 import 'presentation/providers/theme_provider.dart';
 import 'presentation/providers/scroll_provider.dart';
 import 'presentation/providers/contact_provider.dart';
+import 'presentation/providers/cursor_provider.dart';
 import 'presentation/screens/portfolio_screen.dart';
+import 'presentation/widgets/custom_cursor.dart';
 
 void main() async {
   // Ensure Flutter bindings are initialized
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => ScrollProvider()),
         ChangeNotifierProvider(create: (_) => ContactProvider()),
+        ChangeNotifierProvider(create: (_) => CursorProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
@@ -40,6 +43,9 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.lightTheme(), // Yellow & Black theme
             darkTheme: AppTheme.darkTheme(), // Luxury Black & Gold theme
             themeMode: themeProvider.themeMode,
+            builder: (context, child) {
+              return CustomCursor(child: child ?? const SizedBox());
+            },
             home: const PortfolioScreen(),
           );
         },

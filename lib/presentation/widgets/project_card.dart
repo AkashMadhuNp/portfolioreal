@@ -3,6 +3,8 @@ import 'package:animate_do/animate_do.dart';
 import '../../domain/entities/project.dart';
 import '../../core/theme/app_colors.dart';
 import '../screens/project_detail_screen.dart';
+import '../providers/cursor_provider.dart';
+import 'cursor_hover_region.dart';
 
 class ProjectCard extends StatefulWidget {
   final Project project;
@@ -26,10 +28,14 @@ class _ProjectCardState extends State<ProjectCard> {
     return FadeInUp(
       duration: const Duration(milliseconds: 800),
       delay: Duration(milliseconds: widget.index * 100),
-      child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: AnimatedContainer(
+      child: CursorHoverRegion(
+        type: CursorType.action,
+        scale: 2.5,
+        customText: 'VIEW',
+        child: MouseRegion(
+          onEnter: (_) => setState(() => _isHovered = true),
+          onExit: (_) => setState(() => _isHovered = false),
+          child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           transform: Matrix4.identity()
             ..translate(0.0, _isHovered ? -10.0 : 0.0, 0.0),
@@ -232,7 +238,8 @@ class _ProjectCardState extends State<ProjectCard> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
 

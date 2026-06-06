@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import '../providers/scroll_provider.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/animated_background.dart';
-import '../sections/home_section.dart';
+import '../widgets/custom_scrollbar.dart';
+import '../sections/home_section.dart'; 
 import '../sections/about_section.dart';
 import '../sections/skills_section.dart';
 import '../sections/projects_section.dart';
@@ -31,72 +32,80 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     final scrollProvider = Provider.of<ScrollProvider>(context, listen: false);
 
     return Scaffold(
-      body: AnimatedBackground(
-        child: Column(
-          children: [
-            CustomAppBar(
-              homeKey: _homeKey,
-              aboutKey: _aboutKey,
-              skillsKey: _skillsKey,
-              projectsKey: _projectsKey,
-              experienceKey: _experienceKey,
-              contactKey: _contactKey,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                controller: scrollProvider.scrollController,
-                child: Column(
-                  children: [
-                    // Home Section
-                    Container(
-                      key: _homeKey,
-                      child: const HomeSection(),
-                    ),
-                    const SizedBox(height: 80),
-
-                    // About Section
-                    Container(
-                      key: _aboutKey,
-                      child: const AboutSection(),
-                    ),
-                    const SizedBox(height: 80),
-
-                    // Skills Section
-                    Container(
-                      key: _skillsKey,
-                      child: const SkillsSection(),
-                    ),
-                    const SizedBox(height: 80),
-
-                    // Projects Section
-                    Container(
-                      key: _projectsKey,
-                      child: const ProjectsSection(),
-                    ),
-                    const SizedBox(height: 80),
-
-                    // Experience Section
-                    Container(
-                      key: _experienceKey,
-                      child: const ExperienceSection(),
-                    ),
-                    const SizedBox(height: 80),
-
-                    // Contact Section
-                    Container(
-                      key: _contactKey,
-                      child: const ContactSection(),
-                    ),
-                    const SizedBox(height: 80),
-
-                    // Footer
-                    const FooterSection(),
-                  ],
+      body: Stack(
+        children: [
+          AnimatedBackground(
+            child: Column(
+              children: [
+                CustomAppBar(
+                  homeKey: _homeKey,
+                  aboutKey: _aboutKey,
+                  skillsKey: _skillsKey,
+                  projectsKey: _projectsKey,
+                  experienceKey: _experienceKey,
+                  contactKey: _contactKey,
                 ),
-              ),
+                Expanded(
+                  child: ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                    child: SingleChildScrollView(
+                      controller: scrollProvider.scrollController,
+                      child: Column(
+                        children: [
+                          // Home Section
+                          Container(
+                            key: _homeKey,
+                            child: const HomeSection(),
+                          ),
+                          const SizedBox(height: 80),
+
+                          // About Section
+                          Container(
+                            key: _aboutKey,
+                            child: const AboutSection(),
+                          ),
+                          const SizedBox(height: 80),
+
+                          // Skills Section
+                          Container(
+                            key: _skillsKey,
+                            child: const SkillsSection(),
+                          ),
+                          const SizedBox(height: 80),
+
+                          // Projects Section
+                          Container(
+                            key: _projectsKey,
+                            child: const ProjectsSection(),
+                          ),
+                          const SizedBox(height: 80),
+
+                          // Experience Section
+                          Container(
+                            key: _experienceKey,
+                            child: const ExperienceSection(),
+                          ),
+                          const SizedBox(height: 80),
+
+                          // Contact Section
+                          Container(
+                            key: _contactKey,
+                            child: const ContactSection(),
+                          ),
+                          const SizedBox(height: 80),
+
+                          // Footer
+                          const FooterSection(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          const CustomScrollbar(),
+        ],
       ),
       floatingActionButton: _buildScrollToTopButton(scrollProvider),
     );

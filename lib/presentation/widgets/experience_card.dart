@@ -249,6 +249,7 @@ class ExperienceCard extends StatelessWidget {
               const SizedBox(height: 8),
 
               // Company
+              // Company
               Row(
                 children: [
                   Icon(
@@ -257,12 +258,15 @@ class ExperienceCard extends StatelessWidget {
                     color: AppColors.primary,
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    experience.company,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
+                  Flexible(
+                    child: Text(
+                      experience.company,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   if (experience.isCurrent) ...[
                     const SizedBox(width: 12),
@@ -289,28 +293,39 @@ class ExperienceCard extends StatelessWidget {
               const SizedBox(height: 8),
 
               // Duration and Location
-              Row(
+              Wrap(
+                spacing: 16,
+                runSpacing: 8,
                 children: [
-                  Icon(
-                    Icons.calendar_today_rounded,
-                    size: 16,
-                    color: Theme.of(context).textTheme.bodySmall?.color,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.calendar_today_rounded,
+                        size: 16,
+                        color: Theme.of(context).textTheme.bodySmall?.color,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        experience.duration,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    experience.duration,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(width: 16),
-                  Icon(
-                    Icons.location_on_rounded,
-                    size: 16,
-                    color: Theme.of(context).textTheme.bodySmall?.color,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    experience.location,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.location_on_rounded,
+                        size: 16,
+                        color: Theme.of(context).textTheme.bodySmall?.color,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        experience.location,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
                   ),
                 ],
               ),

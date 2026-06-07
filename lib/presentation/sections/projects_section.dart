@@ -27,24 +27,38 @@ class ProjectsSection extends StatelessWidget {
                 subtitle: AppStrings.projectsSubtitle,
               ),
               const SizedBox(height: 60),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: ResponsiveHelper.responsive(
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final crossAxisCount = ResponsiveHelper.getCrossAxisCount(context);
+                  const double spacing = 24.0;
+                  final double totalSpacing = (crossAxisCount - 1) * spacing;
+                  final double cardWidth = (constraints.maxWidth - totalSpacing) / crossAxisCount;
+                  
+                  final double targetHeight = ResponsiveHelper.responsive(
                     context: context,
-                    mobile: 1,
-                    desktop: 3,
-                  ),
-                  crossAxisSpacing: 24,
-                  mainAxisSpacing: 24,
-                  childAspectRatio: ResponsiveHelper.isMobile(context) ? 0.85 : 0.75,
-                ),
-                itemCount: projects.length,
-                itemBuilder: (context, index) {
-                  return ProjectCard(
-                    project: projects[index],
-                    index: index,
+                    mobile: 430,
+                    tablet: 450,
+                    desktop: 480,
+                  );
+                  
+                  final double childAspectRatio = cardWidth / targetHeight;
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: spacing,
+                      mainAxisSpacing: spacing,
+                      childAspectRatio: childAspectRatio,
+                    ),
+                    itemCount: projects.length,
+                    itemBuilder: (context, index) {
+                      return ProjectCard(
+                        project: projects[index],
+                        index: index,
+                      );
+                    },
                   );
                 },
               ),

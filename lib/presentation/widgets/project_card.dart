@@ -4,6 +4,7 @@ import '../../domain/entities/project.dart';
 import '../../core/theme/app_colors.dart';
 import '../screens/project_detail_screen.dart';
 import '../providers/cursor_provider.dart';
+import '../../core/utils/responsive_helper.dart';
 import 'cursor_hover_region.dart';
 
 class ProjectCard extends StatefulWidget {
@@ -45,7 +46,12 @@ class _ProjectCardState extends State<ProjectCard> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Container(
-              padding: const EdgeInsets.all(24),
+              padding: ResponsiveHelper.responsive(
+                context: context,
+                mobile: const EdgeInsets.all(16),
+                tablet: const EdgeInsets.all(20),
+                desktop: const EdgeInsets.all(24),
+              ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: _isHovered
@@ -64,11 +70,28 @@ class _ProjectCardState extends State<ProjectCard> {
                 children: [
                   // Project Logo/Image
                   Container(
-                    height: 80,
-                    width: 80,
+                    height: ResponsiveHelper.responsive(
+                      context: context,
+                      mobile: 56,
+                      tablet: 68,
+                      desktop: 80,
+                    ),
+                    width: ResponsiveHelper.responsive(
+                      context: context,
+                      mobile: 56,
+                      tablet: 68,
+                      desktop: 80,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(
+                        ResponsiveHelper.responsive(
+                          context: context,
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.primary.withOpacity(0.2),
@@ -77,10 +100,15 @@ class _ProjectCardState extends State<ProjectCard> {
                         ),
                       ],
                     ),
-                    padding: const EdgeInsets.all(12),
+                    padding: ResponsiveHelper.responsive(
+                      context: context,
+                      mobile: const EdgeInsets.all(8),
+                      tablet: const EdgeInsets.all(10),
+                      desktop: const EdgeInsets.all(12),
+                    ),
                     child: widget.project.imageUrl != null
                         ? ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(6),
                             child: Image.asset(
                               widget.project.imageUrl!,
                               fit: BoxFit.contain,
@@ -89,16 +117,28 @@ class _ProjectCardState extends State<ProjectCard> {
                         : Container(
                             decoration: BoxDecoration(
                               gradient: AppColors.primaryGradient,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.phone_android_rounded,
                               color: Colors.white,
-                              size: 32,
+                              size: ResponsiveHelper.responsive(
+                                context: context,
+                                mobile: 24,
+                                tablet: 28,
+                                desktop: 32,
+                              ),
                             ),
                           ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: ResponsiveHelper.responsive(
+                      context: context,
+                      mobile: 12,
+                      tablet: 16,
+                      desktop: 20,
+                    ),
+                  ),
 
                   // Title
                   Text(
@@ -107,10 +147,19 @@ class _ProjectCardState extends State<ProjectCard> {
                           fontWeight: FontWeight.bold,
                         ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: ResponsiveHelper.responsive(
+                      context: context,
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                  ),
 
-                  // Badges Row
-                  Row(
+                  // Badges Wrap
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
                     children: [
                       // Category Badge
                       Container(
@@ -125,10 +174,15 @@ class _ProjectCardState extends State<ProjectCard> {
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.w600,
+                                fontSize: ResponsiveHelper.responsive(
+                                  context: context,
+                                  mobile: 10,
+                                  tablet: 11,
+                                  desktop: 12,
+                                ),
                               ),
                         ),
                       ),
-                      const SizedBox(width: 8),
                       // Demo Badge
                       Container(
                         padding:
@@ -146,7 +200,12 @@ class _ProjectCardState extends State<ProjectCard> {
                           children: [
                             Icon(
                               Icons.lightbulb_outline_rounded,
-                              size: 14,
+                              size: ResponsiveHelper.responsive(
+                                context: context,
+                                mobile: 12,
+                                tablet: 13,
+                                desktop: 14,
+                              ),
                               color: AppColors.accent,
                             ),
                             const SizedBox(width: 4),
@@ -155,7 +214,12 @@ class _ProjectCardState extends State<ProjectCard> {
                               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                     color: AppColors.accent,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 11,
+                                    fontSize: ResponsiveHelper.responsive(
+                                      context: context,
+                                      mobile: 10,
+                                      tablet: 10.5,
+                                      desktop: 11,
+                                    ),
                                   ),
                             ),
                           ],
@@ -163,7 +227,14 @@ class _ProjectCardState extends State<ProjectCard> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: ResponsiveHelper.responsive(
+                      context: context,
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                  ),
 
                   // Description
                   Expanded(
@@ -171,23 +242,45 @@ class _ProjectCardState extends State<ProjectCard> {
                       child: Text(
                         widget.project.description,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontSize: 13,
-                          height: 1.5,
+                          fontSize: ResponsiveHelper.responsive(
+                            context: context,
+                            mobile: 12,
+                            tablet: 12.5,
+                            desktop: 13,
+                          ),
+                          height: 1.4,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: ResponsiveHelper.responsive(
+                      context: context,
+                      mobile: 10,
+                      tablet: 12,
+                      desktop: 16,
+                    ),
+                  ),
 
                   // Technologies
                   Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                    spacing: 6,
+                    runSpacing: 6,
                     children: widget.project.technologies.map((tech) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: ResponsiveHelper.responsive(
+                            context: context,
+                            mobile: 8,
+                            tablet: 10,
+                            desktop: 12,
+                          ),
+                          vertical: ResponsiveHelper.responsive(
+                            context: context,
+                            mobile: 4,
+                            tablet: 5,
+                            desktop: 6,
+                          ),
                         ),
                         decoration: BoxDecoration(
                           color: Theme.of(context)
@@ -203,13 +296,25 @@ class _ProjectCardState extends State<ProjectCard> {
                           tech,
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    fontSize: 11,
+                                    fontSize: ResponsiveHelper.responsive(
+                                      context: context,
+                                      mobile: 10,
+                                      tablet: 10.5,
+                                      desktop: 11,
+                                    ),
                                   ),
                         ),
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: ResponsiveHelper.responsive(
+                      context: context,
+                      mobile: 10,
+                      tablet: 12,
+                      desktop: 16,
+                    ),
+                  ),
 
                   // View Details Button
                   SizedBox(
@@ -225,10 +330,35 @@ class _ProjectCardState extends State<ProjectCard> {
                           ),
                         );
                       },
-                      icon: const Icon(Icons.arrow_forward_rounded, size: 18),
-                      label: const Text('View Details'),
+                      icon: Icon(
+                        Icons.arrow_forward_rounded,
+                        size: ResponsiveHelper.responsive(
+                          context: context,
+                          mobile: 16,
+                          tablet: 17,
+                          desktop: 18,
+                        ),
+                      ),
+                      label: Text(
+                        'View Details',
+                        style: TextStyle(
+                          fontSize: ResponsiveHelper.responsive(
+                            context: context,
+                            mobile: 13,
+                            tablet: 13.5,
+                            desktop: 14,
+                          ),
+                        ),
+                      ),
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: EdgeInsets.symmetric(
+                          vertical: ResponsiveHelper.responsive(
+                            context: context,
+                            mobile: 10,
+                            tablet: 11,
+                            desktop: 12,
+                          ),
+                        ),
                       ),
                     ),
                   ),

@@ -5,11 +5,25 @@ class ExperienceModel {
     return const [
       Experience(
         id: '1',
+        company: 'Emilo Ventures Private Limited',
+        position: 'Flutter Developer',
+        duration: 'Jun 2026 - Present',
+        location: 'Raipur',
+        isCurrent: true,
+        responsibilities: [
+          'Developing and maintaining scalable Flutter applications.',
+          'Collaborating with cross-functional teams to define, design, and ship new features.',
+          'Ensuring application performance, code quality, and responsiveness.',
+        ],
+        logoUrl: 'assets/images/emilo.jpg',
+      ),
+      Experience(
+        id: '2',
         company: 'DimensionLeap',
         position: 'Associate Flutter Developer',
-        duration: 'Sep 2025 - Present',
+        duration: 'Sep 2025 - Jun 2026',
         location: 'India',
-        isCurrent: true,
+        isCurrent: false,
         responsibilities: [
           'Engineered Spotlight, an AI-powered filmmaking platform automating story generation, storyboard visualization, video editing, and pitch deck creation.',
           'Built a custom timeline-based video editor with real-time rendering and FFmpeg-powered exports using JavaScript Interop for Spotlight.',
@@ -22,7 +36,7 @@ class ExperienceModel {
         logoUrl: 'assets/images/dimensionlogo.jpeg',
       ),
       Experience(
-        id: '2',
+        id: '3',
         company: 'Brototype',
         position: 'Flutter Developer Student',
         duration: 'Jun 2024 - Jul 2025',

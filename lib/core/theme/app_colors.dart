@@ -10,21 +10,21 @@ class AppColors {
   static const Color accent = Color(0xFFE6C089); // Champagne gold
   static const Color accentLight = Color(0xFFFFC857); // Light gold
 
-  // Background Colors - Light Theme (Yellow & Black)
-  static const Color lightBackground = Color(0xFFFFF9E6); // Soft yellow background
-  static const Color lightSurface = Color(0xFFFFFBF0); // Lighter yellow
-  static const Color lightCard = Color(0xFFFFFFFF); // White cards
-  static const Color lightAccent = Color(0xFFFFE066); // Vibrant yellow accent
+  // Background Colors - Light Theme (Steel Blue & Navy)
+  static const Color lightBackground = Color(0xFFE8EEF2); // Soft ice blue background
+  static const Color lightSurface = Color(0xFFF1F5F9); // Slightly lighter frosty blue
+  static const Color lightCard = Color(0xFFF8FAFC); // Very light crisp blue for cards
+  static const Color lightAccent = Color(0xFFC59B27); // Rich dark gold for contrast
 
   // Background Colors - Dark Theme (Extreme Black with Gold)
   static const Color darkBackground = Color(0xFF000000); // Pure black
   static const Color darkSurface = Color(0xFF0A0A0A); // Near black
   static const Color darkCard = Color(0xFF121212); // Deep black
 
-  // Text Colors - Light Theme (Black on Yellow)
-  static const Color lightTextPrimary = Color(0xFF000000); // Pure black
-  static const Color lightTextSecondary = Color(0xFF1A1A1A); // Near black
-  static const Color lightTextTertiary = Color(0xFF4A4A4A); // Dark gray
+  // Text Colors - Light Theme (Deep Navy for elegant contrast)
+  static const Color lightTextPrimary = Color(0xFF0B192C); // Very deep navy blue
+  static const Color lightTextSecondary = Color(0xFF1E3E62); // Rich navy
+  static const Color lightTextTertiary = Color(0xFF476683); // Muted steel blue
 
   // Text Colors - Dark Theme
   static const Color darkTextPrimary = Color(0xFFF7FAFC);
@@ -68,18 +68,19 @@ class AppColors {
   static Color darkShadow = Colors.black.withOpacity(0.3);
 
   // Border Colors
-  static const Color lightBorder = Color(0xFFFFD700); // Yellow border for light mode
+  static const Color lightBorder = Color(0xFFCBDCEB); // Subtle blue-gray border
   static const Color darkBorder = Color(0xFFD4AF37); // Gold border for dark mode
   
-  // Yellow & Black Light Mode Gradients
+  // Elegant Light Mode Gradients (Texture & Lighting effect)
   static const LinearGradient yellowBlackGradient = LinearGradient(
-    colors: [Color(0xFFFFE066), Color(0xFFFFD700), Color(0xFFFFC857)],
+    colors: [Color(0xFFF1F5F9), Color(0xFFE8EEF2), Color(0xFFD9E2EC)], // Frosty ice lighting fade
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
+    stops: [0.0, 0.5, 1.0],
   );
   
   static const LinearGradient lightHeroGradient = LinearGradient(
-    colors: [Color(0xFFFFF9E6), Color(0xFFFFE066)],
+    colors: [Color(0xFFE8EEF2), Color(0xFFD9E2EC)], // Deepening ice blue
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );

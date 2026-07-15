@@ -61,10 +61,21 @@ class HomeSection extends StatelessWidget {
 
   Widget _buildFullWidthBackground(BuildContext context) {
     final isMobile = ResponsiveHelper.isMobile(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     
     return Positioned.fill(
       child: Stack(
         children: [
+          // Base texture gradient for light mode
+          if (!isDark)
+            Positioned.fill(
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: AppColors.yellowBlackGradient,
+                ),
+              ),
+            ),
+          
           // Profile image - positioned on right side only
           Positioned(
             right: 0,
@@ -76,7 +87,7 @@ class HomeSection extends StatelessWidget {
             child: Image.asset(
               'assets/images/profile.jpeg',
               fit: BoxFit.cover,
-              alignment: isMobile ? Alignment.topCenter : Alignment.center,
+              alignment: Alignment.topCenter,
             ),
           ),
           
@@ -89,8 +100,8 @@ class HomeSection extends StatelessWidget {
                   radius: 1.2,
                   colors: [
                     Colors.transparent,
-                    AppColors.primary.withOpacity(0.15),
-                    AppColors.accent.withOpacity(0.15),
+                    AppColors.primary.withOpacity(isDark ? 0.15 : 0.08),
+                    AppColors.accent.withOpacity(isDark ? 0.15 : 0.05),
                   ],
                 ),
               ),
@@ -105,7 +116,7 @@ class HomeSection extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    AppColors.primary.withOpacity(0.2),
+                    AppColors.primary.withOpacity(isDark ? 0.2 : 0.1),
                     Colors.transparent,
                     Colors.transparent,
                   ],
@@ -169,7 +180,7 @@ class HomeSection extends StatelessWidget {
           child: GlacierText(
             text: AppConstants.name,
             style: GoogleFonts.playfairDisplay(
-              color: isDark ? Colors.white : Colors.black,
+              color: isDark ? Colors.white : AppColors.lightTextPrimary,
               fontSize: isMobile ? 42 : 72,
               fontWeight: FontWeight.w900,
               letterSpacing: -2,
@@ -189,14 +200,9 @@ class HomeSection extends StatelessWidget {
                     ]
                   : [
                       Shadow(
-                        color: Color(0xFFFFE066).withOpacity(0.6),
-                        blurRadius: 15,
-                        offset: Offset(0, 0),
-                      ),
-                      Shadow(
-                        color: Color(0xFFFFD700).withOpacity(0.4),
-                        blurRadius: 30,
-                        offset: Offset(0, 0),
+                        color: AppColors.primary.withOpacity(0.2),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
                       ),
                     ],
             ),

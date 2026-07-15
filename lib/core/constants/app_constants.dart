@@ -2,7 +2,7 @@ class AppConstants {
   // Personal Information
   static const String name = 'Akash Madhu N P';
   static const String role = 'Flutter Developer';
-  static const String company = 'DimensionLeap';
+  static const String company = 'Emilo Ventures Private Limited';
   static const String experience = '1 Year';
   static const String tagline = 'Crafting Beautiful Mobile Experiences';
   static const String bio =

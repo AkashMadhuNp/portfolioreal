@@ -9,12 +9,12 @@ class DownloadHelper {
   static Future<void> downloadCV(BuildContext context) async {
     if (kIsWeb) {
       // For web: Direct download using anchor element
-      const url = 'assets/assets/files/Akash_Madhu_Flutter_Resume.pdf';
+      const url = 'assets/assets/files/Akash_Madhu_2026.pdf';
       
       // Create a temporary anchor element and trigger download
       html.AnchorElement(href: url)
         ..target = 'blank'
-        ..download = 'Akash_Madhu_Flutter_Resume.pdf'
+        ..download = 'Akash_Madhu_2026.pdf'
         ..click();
       
       // Show success toast
@@ -24,7 +24,7 @@ class DownloadHelper {
       );
     } else {
       // For mobile/desktop: Use url_launcher
-      const url = 'assets/files/Akash_Madhu_Flutter_Resume.pdf';
+      const url = 'assets/files/Akash_Madhu_2026.pdf';
       final uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -45,7 +45,7 @@ class DownloadHelper {
   static void openCVInNewTab() {
     if (kIsWeb) {
       html.window.open(
-        'assets/assets/files/Akash_Madhu_Flutter_Resume.pdf',
+        'assets/assets/files/Akash_Madhu_2026.pdf',
         '_blank',
       );
     }

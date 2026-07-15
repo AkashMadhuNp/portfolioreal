@@ -1,4 +1,4 @@
-name: Deploy Portfolio to Firebase
+name: Deploy Portfolio
 
 on:
   push:
@@ -32,3 +32,20 @@ jobs:
 
       - name: Deploy To Firebase Hosting
         run: firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel
+
+      - name: Deploy to Vercel
+        run: |
+          vercel pull --yes --environment=production \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+          vercel build --prod \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+          vercel deploy --prebuilt --prod \
+            --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

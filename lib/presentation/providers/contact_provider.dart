@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/services/email_service.dart';
+import '../../domain/repositories/message_repository.dart';
 
 class ContactProvider extends ChangeNotifier {
   bool _isLoading = false;
@@ -9,7 +10,9 @@ class ContactProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get message => _message;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final MessageRepository? messageRepository;
+
+  ContactProvider({this.messageRepository});
 
   Future<void> sendMessage({
     required String name,
@@ -21,27 +24,35 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // 1. Store message in Firestore
-      await _firestore.collection('contact_messages').add({
-        'name': name,
-        'senderEmail': email,
-        'messageText': message,
-        'timestamp': FieldValue.serverTimestamp(),
-        'read': false,
-        'recipientEmail': '002akashakz@gmail.com',
-      });
-
-      // 2. Send email via SMTP
-      final emailSent = await EmailService.sendContactEmail(
-        senderName: name,
-        senderEmail: email,
-        message: message,
-      );
-
-      if (emailSent) {
-        _message = '✅ Message sent successfully! I\'ll get back to you soon.';
+      if (messageRepository != null) {
+        _message = await messageRepository!.sendMessage(
+          name: name,
+          email: email,
+          message: message,
+        );
       } else {
-        _message = '✅ Message saved! Email notification pending. I\'ll respond soon.';
+        // 1. Store message in Firestore
+        await FirebaseFirestore.instance.collection('contact_messages').add({
+          'name': name,
+          'senderEmail': email,
+          'messageText': message,
+          'timestamp': FieldValue.serverTimestamp(),
+          'read': false,
+          'recipientEmail': '002akashakz@gmail.com',
+        });
+
+        // 2. Send email via SMTP
+        final emailSent = await EmailService.sendContactEmail(
+          senderName: name,
+          senderEmail: email,
+          message: message,
+        );
+
+        if (emailSent) {
+          _message = '✅ Message sent successfully! I\'ll get back to you soon.';
+        } else {
+          _message = '✅ Message saved! Email notification pending. I\'ll respond soon.';
+        }
       }
     } catch (e) {
       _message = '❌ Failed to send message. Please try again or email directly to 002akashakz@gmail.com';

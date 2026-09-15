@@ -4,6 +4,7 @@ class ExperienceModel {
   static List<Experience> getExperiences() {
     return const [
       Experience(
+        
         id: '1',
         company: 'Emilo Ventures Private Limited',
         position: 'Flutter Developer',

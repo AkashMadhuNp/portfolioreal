@@ -35,7 +35,10 @@ class AppTheme {
         shadowColor: Colors.black.withOpacity(0.05),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: AppColors.lightAccent.withOpacity(0.3), width: 1),
+          side: BorderSide(
+            color: AppColors.lightAccent.withOpacity(0.3),
+            width: 1,
+          ),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -80,7 +83,10 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.lightTextPrimary, width: 2),
+          borderSide: const BorderSide(
+            color: AppColors.lightTextPrimary,
+            width: 2,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -127,9 +133,7 @@ class AppTheme {
         color: AppColors.darkCard,
         elevation: 4,
         shadowColor: AppColors.darkShadow,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -280,4 +284,3 @@ class AppTheme {
     );
   }
 }
-

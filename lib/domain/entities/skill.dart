@@ -11,4 +11,3 @@ class Skill {
     this.iconPath,
   });
 }
-

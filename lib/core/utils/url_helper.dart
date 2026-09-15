@@ -40,4 +40,3 @@ class UrlHelper {
     await launchURL('https://twitter.com/$username');
   }
 }
-

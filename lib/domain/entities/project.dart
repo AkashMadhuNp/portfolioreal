@@ -23,4 +23,3 @@ class Project {
     this.type = 'Demo Project',
   });
 }
-

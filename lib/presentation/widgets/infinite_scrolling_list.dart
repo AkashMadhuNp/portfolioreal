@@ -35,11 +35,11 @@ class _InfiniteScrollingListState extends State<InfiniteScrollingList> {
 
   void _startScrolling() {
     if (!mounted || !_scrollController.hasClients) return;
-    
+
     setState(() {
       _isScrolling = true;
     });
-    
+
     _scrollLoop();
   }
 
@@ -47,28 +47,30 @@ class _InfiniteScrollingListState extends State<InfiniteScrollingList> {
     while (_isScrolling && mounted && _scrollController.hasClients) {
       final currentPos = _scrollController.position.pixels;
       final maxScroll = _scrollController.position.maxScrollExtent;
-      
+
       // Calculate how much distance is left to scroll
       final distanceToScroll = maxScroll - currentPos;
-      
+
       if (distanceToScroll <= 0) {
         // If we reached the end, jump back to the start
         _scrollController.jumpTo(0);
         continue;
       }
-      
+
       // Calculate duration based on distance and speed
       final durationMs = (distanceToScroll / widget.speed * 1000).toInt();
-      
+
       await _scrollController.animateTo(
         maxScroll,
         duration: Duration(milliseconds: durationMs),
         curve: Curves.linear,
       );
-      
+
       // Once it completes (or is interrupted), if it reached the end, jump to start
-      if (mounted && _scrollController.hasClients && 
-          _scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 1) {
+      if (mounted &&
+          _scrollController.hasClients &&
+          _scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent - 1) {
         _scrollController.jumpTo(0);
       }
     }
@@ -84,7 +86,7 @@ class _InfiniteScrollingListState extends State<InfiniteScrollingList> {
   @override
   Widget build(BuildContext context) {
     if (widget.children.isEmpty) return const SizedBox.shrink();
-    
+
     return IgnorePointer(
       child: ListView.separated(
         controller: _scrollController,

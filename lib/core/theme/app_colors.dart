@@ -11,10 +11,14 @@ class AppColors {
   static const Color accentLight = Color(0xFFFFC857); // Light gold
 
   // Background Colors - Light Theme (Warm Golden Yellow Identity)
-  static const Color lightBackground = Color(0xFFF4E4A2); // Warm golden yellow background
+  static const Color lightBackground = Color(
+    0xFFF4E4A2,
+  ); // Warm golden yellow background
   static const Color lightSurface = Color(0xFFFDFBF7); // Ivory / warm white
   static const Color lightCard = Color(0xFFFCF9F2); // Cream for cards
-  static const Color lightAccent = Color(0xFFB5801B); // Deep golden amber for strong contrast
+  static const Color lightAccent = Color(
+    0xFFB5801B,
+  ); // Deep golden amber for strong contrast
 
   // Background Colors - Dark Theme (Extreme Black with Gold)
   static const Color darkBackground = Color(0xFF000000); // Pure black
@@ -55,7 +59,7 @@ class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-  
+
   // Additional luxury gradients
   static const LinearGradient luxuryGradient = LinearGradient(
     colors: [Color(0xFFFFD700), Color(0xFFD4AF37), Color(0xFFB8941E)],
@@ -64,13 +68,17 @@ class AppColors {
   );
 
   // Shadow Colors
-  static Color lightShadow = const Color(0xFF9E7E19).withOpacity(0.12); // Soft amber shadow
+  static Color lightShadow = const Color(
+    0xFF9E7E19,
+  ).withOpacity(0.12); // Soft amber shadow
   static Color darkShadow = Colors.black.withOpacity(0.3);
 
   // Border Colors
   static const Color lightBorder = Color(0xFFDFCC9D); // Muted golden border
-  static const Color darkBorder = Color(0xFFD4AF37); // Gold border for dark mode
-  
+  static const Color darkBorder = Color(
+    0xFFD4AF37,
+  ); // Gold border for dark mode
+
   // Elegant Light Mode Gradients (Texture & Lighting effect)
   static const LinearGradient yellowBlackGradient = LinearGradient(
     colors: [
@@ -82,11 +90,10 @@ class AppColors {
     end: Alignment.bottomRight,
     stops: [0.0, 0.5, 1.0],
   );
-  
+
   static const LinearGradient lightHeroGradient = LinearGradient(
     colors: [Color(0xFFF4E4A2), Color(0xFFEFD98D)], // Deepening warm yellow
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
 }
-

@@ -8,17 +8,17 @@ import '../providers/cursor_provider.dart';
 class CustomCursor extends StatefulWidget {
   final Widget child;
 
-  const CustomCursor({
-    super.key,
-    required this.child,
-  });
+  const CustomCursor({super.key, required this.child});
 
   @override
   State<CustomCursor> createState() => _CustomCursorState();
 }
 
-class _CustomCursorState extends State<CustomCursor> with SingleTickerProviderStateMixin {
-  final ValueNotifier<Offset> _targetPosition = ValueNotifier<Offset>(Offset.zero);
+class _CustomCursorState extends State<CustomCursor>
+    with SingleTickerProviderStateMixin {
+  final ValueNotifier<Offset> _targetPosition = ValueNotifier<Offset>(
+    Offset.zero,
+  );
   final ValueNotifier<bool> _visible = ValueNotifier<bool>(false);
   bool _isMousePointer = false;
 
@@ -80,7 +80,8 @@ class CustomCursorPainterWidget extends StatefulWidget {
   });
 
   @override
-  State<CustomCursorPainterWidget> createState() => _CustomCursorPainterWidgetState();
+  State<CustomCursorPainterWidget> createState() =>
+      _CustomCursorPainterWidgetState();
 }
 
 class _CustomCursorPainterWidgetState extends State<CustomCursorPainterWidget> {
@@ -97,13 +98,19 @@ class _CustomCursorPainterWidgetState extends State<CustomCursorPainterWidget> {
       final distance = (target - _trailingPosition).distance;
 
       // Check if cursor provider state has changed
-      final cursorProvider = Provider.of<CursorProvider>(context, listen: false);
-      final targetHoverProgress = cursorProvider.type == CursorType.normal ? 0.0 : 1.0;
+      final cursorProvider = Provider.of<CursorProvider>(
+        context,
+        listen: false,
+      );
+      final targetHoverProgress = cursorProvider.type == CursorType.normal
+          ? 0.0
+          : 1.0;
 
       // Smoothly update hover progress
       double nextHoverProgress = _hoverProgress;
       if ((_hoverProgress - targetHoverProgress).abs() > 0.01) {
-        nextHoverProgress = _hoverProgress + (targetHoverProgress - _hoverProgress) * 0.15;
+        nextHoverProgress =
+            _hoverProgress + (targetHoverProgress - _hoverProgress) * 0.15;
       } else {
         nextHoverProgress = targetHoverProgress;
       }
@@ -131,8 +138,12 @@ class _CustomCursorPainterWidgetState extends State<CustomCursorPainterWidget> {
     final isDark = theme.brightness == Brightness.dark;
 
     // luxury theme adaptations
-    final primaryColor = isDark ? const Color(0xFFD4AF37) : const Color(0xFF000000); // Gold in dark, Black in light
-    final accentColor = isDark ? const Color(0xFFFFD700) : const Color(0xFFFFD700); // Bright gold/yellow
+    final primaryColor = isDark
+        ? const Color(0xFFD4AF37)
+        : const Color(0xFF000000); // Gold in dark, Black in light
+    final accentColor = isDark
+        ? const Color(0xFFFFD700)
+        : const Color(0xFFFFD700); // Bright gold/yellow
 
     return ValueListenableBuilder<bool>(
       valueListenable: widget.visible,
@@ -203,8 +214,11 @@ class CursorPainter extends CustomPainter {
     if (hoverProgress > 0.1) {
       const numTicks = 4;
       for (int i = 0; i < numTicks; i++) {
-        final angle = (i * 2 * math.pi / numTicks) + (hoverProgress * math.pi / 2);
-        final tickOffset = trailingPosition + Offset(math.cos(angle), math.sin(angle)) * outerRadius;
+        final angle =
+            (i * 2 * math.pi / numTicks) + (hoverProgress * math.pi / 2);
+        final tickOffset =
+            trailingPosition +
+            Offset(math.cos(angle), math.sin(angle)) * outerRadius;
         canvas.drawCircle(
           tickOffset,
           2.0 * hoverProgress,
@@ -214,7 +228,8 @@ class CursorPainter extends CustomPainter {
     }
 
     // 2. Draw Inner Tracking Dot
-    final showOverlay = (customText != null || customIcon != null) && hoverProgress > 0.5;
+    final showOverlay =
+        (customText != null || customIcon != null) && hoverProgress > 0.5;
 
     if (!showOverlay) {
       if (type == CursorType.text) {
@@ -253,7 +268,8 @@ class CursorPainter extends CustomPainter {
       textPainter.layout();
       textPainter.paint(
         canvas,
-        trailingPosition - Offset(textPainter.width / 2, textPainter.height / 2),
+        trailingPosition -
+            Offset(textPainter.width / 2, textPainter.height / 2),
       );
     }
 
@@ -274,7 +290,8 @@ class CursorPainter extends CustomPainter {
       iconPainter.layout();
       iconPainter.paint(
         canvas,
-        trailingPosition - Offset(iconPainter.width / 2, iconPainter.height / 2),
+        trailingPosition -
+            Offset(iconPainter.width / 2, iconPainter.height / 2),
       );
     }
   }

@@ -39,16 +39,18 @@ class AppStrings {
 
   // Contact Section
   static const String contactTitle = 'Get In Touch';
-  static const String contactSubtitle = 'Let\'s build something amazing together';
+  static const String contactSubtitle =
+      'Let\'s build something amazing together';
   static const String sendMessage = 'Send Message';
   static const String yourName = 'Your Name';
   static const String yourEmail = 'Your Email';
   static const String yourMessage = 'Your Message';
   static const String messageSent = 'Message sent successfully!';
-  static const String messageError = 'Failed to send message. Please try again.';
+  static const String messageError =
+      'Failed to send message. Please try again.';
 
   // Footer
-  static const String footerText = '© 2025 Akash Madhu N P. All rights reserved.';
+  static const String footerText =
+      '© 2025 Akash Madhu N P. All rights reserved.';
   static const String madeWith = 'Made with ❤️ using Flutter';
 }
-

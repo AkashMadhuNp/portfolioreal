@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 /// Email service using EmailJS (works on Flutter Web)
-/// 
+///
 /// Setup:
 /// 1. Sign up at https://www.emailjs.com/
 /// 2. Add an email service (Gmail)
@@ -15,9 +15,10 @@ class EmailService {
   static const String _publicKey = 'SIJdlpP1x3Dvr1vcC';
   static const String _serviceId = 'service_7z679kb';
   static const String _templateId = 'template_7vjgxv7';
-  
-  static const String _emailJsUrl = 'https://api.emailjs.com/api/v1.0/email/send';
-  
+
+  static const String _emailJsUrl =
+      'https://api.emailjs.com/api/v1.0/email/send';
+
   /// Send contact form email via EmailJS
   static Future<bool> sendContactEmail({
     required String senderName,
@@ -39,16 +40,14 @@ class EmailService {
           'timestamp': DateTime.now().toString(),
         },
       };
-      
+
       // Send email via EmailJS API
       final response = await http.post(
         Uri.parse(_emailJsUrl),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json'},
         body: json.encode(emailParams),
       );
-      
+
       if (response.statusCode == 200) {
         print('✅ Email sent successfully via EmailJS');
         return true;

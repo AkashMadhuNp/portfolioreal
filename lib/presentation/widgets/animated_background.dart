@@ -5,7 +5,7 @@ import '../providers/scroll_provider.dart';
 
 class AnimatedBackground extends StatefulWidget {
   final Widget child;
-  
+
   const AnimatedBackground({super.key, required this.child});
 
   @override
@@ -71,34 +71,47 @@ class BackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final isDark = theme.brightness == Brightness.dark;
-    
+
     // Luxury theme backgrounds: deep black sky for dark mode, soft yellow sky for light mode
     final skyColor = isDark ? const Color(0xFF000000) : const Color(0xFFFFFBF0);
     final canvasPaint = Paint()..color = skyColor;
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), canvasPaint);
 
     // Dynamic colors
-    final accentColor = isDark ? const Color(0xFFFFD700) : const Color(0xFFD4AF37); // Golden yellow
-    final starColor = isDark ? const Color(0xFFFFE066) : const Color(0xFFFFD700);
+    final accentColor = isDark
+        ? const Color(0xFFFFD700)
+        : const Color(0xFFD4AF37); // Golden yellow
+    final starColor = isDark
+        ? const Color(0xFFFFE066)
+        : const Color(0xFFFFD700);
 
     // Apply Parallax Translation to page-based cosmic elements
     canvas.save();
-    canvas.translate(0, -scrollOffset * 0.35); // background scrolls at 35% speed (parallax)
+    canvas.translate(
+      0,
+      -scrollOffset * 0.35,
+    ); // background scrolls at 35% speed (parallax)
 
     // 1. Draw Twinkling Starfield
     final numStars = 140;
     for (int i = 0; i < numStars; i++) {
       // Deterministic pseudo-random generation based on index
       final rx = (math.sin(i * 742.3) * 0.5 + 0.5) * size.width;
-      final ry = (math.sin(i * 193.8) * 0.5 + 0.5) * 4400.0; // Cover total scroll length
-      
-      final twinkle = (0.25 + 0.75 * math.sin(animationValue * 2 * math.pi * 1.5 + i)).clamp(0.0, 1.0);
+      final ry =
+          (math.sin(i * 193.8) * 0.5 + 0.5) *
+          4400.0; // Cover total scroll length
+
+      final twinkle =
+          (0.25 + 0.75 * math.sin(animationValue * 2 * math.pi * 1.5 + i))
+              .clamp(0.0, 1.0);
       final starSize = 0.6 + (math.sin(i * 482.1) * 0.5 + 0.5) * 1.4;
-      
+
       final starPaint = Paint()
-        ..color = starColor.withOpacity((twinkle * (isDark ? 0.35 : 0.25)).clamp(0.0, 1.0))
+        ..color = starColor.withOpacity(
+          (twinkle * (isDark ? 0.35 : 0.25)).clamp(0.0, 1.0),
+        )
         ..style = PaintingStyle.fill;
-        
+
       canvas.drawCircle(Offset(rx, ry), starSize, starPaint);
     }
 
@@ -108,10 +121,10 @@ class BackgroundPainter extends CustomPainter {
     // 3. Draw Swirling Spiral Galaxies
     // Galaxy 1: Top-Right (Hero Section)
     _drawGalaxy(canvas, Offset(size.width * 0.82, 320), accentColor);
-    
+
     // Galaxy 2: Middle-Left (Skills/About Section)
     _drawGalaxy(canvas, Offset(size.width * 0.16, 1500), accentColor);
-    
+
     // Galaxy 3: Middle-Right (Projects Section)
     _drawGalaxy(canvas, Offset(size.width * 0.84, 2700), accentColor);
 
@@ -130,9 +143,12 @@ class BackgroundPainter extends CustomPainter {
 
   Offset _getPathCoordinate(double y, double width) {
     // Math wave function to generate winding curve
-    final x = width * 0.5 + 
-              math.sin(y * 0.0016) * width * 0.24 + 
-              math.cos(y * 0.0006 + animationValue * 2 * math.pi * 0.04) * width * 0.06;
+    final x =
+        width * 0.5 +
+        math.sin(y * 0.0016) * width * 0.24 +
+        math.cos(y * 0.0006 + animationValue * 2 * math.pi * 0.04) *
+            width *
+            0.06;
     return Offset(x, y);
   }
 
@@ -140,7 +156,7 @@ class BackgroundPainter extends CustomPainter {
     final path = Path();
     final glowPath = Path();
     bool first = true;
-    
+
     const double totalHeight = 4400.0;
     for (double y = 0; y < totalHeight; y += 20) {
       final pos = _getPathCoordinate(y, size.width);
@@ -156,7 +172,9 @@ class BackgroundPainter extends CustomPainter {
 
     // Outer soft pathway glow
     final glowPaint = Paint()
-      ..color = color.withOpacity(theme.brightness == Brightness.dark ? 0.05 : 0.03)
+      ..color = color.withOpacity(
+        theme.brightness == Brightness.dark ? 0.05 : 0.03,
+      )
       ..style = PaintingStyle.stroke
       ..strokeWidth = 6.0
       ..strokeCap = StrokeCap.round
@@ -165,7 +183,9 @@ class BackgroundPainter extends CustomPainter {
 
     // Inner glowing core line
     final corePaint = Paint()
-      ..color = color.withOpacity(theme.brightness == Brightness.dark ? 0.25 : 0.18)
+      ..color = color.withOpacity(
+        theme.brightness == Brightness.dark ? 0.25 : 0.18,
+      )
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2
       ..strokeCap = StrokeCap.round;
@@ -175,13 +195,17 @@ class BackgroundPainter extends CustomPainter {
   void _drawGalaxy(Canvas canvas, Offset center, Color color) {
     // 1. Core Glow (deep cosmic light source)
     final corePaint = Paint()
-      ..color = color.withOpacity(theme.brightness == Brightness.dark ? 0.06 : 0.03)
+      ..color = color.withOpacity(
+        theme.brightness == Brightness.dark ? 0.06 : 0.03,
+      )
       ..style = PaintingStyle.fill
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 40);
     canvas.drawCircle(center, 55, corePaint);
-    
+
     final corePaint2 = Paint()
-      ..color = color.withOpacity(theme.brightness == Brightness.dark ? 0.18 : 0.12)
+      ..color = color.withOpacity(
+        theme.brightness == Brightness.dark ? 0.18 : 0.12,
+      )
       ..style = PaintingStyle.fill
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 15);
     canvas.drawCircle(center, 16, corePaint2);
@@ -201,11 +225,17 @@ class BackgroundPainter extends CustomPainter {
       final y = center.dy + math.sin(theta + rotation) * r;
 
       final size = 0.8 + (i % 3) * 0.6;
-      final twinkle = (0.4 + 0.6 * math.sin(animationValue * 2 * math.pi * 2 + i)).clamp(0.0, 1.0);
+      final twinkle =
+          (0.4 + 0.6 * math.sin(animationValue * 2 * math.pi * 2 + i)).clamp(
+            0.0,
+            1.0,
+          );
 
       // Fade particles out towards edge of galaxy
       final fade = (1.0 - r / 160.0).clamp(0.0, 1.0);
-      final opacity = (twinkle * fade * (theme.brightness == Brightness.dark ? 0.55 : 0.4)).clamp(0.0, 1.0);
+      final opacity =
+          (twinkle * fade * (theme.brightness == Brightness.dark ? 0.55 : 0.4))
+              .clamp(0.0, 1.0);
 
       final particlePaint = Paint()
         ..color = color.withOpacity(opacity)
@@ -219,26 +249,38 @@ class BackgroundPainter extends CustomPainter {
     final starPaint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;
-      
+
     final glowPaint = Paint()
-      ..color = color.withOpacity(theme.brightness == Brightness.dark ? 0.3 : 0.2)
+      ..color = color.withOpacity(
+        theme.brightness == Brightness.dark ? 0.3 : 0.2,
+      )
       ..style = PaintingStyle.fill
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
-      
+
     // Soft blur core
     canvas.drawCircle(pos, 8, glowPaint);
-    
+
     // Core center star
     canvas.drawCircle(pos, 2.5, starPaint);
-    
+
     // Compass constellation ticks
     final linePaint = Paint()
-      ..color = color.withOpacity(theme.brightness == Brightness.dark ? 0.65 : 0.45)
+      ..color = color.withOpacity(
+        theme.brightness == Brightness.dark ? 0.65 : 0.45,
+      )
       ..strokeWidth = 1.0;
-    
+
     final armLength = 8.0 + math.sin(animationValue * 2 * math.pi * 1.5) * 2.0;
-    canvas.drawLine(pos - Offset(armLength, 0), pos + Offset(armLength, 0), linePaint);
-    canvas.drawLine(pos - Offset(0, armLength), pos + Offset(0, armLength), linePaint);
+    canvas.drawLine(
+      pos - Offset(armLength, 0),
+      pos + Offset(armLength, 0),
+      linePaint,
+    );
+    canvas.drawLine(
+      pos - Offset(0, armLength),
+      pos + Offset(0, armLength),
+      linePaint,
+    );
   }
 
   @override

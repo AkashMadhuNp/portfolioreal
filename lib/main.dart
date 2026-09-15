@@ -13,13 +13,13 @@ import 'presentation/widgets/custom_cursor.dart';
 void main() async {
   // Ensure Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase
   await FirebaseService.initialize();
-  
+
   // Ensure Google Fonts are properly initialized
   GoogleFonts.config.allowRuntimeFetching = true;
-  
+
   runApp(const MyApp());
 }
 

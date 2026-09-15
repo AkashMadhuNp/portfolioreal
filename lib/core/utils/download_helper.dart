@@ -10,33 +10,24 @@ class DownloadHelper {
     if (kIsWeb) {
       // For web: Direct download using anchor element
       const url = 'assets/assets/files/Akash_Madhu_2026.pdf';
-      
+
       // Create a temporary anchor element and trigger download
       html.AnchorElement(href: url)
         ..target = 'blank'
         ..download = 'Akash_Madhu_2026.pdf'
         ..click();
-      
+
       // Show success toast
-      ToastHelper.showSuccessToast(
-        context,
-        '📄 CV downloaded successfully!',
-      );
+      ToastHelper.showSuccessToast(context, '📄 CV downloaded successfully!');
     } else {
       // For mobile/desktop: Use url_launcher
       const url = 'assets/files/Akash_Madhu_2026.pdf';
       final uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
-        ToastHelper.showSuccessToast(
-          context,
-          '📄 Opening CV...',
-        );
+        ToastHelper.showSuccessToast(context, '📄 Opening CV...');
       } else {
-        ToastHelper.showErrorToast(
-          context,
-          '❌ Unable to open CV',
-        );
+        ToastHelper.showErrorToast(context, '❌ Unable to open CV');
       }
     }
   }
@@ -44,11 +35,7 @@ class DownloadHelper {
   /// Open CV in new tab (alternative method)
   static void openCVInNewTab() {
     if (kIsWeb) {
-      html.window.open(
-        'assets/assets/files/Akash_Madhu_2026.pdf',
-        '_blank',
-      );
+      html.window.open('assets/assets/files/Akash_Madhu_2026.pdf', '_blank');
     }
   }
 }
-

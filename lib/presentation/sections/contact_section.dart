@@ -65,15 +65,9 @@ class _ContactSectionState extends State<ContactSection> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 5,
-          child: _buildContactForm(context),
-        ),
+        Expanded(flex: 5, child: _buildContactForm(context)),
         const SizedBox(width: 60),
-        Expanded(
-          flex: 4,
-          child: _buildContactInfo(context),
-        ),
+        Expanded(flex: 4, child: _buildContactInfo(context)),
       ],
     );
   }
@@ -93,9 +87,7 @@ class _ContactSectionState extends State<ContactSection> {
       duration: const Duration(milliseconds: 1000),
       child: Card(
         elevation: 8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: const EdgeInsets.all(32),
           child: Form(
@@ -163,7 +155,10 @@ class _ContactSectionState extends State<ContactSection> {
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  Theme.of(context).brightness == Brightness.light ? AppColors.lightTextPrimary : Colors.white,
+                                  Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? AppColors.lightTextPrimary
+                                      : Colors.white,
                                 ),
                               ),
                             )
@@ -244,7 +239,9 @@ class _ContactSectionState extends State<ContactSection> {
       duration: const Duration(milliseconds: 800),
       delay: Duration(milliseconds: delay),
       child: MouseRegion(
-        cursor: onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+        cursor: onTap != null
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.basic,
         child: GestureDetector(
           onTap: onTap,
           child: Card(
@@ -262,11 +259,7 @@ class _ContactSectionState extends State<ContactSection> {
                       gradient: AppColors.primaryGradient,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: FaIcon(
-                      icon,
-                      color: Colors.white,
-                      size: 24,
-                    ),
+                    child: FaIcon(icon, color: Colors.white, size: 24),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
@@ -275,10 +268,8 @@ class _ContactSectionState extends State<ContactSection> {
                       children: [
                         Text(
                           title,
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -319,7 +310,7 @@ class _ContactSectionState extends State<ContactSection> {
             icon: Icons.check_circle_rounded,
             isError: false,
           );
-          
+
           // Clear form on success
           _nameController.clear();
           _emailController.clear();
@@ -336,4 +327,3 @@ class _ContactSectionState extends State<ContactSection> {
     }
   }
 }
-

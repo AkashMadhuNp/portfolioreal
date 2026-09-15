@@ -34,14 +34,14 @@ class _CustomScrollbarState extends State<CustomScrollbar>
   @override
   Widget build(BuildContext context) {
     final scrollProvider = Provider.of<ScrollProvider>(context);
-    
+
     // Fallback if scrollController isn't attached yet
     if (!scrollProvider.scrollController.hasClients) {
       return const SizedBox();
     }
 
     final scrollController = scrollProvider.scrollController;
-    
+
     // Fallback if content dimensions are not calculated yet
     if (!scrollController.position.hasContentDimensions) {
       return const SizedBox();
@@ -49,16 +49,22 @@ class _CustomScrollbarState extends State<CustomScrollbar>
 
     final maxScroll = scrollController.position.maxScrollExtent;
     final currentScroll = scrollProvider.scrollOffset;
-    
+
     // Scroll progress (0.0 to 1.0)
-    final progress = maxScroll > 0 ? (currentScroll / maxScroll).clamp(0.0, 1.0) : 0.0;
+    final progress = maxScroll > 0
+        ? (currentScroll / maxScroll).clamp(0.0, 1.0)
+        : 0.0;
 
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     // Colors matching the luxury gold & yellow themes
-    final primaryColor = isDark ? const Color(0xFFD4AF37) : const Color(0xFF000000); // Gold in dark, Black in light
-    final accentColor = isDark ? const Color(0xFFFFD700) : const Color(0xFFFFD700); // Bright gold
+    final primaryColor = isDark
+        ? const Color(0xFFD4AF37)
+        : const Color(0xFF000000); // Gold in dark, Black in light
+    final accentColor = isDark
+        ? const Color(0xFFFFD700)
+        : const Color(0xFFFFD700); // Bright gold
 
     // Scrollbar state visibility: fade out when inactive, fade in on scroll/hover
     final isScrolling = scrollProvider.scrollState != ScrollDirectionState.idle;
@@ -97,15 +103,23 @@ class _CustomScrollbarState extends State<CustomScrollbar>
                       behavior: HitTestBehavior.translucent,
                       onTapDown: (details) {
                         final localY = details.localPosition.dy;
-                        final relativeY = (localY - thumbHeight / 2).clamp(0.0, maxThumbY);
-                        final newProgress = maxThumbY > 0 ? relativeY / maxThumbY : 0.0;
+                        final relativeY = (localY - thumbHeight / 2).clamp(
+                          0.0,
+                          maxThumbY,
+                        );
+                        final newProgress = maxThumbY > 0
+                            ? relativeY / maxThumbY
+                            : 0.0;
                         final targetOffset = newProgress * maxScroll;
                         scrollController.jumpTo(targetOffset);
                       },
                       onVerticalDragUpdate: (details) {
                         if (maxThumbY <= 0) return;
                         final deltaProgress = details.delta.dy / maxThumbY;
-                        final newProgress = (progress + deltaProgress).clamp(0.0, 1.0);
+                        final newProgress = (progress + deltaProgress).clamp(
+                          0.0,
+                          1.0,
+                        );
                         final targetOffset = newProgress * maxScroll;
                         scrollController.jumpTo(targetOffset);
                       },
@@ -122,7 +136,10 @@ class _CustomScrollbarState extends State<CustomScrollbar>
                       onVerticalDragUpdate: (details) {
                         if (maxThumbY <= 0) return;
                         final deltaProgress = details.delta.dy / maxThumbY;
-                        final newProgress = (progress + deltaProgress).clamp(0.0, 1.0);
+                        final newProgress = (progress + deltaProgress).clamp(
+                          0.0,
+                          1.0,
+                        );
                         final targetOffset = newProgress * maxScroll;
                         scrollController.jumpTo(targetOffset);
                       },
@@ -177,7 +194,7 @@ class ScrollbarThumbPainter extends CustomPainter {
       // --- PARACHUTE CHARACTER ---
       // Sway angle back and forth using sine
       final swayAngle = math.sin(animationValue * 2 * math.pi * 2) * 0.15;
-      
+
       canvas.save();
       // Rotate around the top suspension point
       canvas.translate(center.dx, 12);
@@ -187,7 +204,11 @@ class ScrollbarThumbPainter extends CustomPainter {
       final canopyPaint = Paint()
         ..color = accentColor
         ..style = PaintingStyle.fill;
-      final canopyRect = Rect.fromCenter(center: Offset.zero, width: 28, height: 16);
+      final canopyRect = Rect.fromCenter(
+        center: Offset.zero,
+        width: 28,
+        height: 16,
+      );
       canvas.drawArc(canopyRect, math.pi, math.pi, true, canopyPaint);
 
       // Draw suspension lines
@@ -209,20 +230,40 @@ class ScrollbarThumbPainter extends CustomPainter {
 
       // Head
       canvas.drawCircle(attachmentPoint + const Offset(0, 3), 3.0, personPaint);
-      
+
       // Body & Limbs
       final bodyPaint = Paint()
         ..color = primaryColor
         ..strokeWidth = 1.8
         ..style = PaintingStyle.stroke;
       // Spine
-      canvas.drawLine(attachmentPoint + const Offset(0, 6), attachmentPoint + const Offset(0, 13), bodyPaint);
+      canvas.drawLine(
+        attachmentPoint + const Offset(0, 6),
+        attachmentPoint + const Offset(0, 13),
+        bodyPaint,
+      );
       // Arms grabbing strings
-      canvas.drawLine(attachmentPoint + const Offset(0, 8), const Offset(-5, 5), bodyPaint);
-      canvas.drawLine(attachmentPoint + const Offset(0, 8), const Offset(5, 5), bodyPaint);
+      canvas.drawLine(
+        attachmentPoint + const Offset(0, 8),
+        const Offset(-5, 5),
+        bodyPaint,
+      );
+      canvas.drawLine(
+        attachmentPoint + const Offset(0, 8),
+        const Offset(5, 5),
+        bodyPaint,
+      );
       // Dangling legs
-      canvas.drawLine(attachmentPoint + const Offset(0, 13), attachmentPoint + const Offset(-4, 19), bodyPaint);
-      canvas.drawLine(attachmentPoint + const Offset(0, 13), attachmentPoint + const Offset(4, 19), bodyPaint);
+      canvas.drawLine(
+        attachmentPoint + const Offset(0, 13),
+        attachmentPoint + const Offset(-4, 19),
+        bodyPaint,
+      );
+      canvas.drawLine(
+        attachmentPoint + const Offset(0, 13),
+        attachmentPoint + const Offset(4, 19),
+        bodyPaint,
+      );
 
       canvas.restore();
     } else if (state == ScrollDirectionState.scrollingUp) {
@@ -254,9 +295,16 @@ class ScrollbarThumbPainter extends CustomPainter {
       final personPaint = Paint()
         ..color = primaryColor
         ..style = PaintingStyle.fill;
-      
-      final jetpackRect = Rect.fromCenter(center: const Offset(0, 0), width: 10, height: 16);
-      canvas.drawRRect(RRect.fromRectAndRadius(jetpackRect, const Radius.circular(2)), personPaint);
+
+      final jetpackRect = Rect.fromCenter(
+        center: const Offset(0, 0),
+        width: 10,
+        height: 16,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(jetpackRect, const Radius.circular(2)),
+        personPaint,
+      );
 
       // Head
       canvas.drawCircle(const Offset(0, -11), 3.0, personPaint);
@@ -280,18 +328,37 @@ class ScrollbarThumbPainter extends CustomPainter {
 
       // Sleeping head tilted slightly to the right
       canvas.drawCircle(const Offset(1, -2), 4.5, personPaint);
-      
+
       // Closed sleepy eyes (arched down)
       final eyePaint = Paint()
         ..color = accentColor
         ..strokeWidth = 1.0
         ..style = PaintingStyle.stroke;
-      canvas.drawArc(const Rect.fromLTWH(-1.5, -3.5, 1.8, 1.8), 0, math.pi, false, eyePaint);
-      canvas.drawArc(const Rect.fromLTWH(1.5, -3.5, 1.8, 1.8), 0, math.pi, false, eyePaint);
+      canvas.drawArc(
+        const Rect.fromLTWH(-1.5, -3.5, 1.8, 1.8),
+        0,
+        math.pi,
+        false,
+        eyePaint,
+      );
+      canvas.drawArc(
+        const Rect.fromLTWH(1.5, -3.5, 1.8, 1.8),
+        0,
+        math.pi,
+        false,
+        eyePaint,
+      );
 
       // Slumped shoulders/sleeping posture
-      final bodyRect = Rect.fromCenter(center: const Offset(0, 6), width: 14, height: 8);
-      canvas.drawRRect(RRect.fromRectAndRadius(bodyRect, const Radius.circular(3)), personPaint);
+      final bodyRect = Rect.fromCenter(
+        center: const Offset(0, 6),
+        width: 14,
+        height: 8,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(bodyRect, const Radius.circular(3)),
+        personPaint,
+      );
 
       canvas.restore();
 
@@ -299,13 +366,15 @@ class ScrollbarThumbPainter extends CustomPainter {
       final phases = [0.0, 0.33, 0.66];
       for (int i = 0; i < phases.length; i++) {
         final progress = (animationValue + phases[i]) % 1.0;
-        
+
         // Float upwards above the head
         final y = -6.0 - progress * 32.0;
         // Wiggle horizontally
         final x = 4.0 + math.sin(progress * 2.5 * math.pi + i) * 5.0;
         // Fade in/out smoothly
-        final opacity = math.sin(progress * math.pi) * (theme.brightness == Brightness.dark ? 0.75 : 0.9);
+        final opacity =
+            math.sin(progress * math.pi) *
+            (theme.brightness == Brightness.dark ? 0.75 : 0.9);
         // Size grows as it drifts up
         final zSize = 7.0 + progress * 5.0;
 
@@ -324,7 +393,8 @@ class ScrollbarThumbPainter extends CustomPainter {
         textPainter.layout();
         textPainter.paint(
           canvas,
-          center + Offset(x - textPainter.width / 2, y - textPainter.height / 2),
+          center +
+              Offset(x - textPainter.width / 2, y - textPainter.height / 2),
         );
       }
     }

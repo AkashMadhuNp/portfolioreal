@@ -24,7 +24,7 @@ class HomeSection extends StatelessWidget {
         children: [
           // Full-width background with profile image
           _buildFullWidthBackground(context),
-          
+
           // Content overlay - adjusted for better visibility
           Positioned.fill(
             child: Container(
@@ -44,7 +44,7 @@ class HomeSection extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Content
           Center(
             child: Padding(
@@ -62,7 +62,7 @@ class HomeSection extends StatelessWidget {
   Widget _buildFullWidthBackground(BuildContext context) {
     final isMobile = ResponsiveHelper.isMobile(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Positioned.fill(
       child: Stack(
         children: [
@@ -75,14 +75,14 @@ class HomeSection extends StatelessWidget {
                 ),
               ),
             ),
-          
+
           // Profile image - positioned on right side only
           Positioned(
             right: 0,
             top: 0,
             bottom: 0,
-            width: isMobile 
-                ? MediaQuery.of(context).size.width 
+            width: isMobile
+                ? MediaQuery.of(context).size.width
                 : MediaQuery.of(context).size.width * 0.55,
             child: Image.asset(
               'assets/images/profilerm.png',
@@ -90,7 +90,7 @@ class HomeSection extends StatelessWidget {
               alignment: Alignment.topCenter,
             ),
           ),
-          
+
           // Gradient mesh overlay for artistic effect
           Positioned.fill(
             child: Container(
@@ -107,7 +107,7 @@ class HomeSection extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Additional artistic gradient overlay
           Positioned.fill(
             child: Container(
@@ -134,10 +134,7 @@ class HomeSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          flex: 6,
-          child: _buildContent(context),
-        ),
+        Expanded(flex: 6, child: _buildContent(context)),
         const Expanded(flex: 4, child: SizedBox()),
       ],
     );
@@ -146,9 +143,7 @@ class HomeSection extends StatelessWidget {
   Widget _buildMobileLayout(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildContent(context),
-      ],
+      children: [_buildContent(context)],
     );
   }
 
@@ -157,8 +152,9 @@ class HomeSection extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
-      crossAxisAlignment:
-          isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      crossAxisAlignment: isMobile
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         FadeInDown(
@@ -168,7 +164,9 @@ class HomeSection extends StatelessWidget {
             style: GoogleFonts.montserrat(
               fontSize: isMobile ? 16 : 18,
               fontWeight: FontWeight.w600,
-              color: isDark ? AppColors.accentLight : AppColors.lightTextPrimary,
+              color: isDark
+                  ? AppColors.accentLight
+                  : AppColors.lightTextPrimary,
               letterSpacing: 3,
             ),
           ),
@@ -230,7 +228,9 @@ class HomeSection extends StatelessWidget {
                   TypewriterAnimatedText(
                     'Flutter Developer',
                     textStyle: GoogleFonts.montserrat(
-                      color: isDark ? AppColors.primaryLight : AppColors.lightTextPrimary,
+                      color: isDark
+                          ? AppColors.primaryLight
+                          : AppColors.lightTextPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: isMobile ? 20 : 32,
                     ),
@@ -239,7 +239,9 @@ class HomeSection extends StatelessWidget {
                   TypewriterAnimatedText(
                     'Mobile Application Developer',
                     textStyle: GoogleFonts.montserrat(
-                      color: isDark ? AppColors.accentLight : AppColors.lightTextPrimary,
+                      color: isDark
+                          ? AppColors.accentLight
+                          : AppColors.lightTextPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: isMobile ? 20 : 32,
                     ),
@@ -248,7 +250,9 @@ class HomeSection extends StatelessWidget {
                   TypewriterAnimatedText(
                     'UI/UX Enthusiast',
                     textStyle: GoogleFonts.montserrat(
-                      color: isDark ? AppColors.primary : AppColors.lightTextPrimary,
+                      color: isDark
+                          ? AppColors.primary
+                          : AppColors.lightTextPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: isMobile ? 20 : 32,
                     ),
@@ -353,6 +357,4 @@ class HomeSection extends StatelessWidget {
       ),
     );
   }
-
 }
-

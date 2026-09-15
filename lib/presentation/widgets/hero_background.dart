@@ -43,7 +43,7 @@ class HeroBackground extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Decorative gradient overlay
         Positioned.fill(
           child: Container(
@@ -60,7 +60,7 @@ class HeroBackground extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Content
         child,
       ],
@@ -113,7 +113,7 @@ class SplitHeroBackground extends StatelessWidget {
               ),
             ),
           ),
-        
+
         // Content
         child,
       ],
@@ -153,14 +153,10 @@ class GlassHeroBackground extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Mesh gradient overlay
-        Positioned.fill(
-          child: CustomPaint(
-            painter: _MeshGradientPainter(),
-          ),
-        ),
-        
+        Positioned.fill(child: CustomPaint(painter: _MeshGradientPainter())),
+
         // Content
         child,
       ],
@@ -177,21 +173,12 @@ class _MeshGradientPainter extends CustomPainter {
 
     // Create mesh effect
     paint.color = AppColors.primary.withOpacity(0.15);
-    canvas.drawCircle(
-      Offset(size.width * 0.8, size.height * 0.3),
-      200,
-      paint,
-    );
+    canvas.drawCircle(Offset(size.width * 0.8, size.height * 0.3), 200, paint);
 
     paint.color = AppColors.accent.withOpacity(0.1);
-    canvas.drawCircle(
-      Offset(size.width * 0.2, size.height * 0.7),
-      150,
-      paint,
-    );
+    canvas.drawCircle(Offset(size.width * 0.2, size.height * 0.7), 150, paint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-

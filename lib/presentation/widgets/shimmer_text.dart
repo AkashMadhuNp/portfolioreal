@@ -30,17 +30,13 @@ class _ShimmerTextState extends State<ShimmerText>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..repeat();
+    _controller = AnimationController(vsync: this, duration: widget.duration)
+      ..repeat();
 
-    _animation = Tween<double>(begin: -2, end: 2).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _animation = Tween<double>(
+      begin: -2,
+      end: 2,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -52,22 +48,24 @@ class _ShimmerTextState extends State<ShimmerText>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final colors = widget.shimmerColors ?? (isDark
-        ? const [
-            Color(0xFFFFD700), // Bright gold (dark mode)
-            Color(0xFFFFFFFF), // White shine
-            Color(0xFFD4AF37), // Classic gold
-            Color(0xFFFFF8DC), // Cornsilk shine
-            Color(0xFFD4AF37), // Classic gold
-          ]
-        : const [
-            Color(0xFF000000), // Black (light mode)
-            Color(0xFFFFD700), // Yellow highlight
-            Color(0xFF1A1A1A), // Near black
-            Color(0xFFFFE066), // Light yellow
-            Color(0xFF000000), // Black
-          ]);
-    
+    final colors =
+        widget.shimmerColors ??
+        (isDark
+            ? const [
+                Color(0xFFFFD700), // Bright gold (dark mode)
+                Color(0xFFFFFFFF), // White shine
+                Color(0xFFD4AF37), // Classic gold
+                Color(0xFFFFF8DC), // Cornsilk shine
+                Color(0xFFD4AF37), // Classic gold
+              ]
+            : const [
+                Color(0xFF000000), // Black (light mode)
+                Color(0xFFFFD700), // Yellow highlight
+                Color(0xFF1A1A1A), // Near black
+                Color(0xFFFFE066), // Light yellow
+                Color(0xFF000000), // Black
+              ]);
+
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
@@ -124,7 +122,7 @@ class _GlacierTextState extends State<GlacierText>
   @override
   void initState() {
     super.initState();
-    
+
     // Shimmer animation
     _shimmerController = AnimationController(
       vsync: this,
@@ -132,10 +130,7 @@ class _GlacierTextState extends State<GlacierText>
     )..repeat();
 
     _shimmerAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _shimmerController,
-        curve: Curves.linear,
-      ),
+      CurvedAnimation(parent: _shimmerController, curve: Curves.linear),
     );
   }
 
@@ -167,7 +162,7 @@ class _GlacierTextState extends State<GlacierText>
             Color(0xFF2A2A2A), // Dark gray
             Color(0xFF000000), // Black
           ];
-    
+
     return AnimatedBuilder(
       animation: _shimmerAnimation,
       builder: (context, child) {
@@ -206,5 +201,3 @@ class _GlacierTextState extends State<GlacierText>
     return value;
   }
 }
-
-

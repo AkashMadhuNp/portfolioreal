@@ -4,7 +4,7 @@ import '../providers/scroll_provider.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/custom_scrollbar.dart';
-import '../sections/home_section.dart'; 
+import '../sections/home_section.dart';
 import '../sections/about_section.dart';
 import '../sections/skills_section.dart';
 import '../sections/projects_section.dart';
@@ -47,16 +47,15 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 ),
                 Expanded(
                   child: ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                    behavior: ScrollConfiguration.of(
+                      context,
+                    ).copyWith(scrollbars: false),
                     child: SingleChildScrollView(
                       controller: scrollProvider.scrollController,
                       child: Column(
                         children: [
                           // Home Section
-                          Container(
-                            key: _homeKey,
-                            child: const HomeSection(),
-                          ),
+                          Container(key: _homeKey, child: const HomeSection()),
                           const SizedBox(height: 80),
 
                           // About Section
@@ -131,4 +130,3 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     );
   }
 }
-

@@ -15,8 +15,12 @@ class SkillsSection extends StatelessWidget {
     final technicalSkills = SkillModel.getTechnicalSkills();
     final softSkills = SkillModel.getSoftSkills();
 
-    final technicalSkillChips = technicalSkills.map((skill) => SkillChip(skill: skill)).toList();
-    final softSkillChips = softSkills.map((skill) => SkillChip(skill: skill)).toList();
+    final technicalSkillChips = technicalSkills
+        .map((skill) => SkillChip(skill: skill))
+        .toList();
+    final softSkillChips = softSkills
+        .map((skill) => SkillChip(skill: skill))
+        .toList();
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: padding.top),
@@ -40,8 +44,8 @@ class SkillsSection extends StatelessWidget {
                 child: Text(
                   AppStrings.technicalSkills,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -64,8 +68,8 @@ class SkillsSection extends StatelessWidget {
                 child: Text(
                   AppStrings.softSkills,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -85,4 +89,3 @@ class SkillsSection extends StatelessWidget {
     );
   }
 }
-

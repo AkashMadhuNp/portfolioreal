@@ -37,7 +37,7 @@ class AboutSection extends StatelessWidget {
                 ),
               ),
             ),
-          
+
           // Content
           Center(
             child: ConstrainedBox(
@@ -67,15 +67,9 @@ class AboutSection extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 5,
-          child: _buildContent(context),
-        ),
+        Expanded(flex: 5, child: _buildContent(context)),
         const SizedBox(width: 60),
-        Expanded(
-          flex: 4,
-          child: _buildStats(context),
-        ),
+        Expanded(flex: 4, child: _buildStats(context)),
       ],
     );
   }
@@ -98,9 +92,7 @@ class AboutSection extends StatelessWidget {
         children: [
           Text(
             AppConstants.bio,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  height: 1.8,
-                ),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.8),
           ),
           const SizedBox(height: 24),
           _buildInfoRow(
@@ -158,14 +150,14 @@ class AboutSection extends StatelessWidget {
             Text(
               label,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).textTheme.bodySmall?.color,
-                  ),
+                color: Theme.of(context).textTheme.bodySmall?.color,
+              ),
             ),
             Text(
               value,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -221,34 +213,28 @@ class AboutSection extends StatelessWidget {
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              color.withOpacity(0.1),
-              color.withOpacity(0.05),
-            ],
+            colors: [color.withOpacity(0.1), color.withOpacity(0.05)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: color.withOpacity(0.3),
-            width: 2,
-          ),
+          border: Border.all(color: color.withOpacity(0.3), width: 2),
         ),
         child: Column(
           children: [
             Text(
               number,
               style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: color,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
               label,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
           ],
@@ -257,4 +243,3 @@ class AboutSection extends StatelessWidget {
     );
   }
 }
-

@@ -1,6 +1,5 @@
 import '../../domain/entities/experience.dart';
 
-
 class ExperienceModel {
   static List<Experience> getExperiences() {
     return const [
@@ -53,10 +52,10 @@ class ExperienceModel {
           'Learned version control and collaborative workflows using Git & GitHub',
           'Completed Brototype internship tasks, improving practical problem-solving and project delivery skills',
         ],
-        certificateUrl: 'https://brocamp.brototype.com/portfolio?id=509df9fe-1847-433b-a6b5-5f1b2a1269a2',
+        certificateUrl:
+            'https://brocamp.brototype.com/portfolio?id=509df9fe-1847-433b-a6b5-5f1b2a1269a2',
         logoUrl: 'assets/images/brototype logo.png',
       ),
     ];
   }
 }
-

@@ -19,18 +19,18 @@ class ExperienceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = ResponsiveHelper.isMobile(context);
-    
+
     return FadeInLeft(
       duration: const Duration(milliseconds: 800),
       delay: Duration(milliseconds: index * 200),
       child: Card(
         elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: EdgeInsets.all(isMobile ? 16 : 24),
-          child: isMobile ? _buildMobileLayout(context) : _buildDesktopLayout(context),
+          child: isMobile
+              ? _buildMobileLayout(context)
+              : _buildDesktopLayout(context),
         ),
       ),
     );
@@ -47,7 +47,7 @@ class ExperienceCard extends StatelessWidget {
             // Company Logo
             _buildLogo(50),
             const SizedBox(width: 12),
-            
+
             // Position and Company (Flexible to prevent overflow)
             Expanded(
               child: Column(
@@ -57,14 +57,14 @@ class ExperienceCard extends StatelessWidget {
                   Text(
                     experience.position,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  
+
                   // Company
                   Row(
                     children: [
@@ -77,7 +77,8 @@ class ExperienceCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           experience.company,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
@@ -90,14 +91,11 @@ class ExperienceCard extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             // Current Badge
             if (experience.isCurrent)
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   gradient: AppColors.primaryGradient,
                   borderRadius: BorderRadius.circular(8),
@@ -105,16 +103,16 @@ class ExperienceCard extends StatelessWidget {
                 child: Text(
                   'Current',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10,
-                      ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
                 ),
               ),
           ],
         ),
         const SizedBox(height: 12),
-        
+
         // Duration and Location (Wrapped)
         Wrap(
           spacing: 12,
@@ -133,14 +131,14 @@ class ExperienceCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     experience.duration,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 12,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(fontSize: 12),
                   ),
                 ),
               ],
             ),
-            
+
             // Location
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -153,15 +151,15 @@ class ExperienceCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   experience.location,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontSize: 12,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(fontSize: 12),
                 ),
               ],
             ),
           ],
         ),
-        
+
         // Responsibilities
         if (experience.responsibilities.isNotEmpty) ...[
           const SizedBox(height: 12),
@@ -185,9 +183,9 @@ class ExperienceCard extends StatelessWidget {
                     child: Text(
                       resp,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 12,
-                            height: 1.4,
-                          ),
+                        fontSize: 12,
+                        height: 1.4,
+                      ),
                     ),
                   ),
                 ],
@@ -195,7 +193,7 @@ class ExperienceCard extends StatelessWidget {
             );
           }),
         ],
-        
+
         // Certificate Button
         if (experience.certificateUrl != null) ...[
           const SizedBox(height: 12),
@@ -242,9 +240,9 @@ class ExperienceCard extends StatelessWidget {
               // Position
               Text(
                 experience.position,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
 
@@ -262,9 +260,9 @@ class ExperienceCard extends StatelessWidget {
                     child: Text(
                       experience.company,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -282,9 +280,9 @@ class ExperienceCard extends StatelessWidget {
                       child: Text(
                         'Current',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
@@ -384,10 +382,7 @@ class ExperienceCard extends StatelessWidget {
         color: experience.logoUrl != null ? Colors.white : null,
         borderRadius: BorderRadius.circular(size / 2),
         border: experience.logoUrl != null
-            ? Border.all(
-                color: AppColors.primary.withOpacity(0.3),
-                width: 2,
-              )
+            ? Border.all(color: AppColors.primary.withOpacity(0.3), width: 2)
             : null,
         boxShadow: experience.logoUrl != null
             ? [

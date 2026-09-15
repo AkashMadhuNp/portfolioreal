@@ -1,11 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-enum ScrollDirectionState {
-  idle,
-  scrollingUp,
-  scrollingDown,
-}
+enum ScrollDirectionState { idle, scrollingUp, scrollingDown }
 
 class ScrollProvider extends ChangeNotifier {
   final ScrollController scrollController = ScrollController();
@@ -24,24 +20,24 @@ class ScrollProvider extends ChangeNotifier {
 
   void _onScroll() {
     if (!scrollController.hasClients) return;
-    
+
     final currentOffset = scrollController.offset;
     final delta = currentOffset - _scrollOffset;
-    
+
     ScrollDirectionState newDirection = _scrollState;
     if (delta > 0.5) {
       newDirection = ScrollDirectionState.scrollingDown;
     } else if (delta < -0.5) {
       newDirection = ScrollDirectionState.scrollingUp;
     }
-    
+
     _scrollOffset = currentOffset;
-    
+
     if (newDirection != _scrollState) {
       _scrollState = newDirection;
       notifyListeners();
     }
-    
+
     _stopScrollTimer?.cancel();
     _stopScrollTimer = Timer(const Duration(milliseconds: 200), () {
       if (_scrollState != ScrollDirectionState.idle) {
@@ -49,7 +45,7 @@ class ScrollProvider extends ChangeNotifier {
         notifyListeners();
       }
     });
-    
+
     // Always notify offset changes to update thumb position
     notifyListeners();
   }
@@ -77,4 +73,3 @@ class ScrollProvider extends ChangeNotifier {
     super.dispose();
   }
 }
-

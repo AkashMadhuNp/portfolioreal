@@ -17,8 +17,10 @@ class ProjectDetailScreen extends StatelessWidget {
     if (project.title == 'Connect') {
       return {
         'subtitle': 'Task & Event Management App',
-        'tagline': 'A clean, fast, and intuitive way to organize your everyday life.',
-        'fullDescription': 'Connect is a modern task and event management application built with Flutter, designed to make daily planning simple, visual, and efficient. Featuring a vibrant yellow-themed UI and powered by Hive for fast local storage, Connect delivers a smooth offline-first experience. Users can manage to-dos, mark important events, save image memories, and receive smart local notifications that keep them on track. With gesture-based controls, progress tracking, and secure login persistence through Shared Preferences, Connect provides a polished, responsive, and user-friendly productivity flow.\n\nThis application is a demo project built to showcase UI design, state handling, offline storage integration, and real-device app performance.',
+        'tagline':
+            'A clean, fast, and intuitive way to organize your everyday life.',
+        'fullDescription':
+            'Connect is a modern task and event management application built with Flutter, designed to make daily planning simple, visual, and efficient. Featuring a vibrant yellow-themed UI and powered by Hive for fast local storage, Connect delivers a smooth offline-first experience. Users can manage to-dos, mark important events, save image memories, and receive smart local notifications that keep them on track. With gesture-based controls, progress tracking, and secure login persistence through Shared Preferences, Connect provides a polished, responsive, and user-friendly productivity flow.\n\nThis application is a demo project built to showcase UI design, state handling, offline storage integration, and real-device app performance.',
         'apkUrl': 'https://apkpure.com/p/com.example.first_project_app',
         'features': [
           'User-friendly task and event management with a clean visual layout',
@@ -35,7 +37,8 @@ class ProjectDetailScreen extends StatelessWidget {
       return {
         'subtitle': 'Salon Booking Ecosystem',
         'tagline': 'A complete multi-role salon appointment booking platform.',
-        'fullDescription': 'Refine Spot is a complete multi-role salon appointment booking ecosystem built using Flutter. Designed as a demo application, it showcases how users, salon owners, and administrators can interact within a unified digital platform. The system streamlines salon discovery, booking, payments, and management with a smooth, modern interface and powerful backend integrations.\n\nWith real-time updates, secure payments, and efficient role-based dashboards, Refine Spot demonstrates the structure of a real-world production-level grooming platform.',
+        'fullDescription':
+            'Refine Spot is a complete multi-role salon appointment booking ecosystem built using Flutter. Designed as a demo application, it showcases how users, salon owners, and administrators can interact within a unified digital platform. The system streamlines salon discovery, booking, payments, and management with a smooth, modern interface and powerful backend integrations.\n\nWith real-time updates, secure payments, and efficient role-based dashboards, Refine Spot demonstrates the structure of a real-world production-level grooming platform.',
         'modules': [
           {
             'name': 'User Application',
@@ -69,8 +72,10 @@ class ProjectDetailScreen extends StatelessWidget {
     } else if (project.title == 'Spotlight') {
       return {
         'subtitle': 'AI-Powered Filmmaking & Storytelling Platform',
-        'tagline': 'Transforms story ideas into production-ready scripts, storyboards, videos, and pitch decks through an end-to-end automated workflow.',
-        'fullDescription': 'Spotlight is an AI-powered filmmaking platform that transforms story ideas into production-ready scripts, storyboards, videos, and pitch decks through an end-to-end automated workflow. Built with a modular Flutter application using Clean Architecture, Provider state management, and GetIt dependency injection to ensure scalability and maintainability.\n\nIt features an immersive digital book-reading experience, a custom timeline-based video editor with real-time rendering, and an industry-standard pitch deck generation system.',
+        'tagline':
+            'Transforms story ideas into production-ready scripts, storyboards, videos, and pitch decks through an end-to-end automated workflow.',
+        'fullDescription':
+            'Spotlight is an AI-powered filmmaking platform that transforms story ideas into production-ready scripts, storyboards, videos, and pitch decks through an end-to-end automated workflow. Built with a modular Flutter application using Clean Architecture, Provider state management, and GetIt dependency injection to ensure scalability and maintainability.\n\nIt features an immersive digital book-reading experience, a custom timeline-based video editor with real-time rendering, and an industry-standard pitch deck generation system.',
         'features': [
           'AI-driven story generation engine capable of creating loglines, beat sheets, synopses, character profiles, and complete screenplay drafts',
           'Immersive digital book-reading experience with dynamic pagination and realistic 3D page-turn animations',
@@ -87,8 +92,10 @@ class ProjectDetailScreen extends StatelessWidget {
     } else if (project.title == 'Healthcare Management Platform') {
       return {
         'subtitle': 'Multi-role Healthcare Ecosystem',
-        'tagline': 'A comprehensive platform serving Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins.',
-        'fullDescription': 'Contributed to the development of a multi-role Healthcare Management Platform supporting Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins across web and mobile applications.\n\nDeveloped pharmacy product and tax calculation modules, implemented clinic management features including a custom before-after image slider, integrated Agora-powered video consultations and treatment plan functionalities for doctors, and built clinic/pharmacy registration workflows in the Super Admin portal.',
+        'tagline':
+            'A comprehensive platform serving Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins.',
+        'fullDescription':
+            'Contributed to the development of a multi-role Healthcare Management Platform supporting Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins across web and mobile applications.\n\nDeveloped pharmacy product and tax calculation modules, implemented clinic management features including a custom before-after image slider, integrated Agora-powered video consultations and treatment plan functionalities for doctors, and built clinic/pharmacy registration workflows in the Super Admin portal.',
         'features': [
           'Pharmacy Web App - Product management workflows, tax calculation, billing, inventory, and order management.',
           'Clinic Web App - Custom before-and-after image comparison slider and enhanced clinic workflows.',
@@ -153,7 +160,7 @@ class ProjectDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+
                   // Project Logo
                   Center(
                     child: FadeInDown(
@@ -199,7 +206,7 @@ class ProjectDetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 24),
-                  
+
                   // Project Title & Subtitle
                   FadeInUp(
                     duration: const Duration(milliseconds: 800),
@@ -257,8 +264,8 @@ class ProjectDetailScreen extends StatelessWidget {
                             context,
                             project.type,
                             AppColors.accent,
-                            project.type.contains('Company') 
-                                ? Icons.business_center_rounded 
+                            project.type.contains('Company')
+                                ? Icons.business_center_rounded
                                 : Icons.lightbulb_outline_rounded,
                           ),
                         ],
@@ -345,10 +352,7 @@ class ProjectDetailScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(25),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1.5,
-        ),
+        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -431,7 +435,7 @@ class ProjectDetailScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        
+
         // Content
         Container(
           width: double.infinity,
@@ -496,7 +500,7 @@ class ProjectDetailScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        
+
         // Links
         Wrap(
           spacing: 16,
@@ -512,7 +516,7 @@ class ProjectDetailScreen extends StatelessWidget {
                 AppColors.success,
                 isMobile,
               ),
-            
+
             // GitHub Link
             if (project.githubUrl != null)
               _buildLinkButton(
@@ -523,7 +527,7 @@ class ProjectDetailScreen extends StatelessWidget {
                 AppColors.primaryLight,
                 isMobile,
               ),
-            
+
             // Live URL Link
             if (project.liveUrl != null)
               _buildLinkButton(
@@ -534,7 +538,7 @@ class ProjectDetailScreen extends StatelessWidget {
                 AppColors.info,
                 isMobile,
               ),
-            
+
             // YouTube Link
             if (data['youtubeUrl'] != null)
               _buildLinkButton(
@@ -582,7 +586,7 @@ class ProjectDetailScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        
+
         // Module Cards
         ...modules.asMap().entries.map((entry) {
           final index = entry.key;
@@ -616,10 +620,7 @@ class ProjectDetailScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.darkCard,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.primary.withOpacity(0.3),
-          width: 1,
-        ),
+        border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -634,7 +635,7 @@ class ProjectDetailScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          
+
           // Links
           Wrap(
             spacing: 12,
@@ -694,10 +695,7 @@ class ProjectDetailScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: color.withOpacity(0.3),
-              width: 1.5,
-            ),
+            border: Border.all(color: color.withOpacity(0.3), width: 1.5),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -739,10 +737,7 @@ class ProjectDetailScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: color.withOpacity(0.3),
-              width: 1.5,
-            ),
+            border: Border.all(color: color.withOpacity(0.3), width: 1.5),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -797,7 +792,7 @@ class ProjectDetailScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        
+
         // Features List
         Container(
           padding: const EdgeInsets.all(24),
@@ -827,7 +822,9 @@ class ProjectDetailScreen extends StatelessWidget {
                       child: Icon(
                         Icons.check_rounded,
                         size: 14,
-                        color: Theme.of(context).brightness == Brightness.light ? AppColors.lightTextPrimary : Colors.black,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? AppColors.lightTextPrimary
+                            : Colors.black,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -878,17 +875,14 @@ class ProjectDetailScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        
+
         // Tech Tags
         Wrap(
           spacing: 12,
           runSpacing: 12,
           children: project.technologies.map((tech) {
             return Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
                 color: AppColors.darkCard,
                 borderRadius: BorderRadius.circular(12),
@@ -931,16 +925,10 @@ class ProjectDetailScreen extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            color.withOpacity(0.15),
-            color.withOpacity(0.05),
-          ],
+          colors: [color.withOpacity(0.15), color.withOpacity(0.05)],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1.5,
-        ),
+        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
       ),
       child: Row(
         children: [
@@ -979,4 +967,3 @@ class ProjectDetailScreen extends StatelessWidget {
     );
   }
 }
-

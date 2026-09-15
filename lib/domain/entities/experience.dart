@@ -21,4 +21,3 @@ class Experience {
     this.certificateUrl,
   });
 }
-

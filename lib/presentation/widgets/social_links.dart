@@ -47,11 +47,7 @@ class SocialLinks extends StatelessWidget {
           );
   }
 
-  Widget _buildSocialButton(
-    BuildContext context,
-    _SocialLink link,
-    int index,
-  ) {
+  Widget _buildSocialButton(BuildContext context, _SocialLink link, int index) {
     return FadeIn(
       duration: const Duration(milliseconds: 800),
       delay: Duration(milliseconds: index * 100),
@@ -80,67 +76,60 @@ class _HoverSocialButtonState extends State<_HoverSocialButton> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final iconColor = _isHovered 
-        ? Colors.black 
+    final iconColor = _isHovered
+        ? Colors.black
         : (isDark ? AppColors.primary : AppColors.lightTextPrimary);
     final borderColor = _isHovered
         ? AppColors.primaryLight
-        : (isDark 
-            ? AppColors.primary.withOpacity(0.2) 
-            : AppColors.lightAccent.withOpacity(0.5));
-    
+        : (isDark
+              ? AppColors.primary.withOpacity(0.2)
+              : AppColors.lightAccent.withOpacity(0.5));
+
     return CursorHoverRegion(
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         child: GestureDetector(
-        onTap: () {
-          if (widget.link.url.isEmpty) {
-            ToastHelper.showInfoToast(
-              context,
-              '🐦 Twitter coming soon! Stay tuned for updates.',
-            );
-          } else {
-            UrlHelper.launchURL(widget.link.url);
-          }
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          transform: Matrix4.identity()
-            ..translate(0.0, _isHovered ? -4.0 : 0.0, 0.0),
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: _isHovered
-                ? (isDark ? AppColors.primary : AppColors.lightAccent)
-                : Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: borderColor,
-              width: 2,
+          onTap: () {
+            if (widget.link.url.isEmpty) {
+              ToastHelper.showInfoToast(
+                context,
+                '🐦 Twitter coming soon! Stay tuned for updates.',
+              );
+            } else {
+              UrlHelper.launchURL(widget.link.url);
+            }
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            transform: Matrix4.identity()
+              ..translate(0.0, _isHovered ? -4.0 : 0.0, 0.0),
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: _isHovered
+                  ? (isDark ? AppColors.primary : AppColors.lightAccent)
+                  : Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: borderColor, width: 2),
+              boxShadow: [
+                BoxShadow(
+                  color: (isDark ? AppColors.primary : AppColors.lightAccent)
+                      .withOpacity(_isHovered ? 0.4 : 0.1),
+                  blurRadius: _isHovered ? 16 : 8,
+                  offset: Offset(0, _isHovered ? 8 : 4),
+                ),
+              ],
             ),
-            boxShadow: [
-              BoxShadow(
-                color: (isDark ? AppColors.primary : AppColors.lightAccent)
-                    .withOpacity(_isHovered ? 0.4 : 0.1),
-                blurRadius: _isHovered ? 16 : 8,
-                offset: Offset(0, _isHovered ? 8 : 4),
-              ),
-            ],
-          ),
-          child: Center(
-            child: FaIcon(
-              widget.link.icon,
-              size: 20,
-              color: iconColor,
+            child: Center(
+              child: FaIcon(widget.link.icon, size: 20, color: iconColor),
             ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class _SocialLink {
@@ -148,10 +137,5 @@ class _SocialLink {
   final String url;
   final Color color;
 
-  _SocialLink({
-    required this.icon,
-    required this.url,
-    required this.color,
-  });
+  _SocialLink({required this.icon, required this.url, required this.color});
 }
-

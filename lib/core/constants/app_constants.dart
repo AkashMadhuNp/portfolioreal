@@ -15,7 +15,8 @@ class AppConstants {
   static const String phone = '+91 7025522432';
   static const String location = 'India';
   static const String github = 'https://github.com/AkashMadhuNp/';
-  static const String linkedin = 'https://www.linkedin.com/in/akash-madhu-flutter';
+  static const String linkedin =
+      'https://www.linkedin.com/in/akash-madhu-flutter';
   static const String twitter = '';
 
   // Skills
@@ -46,4 +47,3 @@ class AppConstants {
   static const Duration mediumDuration = Duration(milliseconds: 500);
   static const Duration longDuration = Duration(milliseconds: 800);
 }
-

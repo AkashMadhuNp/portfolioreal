@@ -31,7 +31,8 @@ class ExperienceSection extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: experiences.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 24),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 24),
                 itemBuilder: (context, index) {
                   return ExperienceCard(
                     experience: experiences[index],
@@ -46,4 +47,3 @@ class ExperienceSection extends StatelessWidget {
     );
   }
 }
-

@@ -55,12 +55,42 @@ class CustomAppBar extends StatelessWidget {
             if (!isMobile)
               Row(
                 children: [
-                  _buildNavItem(context, AppStrings.home, homeKey, scrollProvider),
-                  _buildNavItem(context, AppStrings.about, aboutKey, scrollProvider),
-                  _buildNavItem(context, AppStrings.skills, skillsKey, scrollProvider),
-                  _buildNavItem(context, AppStrings.projects, projectsKey, scrollProvider),
-                  _buildNavItem(context, AppStrings.experience, experienceKey, scrollProvider),
-                  _buildNavItem(context, AppStrings.contact, contactKey, scrollProvider),
+                  _buildNavItem(
+                    context,
+                    AppStrings.home,
+                    homeKey,
+                    scrollProvider,
+                  ),
+                  _buildNavItem(
+                    context,
+                    AppStrings.about,
+                    aboutKey,
+                    scrollProvider,
+                  ),
+                  _buildNavItem(
+                    context,
+                    AppStrings.skills,
+                    skillsKey,
+                    scrollProvider,
+                  ),
+                  _buildNavItem(
+                    context,
+                    AppStrings.projects,
+                    projectsKey,
+                    scrollProvider,
+                  ),
+                  _buildNavItem(
+                    context,
+                    AppStrings.experience,
+                    experienceKey,
+                    scrollProvider,
+                  ),
+                  _buildNavItem(
+                    context,
+                    AppStrings.contact,
+                    contactKey,
+                    scrollProvider,
+                  ),
                 ],
               ),
 
@@ -109,9 +139,9 @@ class CustomAppBar extends StatelessWidget {
           onPressed: () => scrollProvider.scrollToSection(key),
           child: Text(
             title,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
           ),
         ),
       ),
@@ -120,7 +150,7 @@ class CustomAppBar extends StatelessWidget {
 
   void _showMobileMenu(BuildContext context) {
     final scrollProvider = Provider.of<ScrollProvider>(context, listen: false);
-    
+
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -131,12 +161,42 @@ class CustomAppBar extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildMobileNavItem(context, AppStrings.home, homeKey, scrollProvider),
-            _buildMobileNavItem(context, AppStrings.about, aboutKey, scrollProvider),
-            _buildMobileNavItem(context, AppStrings.skills, skillsKey, scrollProvider),
-            _buildMobileNavItem(context, AppStrings.projects, projectsKey, scrollProvider),
-            _buildMobileNavItem(context, AppStrings.experience, experienceKey, scrollProvider),
-            _buildMobileNavItem(context, AppStrings.contact, contactKey, scrollProvider),
+            _buildMobileNavItem(
+              context,
+              AppStrings.home,
+              homeKey,
+              scrollProvider,
+            ),
+            _buildMobileNavItem(
+              context,
+              AppStrings.about,
+              aboutKey,
+              scrollProvider,
+            ),
+            _buildMobileNavItem(
+              context,
+              AppStrings.skills,
+              skillsKey,
+              scrollProvider,
+            ),
+            _buildMobileNavItem(
+              context,
+              AppStrings.projects,
+              projectsKey,
+              scrollProvider,
+            ),
+            _buildMobileNavItem(
+              context,
+              AppStrings.experience,
+              experienceKey,
+              scrollProvider,
+            ),
+            _buildMobileNavItem(
+              context,
+              AppStrings.contact,
+              contactKey,
+              scrollProvider,
+            ),
           ],
         ),
       ),
@@ -151,10 +211,7 @@ class CustomAppBar extends StatelessWidget {
   ) {
     return CursorHoverRegion(
       child: ListTile(
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        title: Text(title, style: Theme.of(context).textTheme.titleMedium),
         onTap: () {
           Navigator.pop(context);
           scrollProvider.scrollToSection(key);
@@ -163,4 +220,3 @@ class CustomAppBar extends StatelessWidget {
     );
   }
 }
-

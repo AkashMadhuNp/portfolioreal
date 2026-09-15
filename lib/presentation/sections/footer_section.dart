@@ -50,4 +50,3 @@ class FooterSection extends StatelessWidget {
     );
   }
 }
-

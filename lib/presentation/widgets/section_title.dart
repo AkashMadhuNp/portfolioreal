@@ -19,8 +19,9 @@ class SectionTitle extends StatelessWidget {
     return FadeInDown(
       duration: const Duration(milliseconds: 800),
       child: Column(
-        crossAxisAlignment:
-            centerAlign ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        crossAxisAlignment: centerAlign
+            ? CrossAxisAlignment.center
+            : CrossAxisAlignment.start,
         children: [
           ShaderMask(
             shaderCallback: (bounds) =>
@@ -28,9 +29,9 @@ class SectionTitle extends StatelessWidget {
             child: Text(
               title,
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
               textAlign: centerAlign ? TextAlign.center : TextAlign.left,
             ),
           ),
@@ -38,8 +39,8 @@ class SectionTitle extends StatelessWidget {
           Text(
             subtitle,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).textTheme.bodySmall?.color,
-                ),
+              color: Theme.of(context).textTheme.bodySmall?.color,
+            ),
             textAlign: centerAlign ? TextAlign.center : TextAlign.left,
           ),
           const SizedBox(height: 16),
@@ -56,4 +57,3 @@ class SectionTitle extends StatelessWidget {
     );
   }
 }
-

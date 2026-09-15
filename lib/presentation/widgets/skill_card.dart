@@ -7,11 +7,7 @@ class SkillCard extends StatefulWidget {
   final Skill skill;
   final int index;
 
-  const SkillCard({
-    super.key,
-    required this.skill,
-    required this.index,
-  });
+  const SkillCard({super.key, required this.skill, required this.index});
 
   @override
   State<SkillCard> createState() => _SkillCardState();
@@ -29,9 +25,11 @@ class _SkillCardState extends State<SkillCard>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0, end: widget.skill.proficiency)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-    
+    _animation = Tween<double>(
+      begin: 0,
+      end: widget.skill.proficiency,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
     // Start animation with delay based on index
     Future.delayed(Duration(milliseconds: widget.index * 100), () {
       if (mounted) {
@@ -53,9 +51,7 @@ class _SkillCardState extends State<SkillCard>
       delay: Duration(milliseconds: widget.index * 50),
       child: Card(
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -68,8 +64,8 @@ class _SkillCardState extends State<SkillCard>
                     child: Text(
                       widget.skill.name,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   AnimatedBuilder(
@@ -78,9 +74,9 @@ class _SkillCardState extends State<SkillCard>
                       return Text(
                         '${(_animation.value * 100).toInt()}%',
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: _getColorForProficiency(_animation.value),
-                              fontWeight: FontWeight.bold,
-                            ),
+                          color: _getColorForProficiency(_animation.value),
+                          fontWeight: FontWeight.bold,
+                        ),
                       );
                     },
                   ),
@@ -95,8 +91,9 @@ class _SkillCardState extends State<SkillCard>
                     return LinearProgressIndicator(
                       value: _animation.value,
                       minHeight: 8,
-                      backgroundColor:
-                          Theme.of(context).colorScheme.surface.withOpacity(0.5),
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.surface.withOpacity(0.5),
                       valueColor: AlwaysStoppedAnimation<Color>(
                         _getColorForProficiency(widget.skill.proficiency),
                       ),
@@ -115,15 +112,14 @@ class _SkillCardState extends State<SkillCard>
     // 80% and above: Green
     if (proficiency >= 0.8) {
       return AppColors.success;
-    } 
+    }
     // 60% - 79%: Yellow/Gold
     else if (proficiency >= 0.6) {
       return AppColors.warning;
-    } 
+    }
     // Below 60%: Red
     else {
       return AppColors.error;
     }
   }
 }
-

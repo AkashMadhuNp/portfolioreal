@@ -64,7 +64,10 @@ void main() {
       );
 
       expect(contactProvider.isLoading, isFalse);
-      expect(contactProvider.message, '❌ Failed to send message. Please try again or email directly to 002akashakz@gmail.com');
+      expect(
+        contactProvider.message,
+        '❌ Failed to send message. Please try again or email directly to 002akashakz@gmail.com',
+      );
     });
 
     test('clearMessage resets the message', () async {

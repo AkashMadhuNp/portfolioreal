@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum CursorType {
-  normal,
-  hover,
-  text,
-  action,
-}
+enum CursorType { normal, hover, text, action }
 
 class CursorProvider extends ChangeNotifier {
   CursorType _type = CursorType.normal;

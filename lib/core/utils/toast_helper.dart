@@ -104,13 +104,15 @@ class _AnimatedToastState extends State<_AnimatedToast>
       duration: const Duration(milliseconds: 500),
     );
 
-    _slideAnimation = Tween<double>(begin: 100, end: 0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
+    _slideAnimation = Tween<double>(
+      begin: 100,
+      end: 0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
     _controller.forward();
 
@@ -131,7 +133,7 @@ class _AnimatedToastState extends State<_AnimatedToast>
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 640;
-    
+
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -184,11 +186,7 @@ class _AnimatedToastState extends State<_AnimatedToast>
                           color: Colors.white.withOpacity(0.2),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(
-                          widget.icon,
-                          color: Colors.white,
-                          size: 20,
-                        ),
+                        child: Icon(widget.icon, color: Colors.white, size: 20),
                       ),
                       const SizedBox(width: 12),
                     ],
@@ -230,4 +228,3 @@ class _AnimatedToastState extends State<_AnimatedToast>
     );
   }
 }
-

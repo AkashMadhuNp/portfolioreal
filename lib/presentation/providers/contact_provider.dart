@@ -51,11 +51,13 @@ class ContactProvider extends ChangeNotifier {
         if (emailSent) {
           _message = '✅ Message sent successfully! I\'ll get back to you soon.';
         } else {
-          _message = '✅ Message saved! Email notification pending. I\'ll respond soon.';
+          _message =
+              '✅ Message saved! Email notification pending. I\'ll respond soon.';
         }
       }
     } catch (e) {
-      _message = '❌ Failed to send message. Please try again or email directly to 002akashakz@gmail.com';
+      _message =
+          '❌ Failed to send message. Please try again or email directly to 002akashakz@gmail.com';
       debugPrint('Error sending message: $e');
     } finally {
       _isLoading = false;
@@ -68,4 +70,3 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-

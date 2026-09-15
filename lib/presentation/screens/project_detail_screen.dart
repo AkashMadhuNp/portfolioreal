@@ -824,10 +824,10 @@ class ProjectDetailScreen extends StatelessWidget {
                         gradient: AppColors.primaryGradient,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.check_rounded,
                         size: 14,
-                        color: Colors.black,
+                        color: Theme.of(context).brightness == Brightness.light ? AppColors.lightTextPrimary : Colors.black,
                       ),
                     ),
                     const SizedBox(width: 12),

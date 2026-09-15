@@ -22,7 +22,10 @@ jobs:
         run: flutter pub get
 
       - name: Analyze Project
-        run: flutter analyze || true
+        run: flutter analyze
+
+      - name: Run Tests
+        run: flutter test
 
       - name: Build Flutter Web
         run: flutter build web --release

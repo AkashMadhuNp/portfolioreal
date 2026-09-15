@@ -157,13 +157,14 @@ class _ContactSectionState extends State<ContactSection> {
                           ? null
                           : () => _handleSubmit(context, provider),
                       icon: provider.isLoading
-                          ? const SizedBox(
+                          ? SizedBox(
                               width: 20,
                               height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Theme.of(context).brightness == Brightness.light ? AppColors.lightTextPrimary : Colors.white,
+                                ),
                               ),
                             )
                           : const Icon(Icons.send_rounded),

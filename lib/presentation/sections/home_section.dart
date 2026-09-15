@@ -85,7 +85,7 @@ class HomeSection extends StatelessWidget {
                 ? MediaQuery.of(context).size.width 
                 : MediaQuery.of(context).size.width * 0.55,
             child: Image.asset(
-              'assets/images/profile.jpeg',
+              'assets/images/profilerm.png',
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
             ),

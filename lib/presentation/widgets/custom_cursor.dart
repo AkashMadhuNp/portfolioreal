@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import '../../core/theme/app_palette.dart';
 import '../providers/cursor_provider.dart';
 
 class CustomCursor extends StatefulWidget {
@@ -134,16 +135,11 @@ class _CustomCursorPainterWidgetState extends State<CustomCursorPainterWidget> {
   @override
   Widget build(BuildContext context) {
     final cursorProvider = Provider.of<CursorProvider>(context);
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final p = context.palette;
 
-    // luxury theme adaptations
-    final primaryColor = isDark
-        ? const Color(0xFFD4AF37)
-        : const Color(0xFF000000); // Gold in dark, Black in light
-    final accentColor = isDark
-        ? const Color(0xFFFFD700)
-        : const Color(0xFFFFD700); // Bright gold/yellow
+    // Gold on obsidian, ink on ivory; bright gold as the highlight in both.
+    final primaryColor = p.isDark ? p.gold : p.textPrimary;
+    final accentColor = p.goldBright;
 
     return ValueListenableBuilder<bool>(
       valueListenable: widget.visible,

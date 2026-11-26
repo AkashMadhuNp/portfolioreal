@@ -1,329 +1,417 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import '../../core/constants/app_constants.dart';
-import '../../core/constants/app_strings.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/utils/responsive_helper.dart';
-import '../../core/utils/url_helper.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../core/utils/toast_helper.dart';
+import '../../core/utils/url_helper.dart';
+import '../../core/utils/validators.dart';
 import '../providers/contact_provider.dart';
-import '../widgets/section_title.dart';
+import '../widgets/social_links.dart';
+import '../widgets/ui/app_button.dart';
+import '../widgets/ui/app_card.dart';
+import '../widgets/ui/app_section.dart';
+import '../widgets/ui/open_link.dart';
 
-class ContactSection extends StatefulWidget {
+/// Contact: a validated form beside direct-contact cards.
+class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
 
   @override
-  State<ContactSection> createState() => _ContactSectionState();
+  Widget build(BuildContext context) {
+    final wide = MediaQuery.of(context).size.width >= 900;
+
+    const form = _ContactForm();
+    const info = _ContactInfo();
+
+    return AppSection(
+      alt: true,
+      eyebrow: '06 · Contact',
+      title: 'Get in touch',
+      subtitle:
+          'Have a project or an opportunity in mind? Send a message and I\'ll reply by email.',
+      child: wide
+          ? const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(flex: 6, child: form),
+                SizedBox(width: AppSpace.x6),
+                Expanded(flex: 5, child: info),
+              ],
+            )
+          : const Column(
+              children: [
+                form,
+                SizedBox(height: AppSpace.x5),
+                info,
+              ],
+            ),
+    );
+  }
 }
 
-class _ContactSectionState extends State<ContactSection> {
+// ── Form ────────────────────────────────────────────────────────────────────
+
+class _ContactForm extends StatefulWidget {
+  const _ContactForm();
+
+  @override
+  State<_ContactForm> createState() => _ContactFormState();
+}
+
+class _ContactFormState extends State<_ContactForm> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _messageController = TextEditingController();
+  final _name = TextEditingController();
+  final _email = TextEditingController();
+  final _message = TextEditingController();
+
+  // Validate live only after the first failed submit, so the form is not
+  // covered in errors while the visitor is still typing.
+  bool _attempted = false;
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _messageController.dispose();
+    _name.dispose();
+    _email.dispose();
+    _message.dispose();
     super.dispose();
+  }
+
+  Future<void> _submit(ContactProvider provider) async {
+    setState(() => _attempted = true);
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    await provider.sendMessage(
+      name: _name.text.trim(),
+      email: _email.text.trim(),
+      message: _message.text.trim(),
+    );
+
+    if (!mounted) return;
+    if (provider.isSuccess) {
+      _name.clear();
+      _email.clear();
+      _message.clear();
+      setState(() => _attempted = false);
+      _formKey.currentState?.reset();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final padding = ResponsiveHelper.getPadding(context);
-    final isMobile = ResponsiveHelper.isMobile(context);
+    final mode = _attempted
+        ? AutovalidateMode.onUserInteraction
+        : AutovalidateMode.disabled;
+    final small = MediaQuery.of(context).size.width < Breakpoints.mobile;
 
-    return Container(
-      padding: padding,
-      child: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: ResponsiveHelper.getMaxWidth(context),
-          ),
-          child: Column(
-            children: [
-              const SectionTitle(
-                title: AppStrings.contactTitle,
-                subtitle: AppStrings.contactSubtitle,
+    return FadeInUp(
+      from: 16,
+      duration: const Duration(milliseconds: 600),
+      child: AppCard(
+        padding: EdgeInsets.all(small ? AppSpace.x2 : AppSpace.x4),
+        child: Consumer<ContactProvider>(
+          builder: (context, provider, _) {
+            return Form(
+              key: _formKey,
+              autovalidateMode: mode,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextFormField(
+                    controller: _name,
+                    enabled: !provider.isLoading,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.name,
+                    autofillHints: const [AutofillHints.name],
+                    textCapitalization: TextCapitalization.words,
+                    maxLength: Validators.nameMax,
+                    buildCounter: _noCounter,
+                    decoration: const InputDecoration(
+                      labelText: 'Your name',
+                      prefixIcon: Icon(Icons.person_outline_rounded),
+                    ),
+                    validator: Validators.name,
+                  ),
+                  const SizedBox(height: AppSpace.x2),
+                  TextFormField(
+                    controller: _email,
+                    enabled: !provider.isLoading,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
+                    autofillHints: const [AutofillHints.email],
+                    maxLength: 254,
+                    buildCounter: _noCounter,
+                    decoration: const InputDecoration(
+                      labelText: 'Your email',
+                      prefixIcon: Icon(Icons.mail_outline_rounded),
+                    ),
+                    validator: Validators.email,
+                  ),
+                  const SizedBox(height: AppSpace.x2),
+                  TextFormField(
+                    controller: _message,
+                    enabled: !provider.isLoading,
+                    keyboardType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline,
+                    maxLines: 6,
+                    minLines: 5,
+                    maxLength: Validators.messageMax,
+                    decoration: const InputDecoration(
+                      labelText: 'Your message',
+                      alignLabelWithHint: true,
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(bottom: 88),
+                        child: Icon(Icons.chat_bubble_outline_rounded),
+                      ),
+                    ),
+                    validator: Validators.message,
+                  ),
+                  const SizedBox(height: AppSpace.x3),
+                  AppButton(
+                    label: provider.isLoading ? 'Sending…' : 'Send message',
+                    icon: Icons.send_rounded,
+                    expand: true,
+                    loading: provider.isLoading,
+                    onPressed: () => _submit(provider),
+                  ),
+                  _StatusBanner(provider: provider),
+                ],
               ),
-              const SizedBox(height: 60),
-              isMobile
-                  ? _buildMobileLayout(context)
-                  : _buildDesktopLayout(context),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildDesktopLayout(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(flex: 5, child: _buildContactForm(context)),
-        const SizedBox(width: 60),
-        Expanded(flex: 4, child: _buildContactInfo(context)),
-      ],
-    );
-  }
+  // Hide the per-field character counters except on the message box.
+  static Widget? _noCounter(
+    BuildContext context, {
+    required int currentLength,
+    required bool isFocused,
+    required int? maxLength,
+  }) => null;
+}
 
-  Widget _buildMobileLayout(BuildContext context) {
-    return Column(
-      children: [
-        _buildContactInfo(context),
-        const SizedBox(height: 40),
-        _buildContactForm(context),
-      ],
-    );
-  }
+/// Inline result of the last send. A live region, so screen readers announce
+/// it without moving focus.
+class _StatusBanner extends StatelessWidget {
+  const _StatusBanner({required this.provider});
 
-  Widget _buildContactForm(BuildContext context) {
-    return FadeInLeft(
-      duration: const Duration(milliseconds: 1000),
-      child: Card(
-        elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: AppStrings.yourName,
-                    prefixIcon: Icon(Icons.person_rounded),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: AppStrings.yourEmail,
-                    prefixIcon: Icon(Icons.email_rounded),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _messageController,
-                  decoration: const InputDecoration(
-                    labelText: AppStrings.yourMessage,
-                    prefixIcon: Icon(Icons.message_rounded),
-                    alignLabelWithHint: true,
-                  ),
-                  maxLines: 5,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your message';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 32),
-                Consumer<ContactProvider>(
-                  builder: (context, provider, child) {
-                    return ElevatedButton.icon(
-                      onPressed: provider.isLoading
-                          ? null
-                          : () => _handleSubmit(context, provider),
-                      icon: provider.isLoading
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? AppColors.lightTextPrimary
-                                      : Colors.white,
-                                ),
-                              ),
-                            )
-                          : const Icon(Icons.send_rounded),
-                      label: Text(
-                        provider.isLoading
-                            ? 'Sending...'
-                            : AppStrings.sendMessage,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                      ),
-                    );
-                  },
-                ),
-              ],
+  final ContactProvider provider;
+
+  @override
+  Widget build(BuildContext context) {
+    final message = provider.message;
+    if (provider.isLoading || message == null) return const SizedBox.shrink();
+
+    final p = context.palette;
+    final ok = provider.isSuccess;
+    final color = ok ? p.success : p.error;
+    // The provider's copy carries a leading emoji; the icon replaces it.
+    final text = message.replaceFirst(RegExp(r'^[^\w\s]+\s*'), '');
+
+    return Semantics(
+      liveRegion: true,
+      container: true,
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(top: AppSpace.x2),
+        padding: const EdgeInsets.all(AppSpace.x2),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.10),
+          borderRadius: AppRadius.mdAll,
+          border: Border.all(color: color.withValues(alpha: 0.45)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              ok
+                  ? Icons.check_circle_outline_rounded
+                  : Icons.error_outline_rounded,
+              color: color,
+              size: 20,
             ),
-          ),
+            const SizedBox(width: AppSpace.x15),
+            Expanded(
+              child: Text(
+                text,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: p.textPrimary),
+              ),
+            ),
+            IconButton(
+              tooltip: 'Dismiss',
+              visualDensity: VisualDensity.compact,
+              iconSize: 18,
+              onPressed: context.read<ContactProvider>().clearMessage,
+              icon: const Icon(Icons.close_rounded),
+            ),
+          ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildContactInfo(BuildContext context) {
-    return FadeInRight(
-      duration: const Duration(milliseconds: 1000),
+// ── Direct contact ──────────────────────────────────────────────────────────
+
+class _ContactInfo extends StatelessWidget {
+  const _ContactInfo();
+
+  /// Tries the native handler (mail / dialer); if the device has none, copies
+  /// the value so the visitor can still use it.
+  Future<void> _launchOrCopy(
+    BuildContext context, {
+    required Future<void> Function() launch,
+    required String copyValue,
+    required String label,
+  }) async {
+    try {
+      await launch();
+    } catch (_) {
+      await Clipboard.setData(ClipboardData(text: copyValue));
+      if (context.mounted) {
+        ToastHelper.showInfoToast(context, '$label copied to clipboard.');
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+
+    return FadeInUp(
+      from: 16,
+      delay: const Duration(milliseconds: 120),
+      duration: const Duration(milliseconds: 600),
       child: Column(
         children: [
-          _buildContactCard(
-            context,
-            FontAwesomeIcons.envelope,
-            'Email',
-            AppConstants.email,
-            () => UrlHelper.launchEmail(AppConstants.email),
-            0,
+          _InfoTile(
+            icon: FontAwesomeIcons.envelope,
+            label: 'Email',
+            value: AppConstants.email,
+            onTap: () => _launchOrCopy(
+              context,
+              launch: () => UrlHelper.launchEmail(AppConstants.email),
+              copyValue: AppConstants.email,
+              label: 'Email address',
+            ),
           ),
-          const SizedBox(height: 20),
-          _buildContactCard(
-            context,
-            FontAwesomeIcons.phone,
-            'Phone',
-            AppConstants.phone,
-            () => UrlHelper.launchPhone(AppConstants.phone),
-            100,
+          const SizedBox(height: AppSpace.x2),
+          _InfoTile(
+            icon: FontAwesomeIcons.phone,
+            label: 'Phone',
+            value: AppConstants.phone,
+            onTap: () => _launchOrCopy(
+              context,
+              launch: () => UrlHelper.launchPhone(AppConstants.phone),
+              copyValue: AppConstants.phone,
+              label: 'Phone number',
+            ),
           ),
-          const SizedBox(height: 20),
-          _buildContactCard(
-            context,
-            FontAwesomeIcons.locationDot,
-            'Location',
-            AppConstants.location,
-            null,
-            200,
+          const SizedBox(height: AppSpace.x2),
+          const _InfoTile(
+            icon: FontAwesomeIcons.locationDot,
+            label: 'Location',
+            value: AppConstants.location,
           ),
-          const SizedBox(height: 20),
-          _buildContactCard(
-            context,
-            FontAwesomeIcons.github,
-            'GitHub',
-            'View Profile',
-            () => UrlHelper.launchURL(AppConstants.github),
-            300,
+          const SizedBox(height: AppSpace.x2),
+          _InfoTile(
+            icon: FontAwesomeIcons.linkedinIn,
+            label: 'LinkedIn',
+            value: 'Connect with me',
+            onTap: () => openLink(context, AppConstants.linkedin),
           ),
+          const SizedBox(height: AppSpace.x3),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Also on',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: p.textTertiary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSpace.x1),
+          const Align(alignment: Alignment.centerLeft, child: SocialLinks()),
         ],
       ),
     );
   }
+}
 
-  Widget _buildContactCard(
-    BuildContext context,
-    IconData icon,
-    String title,
-    String subtitle,
-    VoidCallback? onTap,
-    int delay,
-  ) {
-    return FadeInUp(
-      duration: const Duration(milliseconds: 800),
-      delay: Duration(milliseconds: delay),
-      child: MouseRegion(
-        cursor: onTap != null
-            ? SystemMouseCursors.click
-            : SystemMouseCursors.basic,
-        child: GestureDetector(
-          onTap: onTap,
-          child: Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+class _InfoTile extends StatelessWidget {
+  const _InfoTile({
+    required this.icon,
+    required this.label,
+    required this.value,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    final text = Theme.of(context).textTheme;
+
+    return SizedBox(
+      width: double.infinity,
+      child: AppCard(
+        onTap: onTap,
+        semanticLabel: '$label: $value',
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpace.x3,
+          vertical: AppSpace.x2,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: p.gold.withValues(alpha: p.isDark ? 0.12 : 0.14),
+                borderRadius: AppRadius.mdAll,
+              ),
+              child: Center(child: FaIcon(icon, size: 18, color: p.accent)),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Row(
+            const SizedBox(width: AppSpace.x2),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      gradient: AppColors.primaryGradient,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: FaIcon(icon, color: Colors.white, size: 24),
+                  Text(
+                    label,
+                    style: text.bodySmall?.copyWith(color: p.textTertiary),
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          subtitle,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
+                  const SizedBox(height: 2),
+                  Text(
+                    value,
+                    style: text.titleSmall,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  if (onTap != null)
-                    const Icon(
-                      Icons.arrow_forward_rounded,
-                      color: AppColors.primary,
-                    ),
                 ],
               ),
             ),
-          ),
+            if (onTap != null)
+              Icon(
+                Icons.arrow_outward_rounded,
+                size: 18,
+                color: p.textTertiary,
+              ),
+          ],
         ),
       ),
     );
-  }
-
-  void _handleSubmit(BuildContext context, ContactProvider provider) async {
-    if (_formKey.currentState!.validate()) {
-      await provider.sendMessage(
-        name: _nameController.text,
-        email: _emailController.text,
-        message: _messageController.text,
-      );
-
-      if (provider.message != null && mounted) {
-        // Show toast message based on success or error
-        if (provider.message!.contains('✅')) {
-          ToastHelper.showToast(
-            context,
-            message: provider.message!,
-            icon: Icons.check_circle_rounded,
-            isError: false,
-          );
-
-          // Clear form on success
-          _nameController.clear();
-          _emailController.clear();
-          _messageController.clear();
-        } else {
-          ToastHelper.showToast(
-            context,
-            message: provider.message!,
-            icon: Icons.error_rounded,
-            isError: true,
-          );
-        }
-      }
-    }
   }
 }

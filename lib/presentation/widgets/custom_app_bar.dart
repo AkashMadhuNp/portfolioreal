@@ -1,221 +1,277 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:animate_do/animate_do.dart';
-import '../../core/constants/app_strings.dart';
-import '../../core/utils/responsive_helper.dart';
-import '../providers/theme_provider.dart';
+import '../../core/constants/app_constants.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/app_theme.dart';
+import '../../core/theme/app_tokens.dart';
 import '../providers/scroll_provider.dart';
 import 'cursor_hover_region.dart';
+import 'theme_toggle.dart';
 
+/// A navigation target: a label and the key of the section it scrolls to.
+class NavItem {
+  const NavItem(this.label, this.key);
+
+  final String label;
+  final GlobalKey key;
+}
+
+/// Fixed top navigation: wordmark, section links with an active indicator,
+/// and the theme toggle. Collapses to a menu sheet below 900px.
 class CustomAppBar extends StatelessWidget {
-  final GlobalKey homeKey;
-  final GlobalKey aboutKey;
-  final GlobalKey skillsKey;
-  final GlobalKey projectsKey;
-  final GlobalKey experienceKey;
-  final GlobalKey contactKey;
+  const CustomAppBar({super.key, required this.items});
 
-  const CustomAppBar({
-    super.key,
-    required this.homeKey,
-    required this.aboutKey,
-    required this.skillsKey,
-    required this.projectsKey,
-    required this.experienceKey,
-    required this.contactKey,
-  });
+  final List<NavItem> items;
+
+  static const _collapseWidth = 900.0;
+
+  /// Index of the section currently under the nav: the last section whose top
+  /// has scrolled to within a short distance of the bar.
+  int _activeIndex() {
+    var active = 0;
+    for (var i = 0; i < items.length; i++) {
+      final ctx = items[i].key.currentContext;
+      final box = ctx?.findRenderObject();
+      if (box is! RenderBox || !box.attached) continue;
+      final top = box.localToGlobal(Offset.zero).dy;
+      if (top <= AppLayout.navHeight + 160) active = i;
+    }
+    return active;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = ResponsiveHelper.isMobile(context);
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final scrollProvider = Provider.of<ScrollProvider>(context);
+    final p = context.palette;
+    final width = MediaQuery.of(context).size.width;
+    final collapsed = width < _collapseWidth;
+    final scroll = context.watch<ScrollProvider>();
+    final active = _activeIndex();
+    const toggle = ThemeToggle();
 
-    return FadeInDown(
-      duration: const Duration(milliseconds: 800),
+    return Material(
+      color: p.background,
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 64,
-          vertical: 20,
-        ),
+        height: AppLayout.navHeight,
+        padding: EdgeInsets.symmetric(horizontal: AppSpace.gutter(width)),
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          border: Border(bottom: BorderSide(color: p.border)),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Navigation Items
-            if (!isMobile)
-              Row(
-                children: [
-                  _buildNavItem(
-                    context,
-                    AppStrings.home,
-                    homeKey,
-                    scrollProvider,
-                  ),
-                  _buildNavItem(
-                    context,
-                    AppStrings.about,
-                    aboutKey,
-                    scrollProvider,
-                  ),
-                  _buildNavItem(
-                    context,
-                    AppStrings.skills,
-                    skillsKey,
-                    scrollProvider,
-                  ),
-                  _buildNavItem(
-                    context,
-                    AppStrings.projects,
-                    projectsKey,
-                    scrollProvider,
-                  ),
-                  _buildNavItem(
-                    context,
-                    AppStrings.experience,
-                    experienceKey,
-                    scrollProvider,
-                  ),
-                  _buildNavItem(
-                    context,
-                    AppStrings.contact,
-                    contactKey,
-                    scrollProvider,
-                  ),
-                ],
-              ),
-
-            // Theme Toggle
-            FadeInRight(
-              duration: const Duration(milliseconds: 1000),
-              child: Row(
-                children: [
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: AppLayout.maxContentWidth,
+            ),
+            child: Row(
+              children: [
+                _Wordmark(onTap: () => scroll.scrollToTop()),
+                const Spacer(),
+                if (!collapsed)
+                  for (var i = 0; i < items.length; i++)
+                    _NavLink(
+                      label: items[i].label,
+                      selected: i == active,
+                      onTap: () => scroll.scrollToSection(
+                        items[i].key,
+                        extraOffset: i == 0 ? 0 : AppSpace.x4,
+                      ),
+                    ),
+                if (!collapsed) const SizedBox(width: AppSpace.x1),
+                toggle,
+                if (collapsed)
                   CursorHoverRegion(
                     child: IconButton(
-                      icon: Icon(
-                        themeProvider.isDarkMode
-                            ? Icons.light_mode_rounded
-                            : Icons.dark_mode_rounded,
-                      ),
-                      onPressed: () => themeProvider.toggleTheme(),
-                      tooltip: 'Toggle Theme',
+                      tooltip: 'Open menu',
+                      icon: const Icon(Icons.menu_rounded),
+                      onPressed: () => _showMenu(context, active),
                     ),
                   ),
-                  if (isMobile)
-                    CursorHoverRegion(
-                      child: IconButton(
-                        icon: const Icon(Icons.menu_rounded),
-                        onPressed: () => _showMobileMenu(context),
-                      ),
-                    ),
-                ],
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavItem(
-    BuildContext context,
-    String title,
-    GlobalKey key,
-    ScrollProvider scrollProvider,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: CursorHoverRegion(
-        child: TextButton(
-          onPressed: () => scrollProvider.scrollToSection(key),
-          child: Text(
-            title,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
           ),
         ),
       ),
     );
   }
 
-  void _showMobileMenu(BuildContext context) {
-    final scrollProvider = Provider.of<ScrollProvider>(context, listen: false);
+  void _showMenu(BuildContext context, int active) {
+    final scroll = context.read<ScrollProvider>();
 
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildMobileNavItem(
-              context,
-              AppStrings.home,
-              homeKey,
-              scrollProvider,
+      isScrollControlled: true,
+      builder: (sheetContext) {
+        final p = sheetContext.palette;
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: AppSpace.x2),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var i = 0; i < items.length; i++)
+                  ListTile(
+                    selected: i == active,
+                    selectedColor: p.accent,
+                    selectedTileColor: p.gold.withValues(alpha: 0.08),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: AppSpace.x4,
+                    ),
+                    title: Text(
+                      items[i].label,
+                      style: Theme.of(sheetContext).textTheme.titleMedium
+                          ?.copyWith(
+                            color: i == active ? p.accent : p.textPrimary,
+                          ),
+                    ),
+                    onTap: () {
+                      Navigator.pop(sheetContext);
+                      scroll.scrollToSection(
+                        items[i].key,
+                        extraOffset: i == 0 ? 0 : AppSpace.x4,
+                      );
+                    },
+                  ),
+              ],
             ),
-            _buildMobileNavItem(
-              context,
-              AppStrings.about,
-              aboutKey,
-              scrollProvider,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _Wordmark extends StatelessWidget {
+  const _Wordmark({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    return Semantics(
+      button: true,
+      label: '${AppConstants.name}, back to top',
+      excludeSemantics: true,
+      child: CursorHoverRegion(
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: AppRadius.smAll,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpace.x1,
+              vertical: AppSpace.x1,
             ),
-            _buildMobileNavItem(
-              context,
-              AppStrings.skills,
-              skillsKey,
-              scrollProvider,
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Akash Madhu',
+                    style: AppType.display(
+                      context,
+                      size: 22,
+                      letterSpacing: -0.3,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '.',
+                    style: AppType.display(
+                      context,
+                      size: 22,
+                      color: p.goldStrong,
+                      letterSpacing: -0.3,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            _buildMobileNavItem(
-              context,
-              AppStrings.projects,
-              projectsKey,
-              scrollProvider,
-            ),
-            _buildMobileNavItem(
-              context,
-              AppStrings.experience,
-              experienceKey,
-              scrollProvider,
-            ),
-            _buildMobileNavItem(
-              context,
-              AppStrings.contact,
-              contactKey,
-              scrollProvider,
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildMobileNavItem(
-    BuildContext context,
-    String title,
-    GlobalKey key,
-    ScrollProvider scrollProvider,
-  ) {
-    return CursorHoverRegion(
-      child: ListTile(
-        title: Text(title, style: Theme.of(context).textTheme.titleMedium),
-        onTap: () {
-          Navigator.pop(context);
-          scrollProvider.scrollToSection(key);
-        },
+class _NavLink extends StatefulWidget {
+  const _NavLink({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  State<_NavLink> createState() => _NavLinkState();
+}
+
+class _NavLinkState extends State<_NavLink> {
+  bool _hovered = false;
+  bool _focused = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    final emphasised = widget.selected || _hovered || _focused;
+
+    return Semantics(
+      button: true,
+      selected: widget.selected,
+      label: widget.label,
+      excludeSemantics: true,
+      child: CursorHoverRegion(
+        child: FocusableActionDetector(
+          mouseCursor: SystemMouseCursors.click,
+          onShowHoverHighlight: (v) => setState(() => _hovered = v),
+          onShowFocusHighlight: (v) => setState(() => _focused = v),
+          actions: {
+            ActivateIntent: CallbackAction<ActivateIntent>(
+              onInvoke: (_) {
+                widget.onTap();
+                return null;
+              },
+            ),
+          },
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: widget.onTap,
+            child: AnimatedContainer(
+              duration: AppLayout.fast,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpace.x15,
+                vertical: AppSpace.x1,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: AppRadius.smAll,
+                border: Border.all(
+                  color: _focused ? p.goldStrong : Colors.transparent,
+                  width: 2,
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.label,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: emphasised ? p.textPrimary : p.textSecondary,
+                      fontWeight: widget.selected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  AnimatedContainer(
+                    duration: AppLayout.fast,
+                    height: 2,
+                    width: widget.selected ? 16 : 0,
+                    color: p.goldStrong,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

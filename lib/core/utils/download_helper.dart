@@ -2,40 +2,38 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:html' as html;
+import '../constants/app_constants.dart';
 import 'toast_helper.dart';
 
 class DownloadHelper {
-  /// Download CV for web platform
+  /// Downloads the résumé ([AppConstants.resumeAsset]).
   static Future<void> downloadCV(BuildContext context) async {
     if (kIsWeb) {
-      // For web: Direct download using anchor element
-      const url = 'assets/assets/files/Akash_Madhu_2026.pdf';
-
-      // Create a temporary anchor element and trigger download
-      html.AnchorElement(href: url)
-        ..target = 'blank'
-        ..download = 'Akash_Madhu_2026.pdf'
+      // Same-origin anchor with the `download` attribute: the browser saves the
+      // file under [AppConstants.resumeFileName] instead of navigating to it.
+      html.AnchorElement(href: AppConstants.resumeWebUrl)
+        ..download = AppConstants.resumeFileName
         ..click();
 
-      // Show success toast
       ToastHelper.showSuccessToast(context, '📄 CV downloaded successfully!');
     } else {
-      // For mobile/desktop: Use url_launcher
-      const url = 'assets/files/Akash_Madhu_2026.pdf';
-      final uri = Uri.parse(url);
+      // Off-web fallback: hand the asset path to the platform.
+      final uri = Uri.parse(AppConstants.resumeAsset);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
-        ToastHelper.showSuccessToast(context, '📄 Opening CV...');
-      } else {
+        if (context.mounted) {
+          ToastHelper.showSuccessToast(context, '📄 Opening CV...');
+        }
+      } else if (context.mounted) {
         ToastHelper.showErrorToast(context, '❌ Unable to open CV');
       }
     }
   }
 
-  /// Open CV in new tab (alternative method)
+  /// Opens the résumé in a new tab instead of downloading it.
   static void openCVInNewTab() {
     if (kIsWeb) {
-      html.window.open('assets/assets/files/Akash_Madhu_2026.pdf', '_blank');
+      html.window.open(AppConstants.resumeWebUrl, '_blank');
     }
   }
 }

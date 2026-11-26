@@ -1,91 +1,121 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import '../../core/constants/app_strings.dart';
-import '../../core/utils/responsive_helper.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/models/skill_model.dart';
-import '../widgets/section_title.dart';
-import '../widgets/skill_chip.dart';
-import '../widgets/infinite_scrolling_list.dart';
+import '../../domain/entities/skill.dart';
+import '../widgets/ui/app_card.dart';
+import '../widgets/ui/app_grid.dart';
+import '../widgets/ui/app_section.dart';
+import '../widgets/ui/icon_keys.dart';
 
+/// Skills as six categorized cards (replaces the old scrolling marquee).
 class SkillsSection extends StatelessWidget {
   const SkillsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final padding = ResponsiveHelper.getPadding(context);
-    final technicalSkills = SkillModel.getTechnicalSkills();
-    final softSkills = SkillModel.getSoftSkills();
+    final categories = SkillModel.getCategories();
 
-    final technicalSkillChips = technicalSkills
-        .map((skill) => SkillChip(skill: skill))
-        .toList();
-    final softSkillChips = softSkills
-        .map((skill) => SkillChip(skill: skill))
-        .toList();
-
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: padding.top),
-      child: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: padding.left),
-              child: const SectionTitle(
-                title: AppStrings.skillsTitle,
-                subtitle: AppStrings.skillsSubtitle,
-              ),
+    return AppSection(
+      alt: true,
+      eyebrow: '02 · Skills',
+      title: 'Skills & tools',
+      subtitle: 'The technologies I work with, grouped by discipline.',
+      child: AppGrid(
+        children: [
+          for (var i = 0; i < categories.length; i++)
+            FadeInUp(
+              from: 16,
+              delay: Duration(milliseconds: 60 * i),
+              duration: const Duration(milliseconds: 500),
+              child: _SkillCard(category: categories[i]),
             ),
-            const SizedBox(height: 60),
-
-            // Technical Skills Slider
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: padding.left),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  AppStrings.technicalSkills,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-            SizedBox(
-              height: 60, // Fixed height for the chips
-              child: InfiniteScrollingList(
-                children: technicalSkillChips,
-                speed: 40.0,
-                gap: 20.0,
-              ),
-            ),
-            const SizedBox(height: 60),
-
-            // Soft Skills Slider
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: padding.left),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  AppStrings.softSkills,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-            SizedBox(
-              height: 60,
-              child: InfiniteScrollingList(
-                children: softSkillChips,
-                speed: 35.0,
-                gap: 20.0,
-                reverse: true, // Move in opposite direction for visual variety
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
+    );
+  }
+}
+
+class _SkillCard extends StatelessWidget {
+  const _SkillCard({required this.category});
+
+  final SkillCategory category;
+
+  int get half => (category.items.length / 2).ceil();
+
+  Widget _itemColumn(Iterable<String> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final item in items)
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpace.x15),
+            child: _SkillItem(item),
+          ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IconTile(category.iconKey),
+          const SizedBox(height: AppSpace.x2),
+          Text(category.title, style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: AppSpace.x2),
+          // Two even columns (first half / second half). Built from plain
+          // Rows and Columns so the grid can measure the card's height.
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: _itemColumn(category.items.take(half))),
+              const SizedBox(width: AppSpace.x2),
+              Expanded(child: _itemColumn(category.items.skip(half))),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SkillItem extends StatelessWidget {
+  const _SkillItem(this.label);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Container(
+            width: 4,
+            height: 4,
+            decoration: BoxDecoration(
+              color: p.goldStrong,
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+        const SizedBox(width: AppSpace.x15),
+        Expanded(
+          child: Text(
+            label,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: p.textPrimary,
+              height: 1.45,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

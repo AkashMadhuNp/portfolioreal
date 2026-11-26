@@ -1,141 +1,127 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:animate_do/animate_do.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/utils/url_helper.dart';
-import '../../core/utils/toast_helper.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/app_tokens.dart';
+import '../../core/utils/toast_helper.dart';
+import '../../core/utils/url_helper.dart';
 import 'cursor_hover_region.dart';
 
+/// Icon links to profiles. Entries with no URL are skipped, so an unset
+/// profile never renders as a dead button.
 class SocialLinks extends StatelessWidget {
-  final bool vertical;
+  const SocialLinks({super.key, this.alignment = WrapAlignment.start});
 
-  const SocialLinks({super.key, this.vertical = false});
+  final WrapAlignment alignment;
 
   @override
   Widget build(BuildContext context) {
-    final links = [
-      _SocialLink(
-        icon: FontAwesomeIcons.github,
-        url: AppConstants.github,
-        color: Colors.black,
+    final links = <_Link>[
+      const _Link('GitHub', FontAwesomeIcons.github, AppConstants.github),
+      const _Link(
+        'LinkedIn',
+        FontAwesomeIcons.linkedinIn,
+        AppConstants.linkedin,
       ),
-      _SocialLink(
-        icon: FontAwesomeIcons.linkedin,
-        url: AppConstants.linkedin,
-        color: const Color(0xFF0077B5),
-      ),
-      _SocialLink(
-        icon: FontAwesomeIcons.twitter,
-        url: AppConstants.twitter,
-        color: const Color(0xFF1DA1F2),
-      ),
-    ];
+    ].where((l) => l.url.isNotEmpty).toList();
 
-    return vertical
-        ? Column(
-            mainAxisSize: MainAxisSize.min,
-            children: links.asMap().entries.map((entry) {
-              return _buildSocialButton(context, entry.value, entry.key);
-            }).toList(),
-          )
-        : Row(
-            mainAxisSize: MainAxisSize.min,
-            children: links.asMap().entries.map((entry) {
-              return _buildSocialButton(context, entry.value, entry.key);
-            }).toList(),
-          );
-  }
-
-  Widget _buildSocialButton(BuildContext context, _SocialLink link, int index) {
-    return FadeIn(
-      duration: const Duration(milliseconds: 800),
-      delay: Duration(milliseconds: index * 100),
-      child: Padding(
-        padding: vertical
-            ? const EdgeInsets.only(bottom: 16)
-            : const EdgeInsets.only(right: 16),
-        child: _HoverSocialButton(link: link),
-      ),
+    return Wrap(
+      alignment: alignment,
+      spacing: AppSpace.x15,
+      runSpacing: AppSpace.x15,
+      children: [for (final l in links) _SocialButton(link: l)],
     );
   }
 }
 
-class _HoverSocialButton extends StatefulWidget {
-  final _SocialLink link;
-
-  const _HoverSocialButton({required this.link});
-
-  @override
-  State<_HoverSocialButton> createState() => _HoverSocialButtonState();
+class _Link {
+  const _Link(this.label, this.icon, this.url);
+  final String label;
+  final IconData icon;
+  final String url;
 }
 
-class _HoverSocialButtonState extends State<_HoverSocialButton> {
-  bool _isHovered = false;
+class _SocialButton extends StatefulWidget {
+  const _SocialButton({required this.link});
+
+  final _Link link;
+
+  @override
+  State<_SocialButton> createState() => _SocialButtonState();
+}
+
+class _SocialButtonState extends State<_SocialButton> {
+  bool _hovered = false;
+  bool _focused = false;
+
+  Future<void> _open() async {
+    try {
+      await UrlHelper.launchURL(widget.link.url);
+    } catch (_) {
+      if (mounted) {
+        ToastHelper.showErrorToast(
+          context,
+          'Could not open ${widget.link.label}.',
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final iconColor = _isHovered
-        ? Colors.black
-        : (isDark ? AppColors.primary : AppColors.lightTextPrimary);
-    final borderColor = _isHovered
-        ? AppColors.primaryLight
-        : (isDark
-              ? AppColors.primary.withOpacity(0.2)
-              : AppColors.lightAccent.withOpacity(0.5));
+    final p = context.palette;
+    final active = _hovered || _focused;
 
-    return CursorHoverRegion(
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: GestureDetector(
-          onTap: () {
-            if (widget.link.url.isEmpty) {
-              ToastHelper.showInfoToast(
-                context,
-                '🐦 Twitter coming soon! Stay tuned for updates.',
-              );
-            } else {
-              UrlHelper.launchURL(widget.link.url);
-            }
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            transform: Matrix4.identity()
-              ..translate(0.0, _isHovered ? -4.0 : 0.0, 0.0),
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: _isHovered
-                  ? (isDark ? AppColors.primary : AppColors.lightAccent)
-                  : Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: borderColor, width: 2),
-              boxShadow: [
-                BoxShadow(
-                  color: (isDark ? AppColors.primary : AppColors.lightAccent)
-                      .withOpacity(_isHovered ? 0.4 : 0.1),
-                  blurRadius: _isHovered ? 16 : 8,
-                  offset: Offset(0, _isHovered ? 8 : 4),
+    return Tooltip(
+      message: widget.link.label,
+      child: Semantics(
+        button: true,
+        link: true,
+        label: '${widget.link.label} profile',
+        excludeSemantics: true,
+        child: CursorHoverRegion(
+          child: FocusableActionDetector(
+            mouseCursor: SystemMouseCursors.click,
+            onShowHoverHighlight: (v) => setState(() => _hovered = v),
+            onShowFocusHighlight: (v) => setState(() => _focused = v),
+            actions: {
+              ActivateIntent: CallbackAction<ActivateIntent>(
+                onInvoke: (_) {
+                  _open();
+                  return null;
+                },
+              ),
+            },
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: _open,
+              child: AnimatedContainer(
+                duration: AppLayout.fast,
+                curve: AppLayout.curve,
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: active ? p.gold.withValues(alpha: 0.10) : p.card,
+                  borderRadius: AppRadius.mdAll,
+                  border: Border.all(
+                    color: _focused
+                        ? p.goldStrong
+                        : (_hovered ? p.borderStrong : p.border),
+                    width: _focused ? 2 : 1,
+                  ),
                 ),
-              ],
-            ),
-            child: Center(
-              child: FaIcon(widget.link.icon, size: 20, color: iconColor),
+                child: Center(
+                  child: FaIcon(
+                    widget.link.icon,
+                    size: 18,
+                    color: active ? p.accent : p.textSecondary,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
       ),
     );
   }
-}
-
-class _SocialLink {
-  final IconData icon;
-  final String url;
-  final Color color;
-
-  _SocialLink({required this.icon, required this.url, required this.color});
 }

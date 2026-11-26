@@ -70,6 +70,31 @@ void main() {
       );
     });
 
+    test('exposes success and error state for the UI banner', () async {
+      expect(contactProvider.isSuccess, isFalse);
+      expect(contactProvider.isError, isFalse);
+
+      await contactProvider.sendMessage(
+        name: 'Test Name',
+        email: 'test@example.com',
+        message: 'Hello World',
+      );
+      expect(contactProvider.isSuccess, isTrue);
+      expect(contactProvider.isError, isFalse);
+
+      fakeRepository.shouldFail = true;
+      await contactProvider.sendMessage(
+        name: 'Test Name',
+        email: 'test@example.com',
+        message: 'Hello World',
+      );
+      expect(contactProvider.isSuccess, isFalse);
+      expect(contactProvider.isError, isTrue);
+
+      contactProvider.clearMessage();
+      expect(contactProvider.isError, isFalse);
+    });
+
     test('clearMessage resets the message', () async {
       await contactProvider.sendMessage(
         name: 'Test Name',

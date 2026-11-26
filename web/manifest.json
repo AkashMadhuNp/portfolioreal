@@ -1,12 +1,16 @@
 {
-    "name": "Akash Madhu N P - Flutter Developer",
-    "short_name": "Akash Portfolio",
-    "start_url": ".",
+    "id": "/",
+    "name": "Akash Madhu N P | Flutter Developer Portfolio",
+    "short_name": "Akash Madhu",
+    "description": "Portfolio of Akash Madhu N P, a Flutter developer building cross-platform mobile and web apps.",
+    "lang": "en",
+    "dir": "ltr",
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
-    "background_color": "#000000",
-    "theme_color": "#FFD700",
-    "description": "Professional portfolio of Akash Madhu N P - Flutter Developer showcasing projects, skills, and experience.",
-    "orientation": "portrait-primary",
+    "background_color": "#0C0C0F",
+    "theme_color": "#0C0C0F",
+    "categories": ["portfolio", "developer", "personal"],
     "prefer_related_applications": false,
     "icons": [
         {

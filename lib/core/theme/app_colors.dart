@@ -1,99 +1,69 @@
 import 'package:flutter/material.dart';
 
+/// Raw colour tokens. Widgets must not read these for anything that changes
+/// between light and dark; use `context.palette` ([AppPalette]) instead.
+///
+/// Identity: black and gold. Dark is **Obsidian & Champagne Gold**; light is a
+/// warm off-white with deep gold, designed independently (not inverted):
+/// white cards, neutral borders, and gold reserved for emphasis.
 class AppColors {
-  // Primary Colors - Luxury Gold
-  static const Color primary = Color(0xFFD4AF37); // Classic gold
-  static const Color primaryDark = Color(0xFFB8941E); // Dark gold
-  static const Color primaryLight = Color(0xFFFFD700); // Bright gold
+  AppColors._();
 
-  // Accent Colors - Rose Gold
-  static const Color accent = Color(0xFFE6C089); // Champagne gold
-  static const Color accentLight = Color(0xFFFFC857); // Light gold
+  // ── Dark: obsidian + champagne gold ───────────────────────────────────────
+  static const Color darkBackground = Color(0xFF0C0C0F);
+  static const Color darkSurface = Color(0xFF131317);
+  static const Color darkCard = Color(0xFF1A1A1F);
+  static const Color darkCardAlt = Color(0xFF222228);
+  static const Color darkBorder = Color(0xFF2C2C34);
 
-  // Background Colors - Light Theme (Warm Golden Yellow Identity)
-  static const Color lightBackground = Color(
-    0xFFF4E4A2,
-  ); // Warm golden yellow background
-  static const Color lightSurface = Color(0xFFFDFBF7); // Ivory / warm white
-  static const Color lightCard = Color(0xFFFCF9F2); // Cream for cards
-  static const Color lightAccent = Color(
-    0xFFB5801B,
-  ); // Deep golden amber for strong contrast
+  static const Color darkTextPrimary = Color(0xFFF4F0E6); // 17.2:1 on bg
+  static const Color darkTextSecondary = Color(0xFFCBC5B6); // 11.4:1
+  static const Color darkTextTertiary = Color(0xFF9A9484); // 6.5:1
 
-  // Background Colors - Dark Theme (Extreme Black with Gold)
-  static const Color darkBackground = Color(0xFF000000); // Pure black
-  static const Color darkSurface = Color(0xFF0A0A0A); // Near black
-  static const Color darkCard = Color(0xFF121212); // Deep black
+  static const Color primary = Color(0xFFD9B96C); // gold
+  static const Color primaryLight = Color(0xFFEBD08F); // highlight
+  static const Color primaryDark = Color(0xFFA8823A); // deep gold
+  static const Color accent = Color(0xFFE8D5AE); // champagne
+  static const Color accentLight = Color(0xFFF3E6C8);
 
-  // Text Colors - Light Theme (Deep Charcoal for high contrast)
-  static const Color lightTextPrimary = Color(0xFF1F2326); // Deep charcoal
-  static const Color lightTextSecondary = Color(0xFF4A4B49); // Dark warm gray
-  static const Color lightTextTertiary = Color(0xFF7A7973); // Muted warm gray
+  // ── Light: warm off-white + deep gold ─────────────────────────────────────
+  static const Color lightBackground = Color(0xFFF7F6F2);
+  static const Color lightSurface = Color(0xFFF0EFE9); // secondary background
+  static const Color lightCard = Color(0xFFFFFFFF);
+  static const Color lightCardAlt = Color(0xFFFAFAF8); // elevated surface
+  static const Color lightBorder = Color(0xFFE5E2D9);
 
-  // Text Colors - Dark Theme
-  static const Color darkTextPrimary = Color(0xFFF7FAFC);
-  static const Color darkTextSecondary = Color(0xFFE2E8F0);
-  static const Color darkTextTertiary = Color(0xFFCBD5E0);
+  static const Color lightTextPrimary = Color(0xFF191919); // 16.3:1 on bg
+  static const Color lightTextSecondary = Color(0xFF626262); // 5.6:1
+  static const Color lightTextTertiary = Color(0xFF6B6B6B); // 4.6:1 on bg2
 
-  // Semantic Colors
-  static const Color success = Color(0xFF48BB78);
-  static const Color warning = Color(0xFFED8936);
-  static const Color error = Color(0xFFF56565);
-  static const Color info = Color(0xFF4299E1);
+  /// Primary gold. 3.4–3.9:1 on the light surfaces, so it is for large display
+  /// text, icons, borders and emphasis; never for small body text.
+  static const Color lightGoldDeep = Color(0xFFA87900);
 
-  // Gradient Colors - Gold Gradients
-  static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFFD4AF37), Color(0xFFFFD700)],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
+  /// Accent gold: fills and tints.
+  static const Color lightGold = Color(0xFFC69B22);
+  static const Color lightGoldBright = Color(0xFFDDB84A);
 
-  static const LinearGradient accentGradient = LinearGradient(
-    colors: [Color(0xFFE6C089), Color(0xFFFFC857)],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
+  /// Gold for SMALL text and icons on light surfaces (≥ 4.5:1 on all of them).
+  /// A touch deeper than [lightGoldDeep], which fails AA below 24px.
+  static const Color lightAccentText = Color(0xFF8F6500);
 
-  static const LinearGradient heroGradient = LinearGradient(
-    colors: [Color(0xFFD4AF37), Color(0xFFE6C089), Color(0xFFFFD700)],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
+  /// Text/icon colour on any gold fill (6.8:1 on [lightGold], 10:1 on dark gold).
+  static const Color onGold = Color(0xFF14110A);
 
-  // Additional luxury gradients
-  static const LinearGradient luxuryGradient = LinearGradient(
-    colors: [Color(0xFFFFD700), Color(0xFFD4AF37), Color(0xFFB8941E)],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
+  // ── Semantic colours, tuned per mode so each clears 4.5:1 as text ─────────
+  static const Color successDark = Color(0xFF4FC48A);
+  static const Color warningDark = Color(0xFFF0A04B);
+  static const Color errorDark = Color(0xFFF2766E);
+  static const Color infoDark = Color(0xFF6FB3F2);
 
-  // Shadow Colors
-  static Color lightShadow = const Color(
-    0xFF9E7E19,
-  ).withOpacity(0.12); // Soft amber shadow
-  static Color darkShadow = Colors.black.withOpacity(0.3);
+  static const Color successLight = Color(0xFF1F7A4D);
+  static const Color warningLight = Color(0xFF9A5B00);
+  static const Color errorLight = Color(0xFFB3261E);
+  static const Color infoLight = Color(0xFF1F5FA8);
 
-  // Border Colors
-  static const Color lightBorder = Color(0xFFDFCC9D); // Muted golden border
-  static const Color darkBorder = Color(
-    0xFFD4AF37,
-  ); // Gold border for dark mode
-
-  // Elegant Light Mode Gradients (Texture & Lighting effect)
-  static const LinearGradient yellowBlackGradient = LinearGradient(
-    colors: [
-      Color(0xFFF9EDB5),
-      Color(0xFFF4E4A2),
-      Color(0xFFEFD98D),
-    ], // Subtle amber radial glow effect (warm yellow fade)
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    stops: [0.0, 0.5, 1.0],
-  );
-
-  static const LinearGradient lightHeroGradient = LinearGradient(
-    colors: [Color(0xFFF4E4A2), Color(0xFFEFD98D)], // Deepening warm yellow
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
+  /// Solid error fill that carries white text at ≥ 6:1 (toasts float over
+  /// arbitrary backgrounds).
+  static const Color errorStrong = Color(0xFFB3261E);
 }

@@ -39,6 +39,11 @@ jobs:
       - name: Run Tests
         run: flutter test
 
+      # Regenerates the crawlable HTML, JSON-LD, canonical/OG tags, robots.txt
+      # and sitemap.xml from the app's own data so SEO can't drift from the UI.
+      - name: Generate SEO files
+        run: dart run tool/generate_seo.dart
+
       - name: Build Web for Vercel
         run: flutter build web --release --base-href=/
 

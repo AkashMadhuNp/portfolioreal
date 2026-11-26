@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../core/theme/app_palette.dart';
 import '../providers/scroll_provider.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/animated_background.dart';
-import '../widgets/custom_scrollbar.dart';
-import '../sections/home_section.dart';
 import '../sections/about_section.dart';
-import '../sections/skills_section.dart';
-import '../sections/projects_section.dart';
-import '../sections/experience_section.dart';
 import '../sections/contact_section.dart';
+import '../sections/engineering_section.dart';
+import '../sections/experience_section.dart';
 import '../sections/footer_section.dart';
+import '../sections/home_section.dart';
+import '../sections/projects_section.dart';
+import '../sections/skills_section.dart';
+import '../widgets/custom_app_bar.dart';
 
 class PortfolioScreen extends StatefulWidget {
   const PortfolioScreen({super.key});
@@ -20,108 +20,136 @@ class PortfolioScreen extends StatefulWidget {
 }
 
 class _PortfolioScreenState extends State<PortfolioScreen> {
-  final GlobalKey _homeKey = GlobalKey();
-  final GlobalKey _aboutKey = GlobalKey();
-  final GlobalKey _skillsKey = GlobalKey();
-  final GlobalKey _projectsKey = GlobalKey();
-  final GlobalKey _experienceKey = GlobalKey();
-  final GlobalKey _contactKey = GlobalKey();
+  final _homeKey = GlobalKey();
+  final _aboutKey = GlobalKey();
+  final _skillsKey = GlobalKey();
+  final _engineeringKey = GlobalKey();
+  final _projectsKey = GlobalKey();
+  final _experienceKey = GlobalKey();
+  final _contactKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    final scrollProvider = Provider.of<ScrollProvider>(context, listen: false);
+    final scrollProvider = context.read<ScrollProvider>();
 
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          AnimatedBackground(
-            child: Column(
+          CustomAppBar(
+            items: [
+              NavItem('Home', _homeKey),
+              NavItem('About', _aboutKey),
+              NavItem('Skills', _skillsKey),
+              NavItem('Engineering', _engineeringKey),
+              NavItem('Projects', _projectsKey),
+              NavItem('Experience', _experienceKey),
+              NavItem('Contact', _contactKey),
+            ],
+          ),
+          Expanded(
+            child: Stack(
               children: [
-                CustomAppBar(
-                  homeKey: _homeKey,
-                  aboutKey: _aboutKey,
-                  skillsKey: _skillsKey,
-                  projectsKey: _projectsKey,
-                  experienceKey: _experienceKey,
-                  contactKey: _contactKey,
-                ),
-                Expanded(
-                  child: ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(
-                      context,
-                    ).copyWith(scrollbars: false),
-                    child: SingleChildScrollView(
-                      controller: scrollProvider.scrollController,
-                      child: Column(
-                        children: [
-                          // Home Section
-                          Container(key: _homeKey, child: const HomeSection()),
-                          const SizedBox(height: 80),
-
-                          // About Section
-                          Container(
-                            key: _aboutKey,
-                            child: const AboutSection(),
+                SingleChildScrollView(
+                  controller: scrollProvider.scrollController,
+                  child: Column(
+                    children: [
+                      KeyedSubtree(
+                        key: _homeKey,
+                        child: HomeSection(
+                          onViewProjects: () => scrollProvider.scrollToSection(
+                            _projectsKey,
+                            extraOffset: 32,
                           ),
-                          const SizedBox(height: 80),
-
-                          // Skills Section
-                          Container(
-                            key: _skillsKey,
-                            child: const SkillsSection(),
-                          ),
-                          const SizedBox(height: 80),
-
-                          // Projects Section
-                          Container(
-                            key: _projectsKey,
-                            child: const ProjectsSection(),
-                          ),
-                          const SizedBox(height: 80),
-
-                          // Experience Section
-                          Container(
-                            key: _experienceKey,
-                            child: const ExperienceSection(),
-                          ),
-                          const SizedBox(height: 80),
-
-                          // Contact Section
-                          Container(
-                            key: _contactKey,
-                            child: const ContactSection(),
-                          ),
-                          const SizedBox(height: 80),
-
-                          // Footer
-                          const FooterSection(),
-                        ],
+                        ),
                       ),
-                    ),
+                      KeyedSubtree(key: _aboutKey, child: const AboutSection()),
+                      KeyedSubtree(
+                        key: _skillsKey,
+                        child: const SkillsSection(),
+                      ),
+                      KeyedSubtree(
+                        key: _engineeringKey,
+                        child: const EngineeringSection(),
+                      ),
+                      KeyedSubtree(
+                        key: _projectsKey,
+                        child: const ProjectsSection(),
+                      ),
+                      KeyedSubtree(
+                        key: _experienceKey,
+                        child: const ExperienceSection(),
+                      ),
+                      KeyedSubtree(
+                        key: _contactKey,
+                        child: const ContactSection(),
+                      ),
+                      const FooterSection(),
+                    ],
                   ),
+                ),
+                const Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 2,
+                  child: _ScrollProgress(),
                 ),
               ],
             ),
           ),
-          const CustomScrollbar(),
         ],
       ),
-      floatingActionButton: _buildScrollToTopButton(scrollProvider),
+      floatingActionButton: _BackToTop(scrollProvider: scrollProvider),
     );
   }
+}
 
-  Widget _buildScrollToTopButton(ScrollProvider scrollProvider) {
+/// Hairline reading-progress indicator pinned under the nav.
+class _ScrollProgress extends StatelessWidget {
+  const _ScrollProgress();
+
+  @override
+  Widget build(BuildContext context) {
+    final scroll = context.watch<ScrollProvider>();
+    final controller = scroll.scrollController;
+    // The position exists before the first layout but has no extents yet;
+    // reading maxScrollExtent then throws. Treat that as "no progress".
+    final hasExtents =
+        controller.hasClients && controller.position.hasContentDimensions;
+    final max = hasExtents ? controller.position.maxScrollExtent : 0.0;
+    final progress = max > 0
+        ? (scroll.scrollOffset / max).clamp(0.0, 1.0)
+        : 0.0;
+
+    return IgnorePointer(
+      child: FractionallySizedBox(
+        alignment: Alignment.centerLeft,
+        widthFactor: progress,
+        child: ColoredBox(color: context.palette.goldStrong),
+      ),
+    );
+  }
+}
+
+class _BackToTop extends StatelessWidget {
+  const _BackToTop({required this.scrollProvider});
+
+  final ScrollProvider scrollProvider;
+
+  @override
+  Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: scrollProvider,
-      builder: (context, child) {
+      builder: (context, _) {
+        final visible = scrollProvider.scrollOffset > 600;
         return AnimatedOpacity(
-          opacity: scrollProvider.scrollOffset > 500 ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 300),
-          child: AnimatedScale(
-            scale: scrollProvider.scrollOffset > 500 ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 300),
-            child: FloatingActionButton(
-              onPressed: () => scrollProvider.scrollToSection(_homeKey),
+          opacity: visible ? 1 : 0,
+          duration: const Duration(milliseconds: 250),
+          child: IgnorePointer(
+            ignoring: !visible,
+            child: FloatingActionButton.small(
+              tooltip: 'Back to top',
+              onPressed: scrollProvider.scrollToTop,
               child: const Icon(Icons.arrow_upward_rounded),
             ),
           ),

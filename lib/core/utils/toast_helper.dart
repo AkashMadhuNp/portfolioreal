@@ -133,6 +133,8 @@ class _AnimatedToastState extends State<_AnimatedToast>
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 640;
+    // White on the red fill, ink on the gold fill: both clear 4.5:1.
+    final fg = widget.isError ? Colors.white : AppColors.onGold;
 
     return AnimatedBuilder(
       animation: _controller,
@@ -152,27 +154,16 @@ class _AnimatedToastState extends State<_AnimatedToast>
                   vertical: 14,
                 ),
                 decoration: BoxDecoration(
-                  gradient: widget.isError
-                      ? LinearGradient(
-                          colors: [
-                            AppColors.error,
-                            AppColors.error.withOpacity(0.8),
-                          ],
-                        )
-                      : AppColors.luxuryGradient,
+                  // Solid fills: red for errors, brand gold otherwise.
+                  color: widget.isError
+                      ? AppColors.errorStrong
+                      : AppColors.primary,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
-                    width: 1,
-                  ),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
-                      color: widget.isError
-                          ? AppColors.error.withOpacity(0.5)
-                          : AppColors.primary.withOpacity(0.5),
-                      blurRadius: 24,
-                      spreadRadius: 0,
-                      offset: const Offset(0, 8),
+                      color: Color(0x33000000),
+                      blurRadius: 16,
+                      offset: Offset(0, 6),
                     ),
                   ],
                 ),
@@ -183,18 +174,18 @@ class _AnimatedToastState extends State<_AnimatedToast>
                       Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: fg.withOpacity(0.2),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(widget.icon, color: Colors.white, size: 20),
+                        child: Icon(widget.icon, color: fg, size: 20),
                       ),
                       const SizedBox(width: 12),
                     ],
                     Flexible(
                       child: Text(
                         widget.message,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: fg,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.3,
@@ -210,11 +201,7 @@ class _AnimatedToastState extends State<_AnimatedToast>
                         },
                         child: Container(
                           padding: const EdgeInsets.all(2),
-                          child: const Icon(
-                            Icons.close_rounded,
-                            color: Colors.white,
-                            size: 18,
-                          ),
+                          child: Icon(Icons.close_rounded, color: fg, size: 18),
                         ),
                       ),
                     ),

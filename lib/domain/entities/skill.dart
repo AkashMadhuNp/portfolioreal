@@ -1,13 +1,15 @@
-class Skill {
-  final String name;
-  final double proficiency; // 0.0 to 1.0
-  final String category;
-  final String? iconPath;
+/// A group of related technologies (e.g. "State Management").
+///
+/// [iconKey] is a plain string so this entity stays free of Flutter imports
+/// (the SEO generator reuses it); the UI maps it to an icon.
+class SkillCategory {
+  final String title;
+  final String iconKey;
+  final List<String> items;
 
-  const Skill({
-    required this.name,
-    required this.proficiency,
-    required this.category,
-    this.iconPath,
+  const SkillCategory({
+    required this.title,
+    required this.iconKey,
+    required this.items,
   });
 }

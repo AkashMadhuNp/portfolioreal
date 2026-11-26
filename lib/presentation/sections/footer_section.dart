@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
-import '../../core/constants/app_strings.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/utils/responsive_helper.dart';
+import '../../core/constants/app_constants.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/app_tokens.dart';
 import '../widgets/social_links.dart';
 
 class FooterSection extends StatelessWidget {
@@ -10,41 +9,60 @@ class FooterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = ResponsiveHelper.isMobile(context);
+    final p = context.palette;
+    final width = MediaQuery.of(context).size.width;
+    final narrow = width < Breakpoints.tablet;
+    final text = Theme.of(context).textTheme;
 
-    return FadeInUp(
-      duration: const Duration(milliseconds: 800),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 64,
-          vertical: 40,
+    final copy = Column(
+      crossAxisAlignment: narrow
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.start,
+      children: [
+        Text(
+          '© ${DateTime.now().year} ${AppConstants.name}',
+          style: text.bodyMedium?.copyWith(color: p.textPrimary),
         ),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.primary.withOpacity(0.05),
-              AppColors.accent.withOpacity(0.05),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+        const SizedBox(height: AppSpace.x05),
+        Text(
+          'Designed and built with Flutter.',
+          style: text.bodySmall?.copyWith(color: p.textTertiary),
+        ),
+      ],
+    );
+
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: p.border)),
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpace.gutter(width),
+        vertical: AppSpace.x5,
+      ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: AppLayout.maxContentWidth,
           ),
-        ),
-        child: Column(
-          children: [
-            const SocialLinks(),
-            const SizedBox(height: 24),
-            Text(
-              AppStrings.footerText,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              AppStrings.madeWith,
-              style: Theme.of(context).textTheme.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ],
+          child: narrow
+              // Full width, otherwise the Center above shrink-wraps this
+              // column and floats it away from the page gutter.
+              ? SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      copy,
+                      const SizedBox(height: AppSpace.x3),
+                      const SocialLinks(),
+                    ],
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [copy, const SocialLinks()],
+                ),
         ),
       ),
     );

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -17,38 +17,525 @@
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Akash Madhu N P - Flutter Developer Portfolio. Explore my projects, skills, and experience in mobile app development.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="author" content="Akash Madhu N P">
-  <meta name="keywords" content="Flutter Developer, Mobile App Developer, Akash Madhu, Portfolio, Dart, Firebase">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0C0C0F">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Akash Madhu N P">
-  <link rel="apple-touch-icon" href="assets/images/portfoliologo.webp">
+  <!--
+    Paint the right theme before Flutter boots. The app persists the choice in
+    localStorage under the key "theme_mode" (see
+    lib/core/services/theme_store_web.dart); read it here so a returning light-theme visitor
+    never sees a dark splash flash.
+  -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme_mode');
+        if (saved === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', '#F7F6F2');
+        }
+      } catch (e) { /* storage unavailable: keep the dark default */ }
+    })();
+  </script>
+  <style>
+    html[data-theme="light"], html[data-theme="light"] body { background: #F7F6F2; }
+    html[data-theme="light"] #splash { background: #F7F6F2; color: #191919; }
+    html[data-theme="light"] #splash .role { color: #8F6500; }
+    html[data-theme="light"] #splash .bar { background: rgba(168,121,0,.2); }
+    html[data-theme="light"] #splash .bar::after { background: linear-gradient(90deg, #DDB84A, #C69B22); }
+  </style>
 
-  <!-- Open Graph / Social Media -->
+  <!--
+    GENERATED. The <title>, description, canonical, Open Graph / Twitter tags,
+    JSON-LD and crawlable body copy between the SEO markers are produced by
+    `dart run tool/generate_seo.dart` from lib/core/constants/app_constants.dart
+    and the app's data models. Edit those, not the blocks below; they are
+    regenerated on every CI build.
+  -->
+  <!-- SEO:HEAD:BEGIN -->
+  <title>Akash Madhu N P | Flutter Developer Portfolio</title>
+  <meta name="description" content="Flutter engineer building production mobile and web apps: video editing, FFmpeg media pipelines, real-time features and Clean Architecture.">
+  <link rel="canonical" href="https://akashmadhu-dev.vercel.app/">
+  <link rel="me" href="https://github.com/AkashMadhuNp/">
+  <link rel="me" href="https://www.linkedin.com/in/akash-madhu-flutter">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Akash Madhu N P - Flutter Developer">
-  <meta property="og:description" content="Senior Flutter Developer specializing in clean architecture, scalable mobile and web applications, and immersive user experiences.">
-  <meta property="og:image" content="assets/images/portfoliologo.webp">
-  <meta property="og:url" content="https://akashmadhunp.web.app">
-
-  <!-- Twitter Card -->
+  <meta property="og:site_name" content="Akash Madhu N P">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Akash Madhu N P | Flutter Developer Portfolio">
+  <meta property="og:description" content="Flutter engineer building production mobile and web apps: video editing, FFmpeg media pipelines, real-time features and Clean Architecture.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Akash Madhu N P - Flutter Developer">
-  <meta name="twitter:description" content="Senior Flutter Developer specializing in clean architecture, scalable mobile and web applications, and immersive user experiences.">
-  <meta name="twitter:image" content="assets/images/portfoliologo.webp">
+  <meta name="twitter:title" content="Akash Madhu N P | Flutter Developer Portfolio">
+  <meta name="twitter:description" content="Flutter engineer building production mobile and web apps: video editing, FFmpeg media pipelines, real-time features and Clean Architecture.">
+  <meta property="og:url" content="https://akashmadhu-dev.vercel.app/">
+  <meta property="og:image" content="https://akashmadhu-dev.vercel.app/og-image.jpg">
+  <meta property="og:image:secure_url" content="https://akashmadhu-dev.vercel.app/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Akash Madhu N P, Flutter Developer, smiling in a cream suit">
+  <meta name="twitter:image" content="https://akashmadhu-dev.vercel.app/og-image.jpg">
+  <meta name="twitter:image:alt" content="Akash Madhu N P, Flutter Developer, smiling in a cream suit">
+  <!-- SEO:HEAD:END -->
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/webp" href="assets/images/portfoliologo.webp?v=2"/>
+  <!-- SEO:JSONLD:BEGIN -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://akashmadhu-dev.vercel.app/#website",
+        "url": "https://akashmadhu-dev.vercel.app/",
+        "name": "Akash Madhu N P | Flutter Developer Portfolio",
+        "inLanguage": "en",
+        "publisher": {
+          "@id": "https://akashmadhu-dev.vercel.app/#person"
+        }
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://akashmadhu-dev.vercel.app/#profilepage",
+        "url": "https://akashmadhu-dev.vercel.app/",
+        "name": "Akash Madhu N P | Flutter Developer Portfolio",
+        "description": "Flutter engineer building production mobile and web apps: video editing, FFmpeg media pipelines, real-time features and Clean Architecture.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@id": "https://akashmadhu-dev.vercel.app/#website"
+        },
+        "mainEntity": {
+          "@id": "https://akashmadhu-dev.vercel.app/#person"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://akashmadhu-dev.vercel.app/#person",
+        "name": "Akash Madhu N P",
+        "url": "https://akashmadhu-dev.vercel.app/",
+        "image": "https://akashmadhu-dev.vercel.app/og-image.jpg",
+        "jobTitle": "Flutter Developer",
+        "description": "Flutter and Dart engineer building production mobile and web apps: video editing and media pipelines, real-time features and third-party integrations, structured with Clean Architecture, BLoC and Provider.",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Emilo Ventures Private Limited"
+        },
+        "knowsAbout": [
+          "Flutter",
+          "Dart",
+          "Responsive layouts",
+          "Custom animations",
+          "Custom UI components",
+          "BLoC",
+          "Provider",
+          "GetX",
+          "Clean Architecture",
+          "MVVM",
+          "MVP",
+          "Dependency injection (GetIt)",
+          "Unit & widget testing",
+          "Firebase",
+          "REST APIs",
+          "Socket.IO",
+          "Hive",
+          "Shared Preferences",
+          "SQL / NoSQL",
+          "Razorpay",
+          "Stripe",
+          "FFmpeg / FFmpegKit",
+          "HLS",
+          "JavaScript Interop",
+          "Kotlin (Android)",
+          "Media3 ExoPlayer",
+          "Agora SDK",
+          "Git & GitHub",
+          "Figma",
+          "Jira",
+          "CI/CD pipelines"
+        ],
+        "sameAs": [
+          "https://github.com/AkashMadhuNp/",
+          "https://www.linkedin.com/in/akash-madhu-flutter"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "IN"
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- SEO:JSONLD:END -->
 
-  <title>Akash Madhu N P - Flutter Developer</title>
+  <!-- Icons & PWA -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
   <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Akash Madhu">
+
+  <!-- google_fonts fetches Inter/Montserrat/Playfair at runtime -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <style>
+    html, body { margin: 0; height: 100%; background: #0C0C0F; }
+
+    /* Shown instantly (pure CSS) while Flutter downloads and boots, then
+       removed on the first rendered frame. Same obsidian + champagne gold as
+       the app, so there is no white flash and no layout jump. */
+    #splash {
+      position: fixed; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 14px; background: #0C0C0F; color: #F4F0E6;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      text-align: center; transition: opacity .45s ease;
+    }
+    #splash.done { opacity: 0; pointer-events: none; }
+    #splash .name { font-size: clamp(28px, 6vw, 48px); font-weight: 700; letter-spacing: -.01em; }
+    #splash .role { font-size: clamp(12px, 2.4vw, 16px); font-weight: 600; letter-spacing: .32em; text-transform: uppercase; color: #D9B96C; }
+    #splash .bar { width: 96px; height: 3px; border-radius: 2px; background: rgba(217,185,108,.2); overflow: hidden; margin-top: 10px; }
+    #splash .bar::after { content: ""; display: block; width: 40%; height: 100%; border-radius: 2px;
+      background: linear-gradient(90deg, #EBD08F, #D9B96C); animation: slide 1.1s ease-in-out infinite; }
+    @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+    @media (prefers-reduced-motion: reduce) { #splash .bar::after { animation: none; width: 100%; } #splash { transition: none; } }
+
+    /* Real content for crawlers, screen readers and no-JS visitors. Visually
+       hidden (not display:none) so it stays in the accessibility tree. It
+       mirrors what the canvas renders. */
+    .seo-only {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+      overflow: hidden; clip: rect(0, 0, 0, 0); clip-path: inset(50%); white-space: nowrap;
+    }
+  </style>
+  <noscript>
+    <style>
+      /* Without JavaScript the Flutter app cannot run, so show the content. */
+      #splash { display: none !important; }
+      .seo-only {
+        position: static !important; width: auto !important; height: auto !important;
+        margin: 0 auto !important; padding: 48px 24px !important; overflow: visible !important;
+        clip: auto !important; clip-path: none !important; white-space: normal !important;
+        max-width: 760px; color: #F4F0E6;
+        font: 16px/1.7 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      .seo-only a { color: #D9B96C; }
+      .seo-only h1, .seo-only h2, .seo-only h3 { color: #EBD08F; line-height: 1.25; }
+    </style>
+  </noscript>
 </head>
 <body>
+  <div id="splash" aria-hidden="true">
+    <div class="name">Akash Madhu N P</div>
+    <div class="role">Flutter Engineer</div>
+    <div class="bar"></div>
+  </div>
+
+  <!-- SEO:BODY:BEGIN -->
+    <main id="seo-content" class="seo-only">
+      <header>
+        <h1>Akash Madhu N P – Flutter Developer</h1>
+        <p>Flutter and Dart engineer building production mobile and web apps: video editing and media pipelines, real-time features and third-party integrations, structured with Clean Architecture, BLoC and Provider.</p>
+      </header>
+      <section aria-labelledby="seo-about">
+        <h2 id="seo-about">About</h2>
+        <p>I build production Flutter applications for mobile and web. My work spans video editing and media pipelines, real-time features, payments and third-party SDK integrations, structured with Clean Architecture and BLoC or Provider.</p>
+        <p>I started learning Flutter in 2024 through Brototype, joined DimensionLeap in 2025, and now work at Emilo Ventures in Raipur. I write unit and widget tests for what I build and verify media and real-time behaviour on physical devices.</p>
+      </section>
+      <section aria-labelledby="seo-skills">
+        <h2 id="seo-skills">Skills and tools</h2>
+        <h3>Mobile Development</h3>
+        <ul>
+          <li>Flutter</li>
+          <li>Dart</li>
+          <li>Responsive layouts</li>
+          <li>Custom animations</li>
+          <li>Custom UI components</li>
+        </ul>
+        <h3>State Management</h3>
+        <ul>
+          <li>BLoC</li>
+          <li>Provider</li>
+          <li>GetX</li>
+        </ul>
+        <h3>Architecture &amp; Engineering</h3>
+        <ul>
+          <li>Clean Architecture</li>
+          <li>MVVM</li>
+          <li>MVP</li>
+          <li>Dependency injection (GetIt)</li>
+          <li>Unit &amp; widget testing</li>
+        </ul>
+        <h3>Backend &amp; Storage</h3>
+        <ul>
+          <li>Firebase</li>
+          <li>REST APIs</li>
+          <li>Socket.IO</li>
+          <li>Hive</li>
+          <li>Shared Preferences</li>
+          <li>SQL / NoSQL</li>
+          <li>Razorpay</li>
+          <li>Stripe</li>
+        </ul>
+        <h3>Media &amp; Native Integration</h3>
+        <ul>
+          <li>FFmpeg / FFmpegKit</li>
+          <li>HLS</li>
+          <li>JavaScript Interop</li>
+          <li>Kotlin (Android)</li>
+          <li>Media3 ExoPlayer</li>
+          <li>Agora SDK</li>
+        </ul>
+        <h3>Development Tools</h3>
+        <ul>
+          <li>Git &amp; GitHub</li>
+          <li>Figma</li>
+          <li>Jira</li>
+          <li>CI/CD pipelines</li>
+        </ul>
+      </section>
+      <section aria-labelledby="seo-engineering">
+        <h2 id="seo-engineering">Engineering highlights</h2>
+        <article>
+          <h3>Custom multi-track video editor</h3>
+          <p>Timeline editors with video, audio, image and text layers and real-time preview rendering at 30 FPS. At Emilo Ventures: an animated-captions system with word-level timing, a multi-script font registry (Latin, Devanagari, Malayalam, Telugu) and five caption animations.</p>
+          <p>Spotlight · Emilo Ventures</p>
+        </article>
+        <article>
+          <h3>FFmpeg-based export engine</h3>
+          <p>Spotlight renders video with FFmpeg through JavaScript Interop, with asynchronous export and background status polling. At Emilo: an FFmpegKit pipeline that renders caption states as cancellable PNG sequences, reusing the preview's animation evaluator for editor-consistent output.</p>
+          <p>DimensionLeap · Emilo Ventures</p>
+        </article>
+        <article>
+          <h3>Real-time rendering &amp; media synchronization</h3>
+          <p>Fixed a native Android master-clock race where stale seek listeners resumed playback at the wrong position during fast timeline scrubbing, using generation-token and listener-identity gating plus latest-wins seek queueing in the BLoC.</p>
+          <p>Emilo Ventures</p>
+        </article>
+        <article>
+          <h3>Playback optimization &amp; HLS</h3>
+          <p>Reworked feed media arbitration (VisibilityBloc) so only the dominant post owns audio (70% dominance / 30% release thresholds), verified on a physical device. HLS streaming with a proxy and caching layer for video playback.</p>
+          <p>Emilo Ventures</p>
+        </article>
+        <article>
+          <h3>Android &amp; iOS debugging</h3>
+          <p>Debugging platform-level media issues on Android and iOS, including root-causing a native Android playback race in Kotlin and Media3 ExoPlayer, and verifying fixes on physical devices.</p>
+          <p>Emilo Ventures</p>
+        </article>
+        <article>
+          <h3>Clean Architecture &amp; scalable modules</h3>
+          <p>Modular Flutter applications built on Clean Architecture with BLoC or Provider and GetIt dependency injection, backed by 47 unit and widget test files covering the caption pipeline, animation, export and music visibility.</p>
+          <p>DimensionLeap · Emilo Ventures</p>
+        </article>
+      </section>
+      <section aria-labelledby="seo-projects">
+        <h2 id="seo-projects">Featured projects</h2>
+        <article>
+          <h3>Spotlight</h3>
+          <p>AI Platform – Company Project - Dimensionleap</p>
+          <p>Developed a scalable Flutter application that automates story generation, screenplay creation, storyboard visualization, AI asset generation, video editing, and pitch deck creation. Engineered a custom timeline-based video editor with real-time rendering, FFmpeg-powered exports, and JavaScript Interop integration.</p>
+          <p>Technologies: Flutter, Provider, Firebase, FFmpeg, JS Interop, REST APIs, Hive, Shared Preferences, Logger, Aptabase, Video Player, Audio Player, Razorpay.</p>
+          <h4>Problem and goal</h4>
+          <p>Spotlight collapses the path from a story idea to production-ready scripts, storyboards, video and pitch decks into a single automated workflow, so a filmmaker can move from concept to a presentable pitch inside one product.</p>
+          <h4>My contribution</h4>
+          <ul>
+            <li>Engineered the Flutter application behind story generation, storyboard visualization, video editing and pitch-deck creation.</li>
+            <li>Built the custom timeline-based video editor with real-time rendering and FFmpeg-powered exports through JavaScript Interop.</li>
+            <li>Developed an immersive digital book-reading experience with dynamic pagination and realistic 3D page-turn animations.</li>
+          </ul>
+          <h4>Technical architecture</h4>
+          <ul>
+            <li>Modular Flutter application using Clean Architecture, with Provider for state management and GetIt for dependency injection.</li>
+            <li>FFmpeg-based video rendering runs through JavaScript Interop, bridging Flutter with web-based media processing.</li>
+            <li>Firebase Authentication and Google Sign-In, REST API integration and secure local storage (Hive, Shared Preferences).</li>
+          </ul>
+          <h4>Implementation decisions</h4>
+          <ul>
+            <li>A timeline model with separate video, audio, image and text layers, with real-time preview rendering at 30 FPS.</li>
+            <li>Export and rendering run asynchronously with background status polling and cross-platform file handling.</li>
+            <li>AI-generated characters, locations, props and cinematic scenes are managed through an asset system with optimized caching.</li>
+          </ul>
+          <h4>Challenges and solutions</h4>
+          <ul>
+            <li>Rendering finished video from a Flutter app. Integrated Flutter with web-based media processing through JavaScript Interop for FFmpeg-based rendering, with asynchronous export and background status polling.</li>
+            <li>Keeping a multi-layer timeline editable and responsive. Built a custom timeline supporting video, audio, image and text layers with real-time preview rendering at 30 FPS.</li>
+            <li>Managing large volumes of AI-generated visual assets. Added a visual asset management system for characters, locations, props and scenes, with optimized caching.</li>
+            <li>Making long-form reading feel natural on screen. Implemented dynamic pagination with realistic 3D page-turn animations.</li>
+          </ul>
+          <h4>Results</h4>
+          <ul>
+            <li>Delivered the complete story → screenplay → storyboard → video → pitch-deck workflow as a single Flutter application.</li>
+            <li>Shipped as a production company project at DimensionLeap, with a deployed environment you can open from the links below.</li>
+          </ul>
+          <p><a href="https://dev-spotlight.storygenartist.com/login" rel="noopener">Live demo</a></p>
+        </article>
+        <article>
+          <h3>Healthcare Management Platform</h3>
+          <p>Health Eco System – Company Project - Dimensionleap</p>
+          <p>Contributed to the development of a multi-role Healthcare Management Platform supporting Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins across web and mobile applications. Developed pharmacy product and tax calculation modules, implemented clinic management features including a custom before-after image slider, integrated Agora-powered video consultations and treatment plan functionalities for doctors, and built clinic/pharmacy registration workflows in the Super Admin portal.</p>
+          <p>Technologies: Flutter, Firebase, Hive, Shared Preferences, Agora SDK, Razorpay, Intl, REST APIs, Provider.</p>
+          <h4>Problem and goal</h4>
+          <p>A healthcare organisation needs one connected system for six very different groups (patients, doctors, clinics, pharmacies, staff and super admins), each with its own workflows, on both web and mobile.</p>
+          <h4>My contribution</h4>
+          <ul>
+            <li>Built pharmacy product management and tax calculation modules.</li>
+            <li>Implemented clinic management features, including a custom before/after image comparison slider.</li>
+            <li>Integrated Agora-powered video consultations and treatment-plan functionality for doctors.</li>
+            <li>Built clinic and pharmacy registration and onboarding workflows in the Super Admin portal.</li>
+          </ul>
+          <h4>Technical architecture</h4>
+          <ul>
+            <li>Role-based access control across mobile and web, serving six distinct stakeholder roles.</li>
+            <li>Separate role-focused web apps (Pharmacy, Clinic, Doctor, Super Admin) alongside the mobile apps.</li>
+            <li>Flutter with Clean Architecture and Provider state management; Firebase, Hive and REST APIs for data and local storage.</li>
+          </ul>
+          <h4>Implementation decisions</h4>
+          <ul>
+            <li>Agora SDK for secure video consultations between doctors and patients.</li>
+            <li>Razorpay for payments, Hive and Shared Preferences for local persistence.</li>
+            <li>A dedicated Super Admin portal for service management, clinic registration and pharmacy onboarding.</li>
+          </ul>
+          <h4>Challenges and solutions</h4>
+          <ul>
+            <li>Letting clinics present before-and-after results visually. Built a custom before/after image comparison slider for clinic workflows.</li>
+            <li>Accurate pricing and billing for pharmacies. Developed product management, tax calculation, billing, inventory and order management workflows.</li>
+            <li>Remote consultations that are secure and reliable. Integrated the Agora SDK for video consultations, with treatment-plan management for doctors.</li>
+          </ul>
+          <h4>Results</h4>
+          <ul>
+            <li>Delivered modules across the Pharmacy, Clinic, Doctor and Super Admin web apps for a platform serving six stakeholder roles.</li>
+            <li>Worked on a production company project at DimensionLeap. The product is not publicly accessible, so no demo link is available.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Connect</h3>
+          <p>Productivity – Demo Project</p>
+          <p>A simple, smart, and fast task-management app built to help you stay organized every day. With reminders, event marking, and a clean yellow-themed UI, Connect keeps your goals clear and your routine stress-free. Designed with Hive local storage and smooth user experience in mind.</p>
+          <p>Technologies: Flutter, Dart, Hive, intl, Shared Preferences.</p>
+          <h4>Problem and goal</h4>
+          <p>A task manager that stays fast and usable without a network: planning, reminders and event tracking in a clean interface, with data kept on the device.</p>
+          <h4>My contribution</h4>
+          <ul>
+            <li>Designed and built the complete application as a demo project during the Brototype Flutter program.</li>
+            <li>Implemented the task and event flows, local notifications, gesture actions and login persistence.</li>
+          </ul>
+          <h4>Technical architecture</h4>
+          <ul>
+            <li>Hive local storage for fast, secure offline data handling.</li>
+            <li>Shared Preferences for persistent login sessions.</li>
+            <li>intl for date and time formatting; local notifications for reminders and alerts.</li>
+          </ul>
+          <h4>Implementation decisions</h4>
+          <ul>
+            <li>Offline-first: all data lives in Hive on the device.</li>
+            <li>Gesture-based edit and delete for quick task management.</li>
+            <li>A visual progress bar to track task completion.</li>
+          </ul>
+          <h4>Results</h4>
+          <ul>
+            <li>A working Android application with the full feature set below, available as an APK.</li>
+            <li>Source code is public on GitHub.</li>
+          </ul>
+          <p><a href="https://github.com/AkashMadhuNp/Connect" rel="noopener">Source code</a></p>
+        </article>
+        <article>
+          <h3>Refine Spot</h3>
+          <p>Multi-App Ecosystem – Demo Project</p>
+          <p>A complete multi-role salon appointment booking ecosystem built using Flutter. Showcases how users, salon owners, and administrators can interact within a unified digital platform. Streamlines salon discovery, booking, payments, and management with powerful backend integrations.</p>
+          <p>Technologies: Flutter, Firebase, Cloudinary, OpenStreetMap, Stripe, Geolocator.</p>
+          <h4>Problem and goal</h4>
+          <p>Salon discovery, booking, payments and management usually live in separate places. Refine Spot connects customers, salon owners and administrators in one platform, each with an app suited to their role.</p>
+          <h4>My contribution</h4>
+          <ul>
+            <li>Built all three applications (User, Salon and Admin) as a demo project during the Brototype Flutter program.</li>
+            <li>Integrated Firebase, Cloudinary, Stripe and OpenStreetMap across the apps.</li>
+          </ul>
+          <h4>Technical architecture</h4>
+          <ul>
+            <li>Three separate Flutter applications: User, Salon and Admin.</li>
+            <li>Firebase for authentication, real-time data and password recovery.</li>
+            <li>Cloudinary for salon image storage; OpenStreetMap with Geolocator for navigation.</li>
+          </ul>
+          <h4>Implementation decisions</h4>
+          <ul>
+            <li>Stripe for secure online payments with dynamic confirmation.</li>
+            <li>Deep linking and quick actions: WhatsApp chats and one-tap phone calls.</li>
+            <li>A review and rating system after each appointment.</li>
+          </ul>
+          <h4>Results</h4>
+          <ul>
+            <li>Three working applications covering the full booking lifecycle.</li>
+            <li>Apps and admin panel are published; source repositories are public on GitHub.</li>
+          </ul>
+        </article>
+      </section>
+      <section aria-labelledby="seo-experience">
+        <h2 id="seo-experience">Work experience</h2>
+        <article>
+          <h3>Flutter Developer at Emilo Ventures Private Limited</h3>
+          <p>Jun 2026 - Present · Raipur</p>
+          <ul>
+            <li>Built an animated-captions system for the in-app multi-track video editor (Flutter, BLoC, Clean Architecture): a transcript chunker with word-level timing, a Unicode text audit, a multi-script font registry (Latin, Devanagari, Malayalam, Telugu) and five caption animations (Fade, Pop, Slide, Typewriter, Word-by-word).</li>
+            <li>Extended the FFmpeg (FFmpegKit) export pipeline to render caption states as bounded PNG sequences (ffconcat inputs, cancellable capture), reusing the preview's animation evaluator and caption widget for editor-consistent output.</li>
+            <li>Fixed a native Android master-clock race (Kotlin, Media3 ExoPlayer) where stale seek listeners resumed playback at the wrong position during fast timeline scrubbing; added generation-token and listener-identity gating, plus latest-wins seek queueing in the BLoC.</li>
+            <li>Reworked feed music and media-visibility arbitration (VisibilityBloc) so only the dominant post owns audio (70% dominance / 30% release thresholds) and verified it on a physical device; also fixed carousel music visibility (with a test), Create Post audio bleed and Best Clip music delay.</li>
+            <li>Built real-time support-ticket chat for Soft Corner over Socket.IO and BLoC: paginated history, send with retry, typing indicators, ticket status events, resolve/close, feedback and attachments; added business-notification socket events.</li>
+            <li>Implemented socket-driven forced logout for "Log out of all devices" (session-revoked event handled across the socket service and AuthBloc), device-tested against a fake Socket.IO server.</li>
+            <li>Core contributor to the Business Page module (87 commits): analytics with date filters, events with invite accept/reject and weekly/monthly schedules, follow/unfollow interactions, search, notifications and light/dark theming.</li>
+            <li>Built the Invite and Follow Contacts flow (contact sync in 50-record chunks, country-code normalization, find-people with QR) and fixed Android Flix deep links to open the exact shared video.</li>
+            <li>Wrote 47 unit and widget test files (caption pipeline, animation, export, music visibility); worked within Git workflows, code reviews, sprint planning and CI/CD pipelines using Jira.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Associate Flutter Developer at DimensionLeap</h3>
+          <p>Sep 2025 - Jun 2026 · India</p>
+          <ul>
+            <li>Engineered Spotlight, an AI-powered filmmaking platform automating story generation, storyboard visualization, video editing, and pitch deck creation.</li>
+            <li>Built a custom timeline-based video editor with real-time rendering and FFmpeg-powered exports using JavaScript Interop for Spotlight.</li>
+            <li>Developed an immersive digital book-reading experience with dynamic pagination and realistic 3D page-turn animations.</li>
+            <li>Contributed to a comprehensive Healthcare Management Platform serving Patients, Doctors, Clinics, Pharmacies, Staff, and Super Admins across web and mobile apps.</li>
+            <li>Developed pharmacy product management, tax calculation modules, and clinic management features including a custom before-after image slider.</li>
+            <li>Integrated Agora SDK for secure video consultations and implemented robust clinic/pharmacy onboarding workflows in the Super Admin portal.</li>
+            <li>Utilized Flutter, Firebase, Hive, Razorpay, Clean Architecture, and Provider for scalable state management across production applications.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Flutter Developer Student at Brototype</h3>
+          <p>Jun 2024 - Jul 2025 · Remote</p>
+          <ul>
+            <li>Completed an intensive full-time Flutter development program at Brototype</li>
+            <li>Built two complete demo applications: Connect (task &amp; event manager) and Refine Spot (multi-role salon booking system)</li>
+            <li>Gained hands-on experience in building production-style UIs, local storage, API integrations, and real-time features</li>
+            <li>Strengthened understanding of Flutter architecture, state management, authentication flows, and database systems</li>
+            <li>Practiced end-to-end development: planning, UI/UX, feature implementation, debugging, optimization, and deployment</li>
+            <li>Explored Flutter ecosystem deeply, including Hive, Firebase, Cloudinary, OpenStreetMap, and Stripe</li>
+            <li>Learned version control and collaborative workflows using Git &amp; GitHub</li>
+            <li>Completed Brototype internship tasks, improving practical problem-solving and project delivery skills</li>
+          </ul>
+        </article>
+      </section>
+      <section aria-labelledby="seo-contact">
+        <h2 id="seo-contact">Contact</h2>
+        <p>Use the contact form on this page, or find Akash Madhu N P online:</p>
+        <ul>
+          <li><a href="https://github.com/AkashMadhuNp/" rel="me noopener">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/akash-madhu-flutter" rel="me noopener">LinkedIn</a></li>
+        </ul>
+      </section>
+    </main>
+  <!-- SEO:BODY:END -->
+
   <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('splash');
+      if (!splash) return;
+      splash.classList.add('done');
+      setTimeout(function () { splash.remove(); }, 600);
+    });
+  </script>
 </body>
 </html>
